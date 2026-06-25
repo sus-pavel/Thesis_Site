@@ -1,5 +1,0 @@
-parameter,value,unit,description
-population_size,40,count,CC-PSO population
-iterations,250,count,Maximum iterations
-reserve_margin,0.15,p.u.,Required spinning reserve
-min_diesel_loading,0.30,p.u.,Minimum preferred diesel loading

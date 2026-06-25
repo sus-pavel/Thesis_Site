@@ -1,1 +1,0 @@
-export default function AmplitudeFrequencyChart() { return <svg viewBox="0 0 640 260" aria-label="Заглушка амплитудно-частотной плоскости">{Array.from({length:18},(_,i)=><circle key={i} cx={40+(i*83)%560} cy={35+(i*47)%190} r={5+i%4} fill={i%3===0?'#f28c28':'#1856d8'} opacity=".75"/>)}</svg>; }

@@ -1,1 +1,0 @@
-export default function ScenarioComparisonChart() { return <svg viewBox="0 0 640 260" aria-label="Заглушка сравнения сценариев">{[0,1,2].map((i)=><g key={i}><rect x={90+i*180} y={55+i*35} width="58" height={170-i*35} rx="6" fill="#1856d8"/><rect x={150+i*180} y={90-i*10} width="58" height={135+i*10} rx="6" fill="#f28c28"/></g>)}</svg>; }

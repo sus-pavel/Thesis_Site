@@ -1,5 +1,0 @@
-component_id,cluster_id,cluster_label,distance_to_centroid
-0,trend,Trend,0.00
-1,1,Daily cycle,0.12
-2,2,Sub-daily cycle,0.18
-3,noise,Noise,0.41

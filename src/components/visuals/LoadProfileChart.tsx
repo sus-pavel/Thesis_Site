@@ -1,1 +1,0 @@
-export default function LoadProfileChart() { return <svg viewBox="0 0 640 260" aria-label="Заглушка графика нагрузки"><path d="M20 190C90 80 140 210 210 120s120 70 190-10 130 50 220-20" fill="none" stroke="#1856d8" strokeWidth="5"/><text x="20" y="240" fill="#647180">/data/load_profiles/placeholder_load_profile.csv</text></svg>; }

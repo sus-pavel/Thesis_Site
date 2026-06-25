@@ -1,1 +1,0 @@
-export default function SSAComponentsChart() { return <svg viewBox="0 0 640 260" aria-label="Заглушка SSA-компонент">{[0,1,2].map(i => <path key={i} d={`M20 ${65+i*70}q60-55 120 0t120 0t120 0t120 0t120 0`} fill="none" stroke={['#1856d8','#f28c28','#6d8b80'][i]} strokeWidth="3"/>)}</svg>; }

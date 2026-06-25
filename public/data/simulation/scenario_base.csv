@@ -1,3 +1,0 @@
-hour,gen_diesel_1_mw,gen_diesel_2_mw,gen_diesel_3_mw,gen_diesel_4_mw,pv_mw,wind_mw,total_load_mw
-0,0.45,0.42,0.38,0.00,0.00,0.22,1.47
-1,0.43,0.40,0.35,0.00,0.00,0.24,1.42
