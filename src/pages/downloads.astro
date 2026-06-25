@@ -9,8 +9,7 @@ const files = [
   { code: 'PDF · RU', title: 'Автореферат', file: 'autoreferat.pdf' },
   { code: 'PDF · RU', title: 'Диссертация', file: 'dissertation.pdf' },
   { code: 'PDF · RU', title: 'Презентация', file: 'presentation.pdf' },
-  { code: 'PDF · RU / EN', title: 'Билингвальная брошюра', file: 'brochure.pdf' },
-  { code: 'CSV · JSON', title: 'Интерактивные данные', file: '../data/README.md' },
+  { code: 'CSV · JSON', title: 'Сырые данные', file: '../data/README.md' },
 ];
 const base = import.meta.env.BASE_URL;
 const rows = files.map((item) => ({
@@ -20,7 +19,7 @@ const rows = files.map((item) => ({
 }));
 ---
 <BaseLayout title="Материалы для загрузки">
-  <PageShell eyebrow="Открытые материалы" title="Документы и данные исследования" description="Единая точка доступа к утверждённым PDF-версиям и машиночитаемым результатам расчётов.">
+  <PageShell eyebrow="Документы и результаты расчётов" title="Материалы для скачивания" description="Единая точка доступа к утверждённым PDF-версиям и результатам расчётов.">
     <div class="language-content prose intro" data-lang="ru"><DownloadsRu /></div>
     <div class="language-content prose intro" data-lang="en"><DownloadsEn /></div>
     <div class="download-grid">

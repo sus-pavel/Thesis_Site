@@ -16,7 +16,7 @@ const types = Object.keys(typeLabels);
 const counts = Object.fromEntries(types.map((type) => [type, publications.filter((item) => item.type === type).length]));
 ---
 <BaseLayout title="Публикации">
-  <PageShell eyebrow="Апробация результатов" title="Публикации и программная реализация" description="Структура подготовлена для проверенных библиографических записей, DOI, индексации и ссылок на полный текст.">
+  <PageShell eyebrow="Апробация результатов" title="Публикации и программная реализация">
     <div class="stats">
       <div><strong>{String(counts.scopus).padStart(2, '0')}</strong><span>Scopus</span></div>
       <div><strong>{String(counts.vak).padStart(2, '0')}</strong><span>ВАК</span></div>

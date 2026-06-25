@@ -13,7 +13,7 @@ export const storyVisuals: VisualDefinition[] = [
   { id: 'system-model', title: 'Автономный ЭТК с гибридной генерацией', dataFile: publicPath('/data/simulation/system_topology.json'), figureFile: publicPath('/figures/system_model/hybrid_system.svg'), kind: 'system' },
   { id: 'load-profile', title: 'Временные ряды нагрузки по фидерам', dataFile: publicPath('/data/load_profiles/placeholder_load_profile.csv'), figureFile: publicPath('/figures/load_profiles/load_profile_fragment.svg'), kind: 'line' },
   { id: 'ssa-matrix', title: 'Траекторная матрица SSA', dataFile: publicPath('/data/ssa/components.csv'), figureFile: publicPath('/figures/ssa/ssa_trajectory_matrix.svg'), kind: 'matrix' },
-  { id: 'ssa-components', title: 'Элементарные SSA-компоненты', dataFile: publicPath('/data/ssa/components.csv'), figureFile: publicPath('/figures/ssa/ssa_component_contribution.svg'), kind: 'line' },
+  { id: 'ssa-components', title: 'Элементарные SSA компоненты', dataFile: publicPath('/data/ssa/components.csv'), figureFile: publicPath('/figures/ssa/ssa_component_contribution.svg'), kind: 'line' },
   { id: 'amplitude-frequency', title: 'Амплитудно-частотная плоскость компонент', dataFile: publicPath('/data/ssa/component_features.csv'), figureFile: publicPath('/figures/ssa/ssa_amplitude_frequency_clusters.svg'), kind: 'scatter' },
   { id: 'patterns', title: 'Кластеры и реконструированные паттерны', dataFile: publicPath('/data/ssa/reconstructed_patterns.csv'), figureFile: publicPath('/figures/ssa/ssa_reconstructed_patterns.svg'), kind: 'clusters' },
   { id: 'drpi-line', title: 'Временной ряд DR PI', dataFile: publicPath('/data/drpi/drpi_timeseries.csv'), figureFile: publicPath('/figures/drpi/drpi_timeseries.svg'), kind: 'line' },
