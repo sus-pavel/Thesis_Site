@@ -1,0 +1,56 @@
+{
+  "problemFactors": [
+    {"label":"Стоимость топлива","value":"Высокая","color":"#f4b740","isPlaceholder":true},
+    {"label":"Резерв мощности","value":"Ограничен","color":"#ff6b45","isPlaceholder":true},
+    {"label":"Изменчивость ВИЭ","value":"Переменная","color":"#62d98b","isPlaceholder":true},
+    {"label":"Пики нагрузки","value":"Критичны","color":"#ff6b45","isPlaceholder":true},
+    {"label":"Потенциал DR","value":"Требует аудита","color":"#52a6ff","isPlaceholder":true}
+  ],
+  "loadTimeSeries": [
+    {"timestamp":"2024-01-01T00:00:00+03:00","originalLoadKw":420,"component1Kw":80,"component2Kw":35,"component3Kw":20,"isPlaceholder":true},
+    {"timestamp":"2024-01-01T04:00:00+03:00","originalLoadKw":390,"component1Kw":62,"component2Kw":28,"component3Kw":24,"isPlaceholder":true},
+    {"timestamp":"2024-01-01T08:00:00+03:00","originalLoadKw":570,"component1Kw":118,"component2Kw":46,"component3Kw":30,"isPlaceholder":true},
+    {"timestamp":"2024-01-01T12:00:00+03:00","originalLoadKw":640,"component1Kw":142,"component2Kw":58,"component3Kw":38,"isPlaceholder":true},
+    {"timestamp":"2024-01-01T16:00:00+03:00","originalLoadKw":610,"component1Kw":126,"component2Kw":65,"component3Kw":35,"isPlaceholder":true},
+    {"timestamp":"2024-01-01T20:00:00+03:00","originalLoadKw":520,"component1Kw":102,"component2Kw":48,"component3Kw":27,"isPlaceholder":true},
+    {"timestamp":"2024-01-02T00:00:00+03:00","originalLoadKw":435,"component1Kw":84,"component2Kw":36,"component3Kw":21,"isPlaceholder":true}
+  ],
+  "ssaPoints": [
+    {"componentId":"C01","amplitudeKw":75,"periodHours":24,"energyContributionPercent":28,"clusterId":1,"patternLabel":"Суточный паттерн","isPlaceholder":true},
+    {"componentId":"C02","amplitudeKw":52,"periodHours":168,"energyContributionPercent":20,"clusterId":2,"patternLabel":"Недельный паттерн","isPlaceholder":true},
+    {"componentId":"C03","amplitudeKw":44,"periodHours":8,"energyContributionPercent":17,"clusterId":3,"patternLabel":"8-часовой паттерн","isPlaceholder":true},
+    {"componentId":"C04","amplitudeKw":62,"periodHours":12,"energyContributionPercent":22,"clusterId":4,"patternLabel":"Технологический паттерн","isPlaceholder":true},
+    {"componentId":"C05","amplitudeKw":20,"periodHours":3,"energyContributionPercent":7,"clusterId":5,"patternLabel":"Остаточный паттерн","isPlaceholder":true},
+    {"componentId":"C06","amplitudeKw":31,"periodHours":48,"energyContributionPercent":10,"clusterId":2,"patternLabel":"Недельный паттерн","isPlaceholder":true}
+  ],
+  "patterns": [
+    {"label":"Суточный","period":"24 ч","sharePercent":28,"color":"#52a6ff","isPlaceholder":true},
+    {"label":"Недельный","period":"168 ч","sharePercent":20,"color":"#62d98b","isPlaceholder":true},
+    {"label":"8-часовой","period":"8 ч","sharePercent":17,"color":"#f4b740","isPlaceholder":true},
+    {"label":"Технологический","period":"12 ч","sharePercent":22,"color":"#ff6b45","isPlaceholder":true},
+    {"label":"Остаточный","period":"< 4 ч","sharePercent":7,"color":"#9b7cff","isPlaceholder":true}
+  ],
+  "drpiTimeSeries": [
+    {"timestamp":"2024-01-01T00:00:00+03:00","drpiValue":0.31,"isPlaceholder":true},
+    {"timestamp":"2024-01-01T04:00:00+03:00","drpiValue":0.24,"isPlaceholder":true},
+    {"timestamp":"2024-01-01T08:00:00+03:00","drpiValue":0.72,"isPlaceholder":true},
+    {"timestamp":"2024-01-01T12:00:00+03:00","drpiValue":0.81,"isPlaceholder":true},
+    {"timestamp":"2024-01-01T16:00:00+03:00","drpiValue":0.68,"isPlaceholder":true},
+    {"timestamp":"2024-01-01T20:00:00+03:00","drpiValue":0.49,"isPlaceholder":true},
+    {"timestamp":"2024-01-02T00:00:00+03:00","drpiValue":0.34,"isPlaceholder":true}
+  ],
+  "drpiHeatmap": [
+    {"dayOfWeek":"Пн","hour":0,"drpiValue":0.28,"isPlaceholder":true},{"dayOfWeek":"Пн","hour":8,"drpiValue":0.72,"isPlaceholder":true},{"dayOfWeek":"Пн","hour":12,"drpiValue":0.81,"isPlaceholder":true},{"dayOfWeek":"Пн","hour":18,"drpiValue":0.66,"isPlaceholder":true},
+    {"dayOfWeek":"Вт","hour":0,"drpiValue":0.24,"isPlaceholder":true},{"dayOfWeek":"Вт","hour":8,"drpiValue":0.69,"isPlaceholder":true},{"dayOfWeek":"Вт","hour":12,"drpiValue":0.77,"isPlaceholder":true},{"dayOfWeek":"Вт","hour":18,"drpiValue":0.71,"isPlaceholder":true},
+    {"dayOfWeek":"Ср","hour":0,"drpiValue":0.30,"isPlaceholder":true},{"dayOfWeek":"Ср","hour":8,"drpiValue":0.74,"isPlaceholder":true},{"dayOfWeek":"Ср","hour":12,"drpiValue":0.84,"isPlaceholder":true},{"dayOfWeek":"Ср","hour":18,"drpiValue":0.73,"isPlaceholder":true},
+    {"dayOfWeek":"Чт","hour":0,"drpiValue":0.26,"isPlaceholder":true},{"dayOfWeek":"Чт","hour":8,"drpiValue":0.67,"isPlaceholder":true},{"dayOfWeek":"Чт","hour":12,"drpiValue":0.79,"isPlaceholder":true},{"dayOfWeek":"Чт","hour":18,"drpiValue":0.64,"isPlaceholder":true},
+    {"dayOfWeek":"Пт","hour":0,"drpiValue":0.22,"isPlaceholder":true},{"dayOfWeek":"Пт","hour":8,"drpiValue":0.63,"isPlaceholder":true},{"dayOfWeek":"Пт","hour":12,"drpiValue":0.75,"isPlaceholder":true},{"dayOfWeek":"Пт","hour":18,"drpiValue":0.58,"isPlaceholder":true},
+    {"dayOfWeek":"Сб","hour":0,"drpiValue":0.18,"isPlaceholder":true},{"dayOfWeek":"Сб","hour":8,"drpiValue":0.42,"isPlaceholder":true},{"dayOfWeek":"Сб","hour":12,"drpiValue":0.55,"isPlaceholder":true},{"dayOfWeek":"Сб","hour":18,"drpiValue":0.47,"isPlaceholder":true},
+    {"dayOfWeek":"Вс","hour":0,"drpiValue":0.16,"isPlaceholder":true},{"dayOfWeek":"Вс","hour":8,"drpiValue":0.38,"isPlaceholder":true},{"dayOfWeek":"Вс","hour":12,"drpiValue":0.51,"isPlaceholder":true},{"dayOfWeek":"Вс","hour":18,"drpiValue":0.43,"isPlaceholder":true}
+  ],
+  "effects": [
+    {"metric":"Снижение пика","value":12,"unit":"%","isPlaceholder":true},
+    {"metric":"Экономия топлива","value":8,"unit":"%","isPlaceholder":true},
+    {"metric":"Рост доли ВИЭ","value":9,"unit":"п.п.","isPlaceholder":true}
+  ]
+}

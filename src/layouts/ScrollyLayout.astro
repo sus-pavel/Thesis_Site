@@ -1,0 +1,60 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import { dissertationScrolly } from "../scrolly/dissertation";
+
+const { metadata, hero, sections } = dissertationScrolly;
+---
+
+<BaseLayout title={metadata.title} description={metadata.subtitle}>
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <p class="hero-label">{hero.label}</p>
+        <h1>{hero.title}</h1>
+        <p class="hero-subtitle">{hero.subtitle}</p>
+      </div>
+      <dl class="hero-meta">
+        <div><dt>Специальность</dt><dd>{metadata.specialty}</dd></div>
+        <div><dt>Автор</dt><dd>{metadata.author}</dd></div>
+        <div><dt>Руководитель</dt><dd>{metadata.supervisor}</dd></div>
+      </dl>
+    </div>
+    <div class="hero-stats">
+      {hero.stats.map((stat) => <div><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
+    </div>
+    <a class="scroll-cue" href="#context">Листайте, чтобы проследить логику исследования <span>↓</span></a>
+  </section>
+
+  <div class="scrolly-shell" data-scrolly data-source={`${import.meta.env.BASE_URL}data/main-data.json`}>
+    <aside class="section-rail" aria-label="Разделы исследования">
+      {sections.map((section, index) => (
+        <a href={`#${section.id}`} data-rail-link={section.id}>
+          <span>{String(index + 1).padStart(2, "0")}</span>{section.navLabel}
+        </a>
+      ))}
+    </aside>
+    <article class="scrolly-narrative">
+      <slot />
+    </article>
+    <aside class="viz-stage" aria-live="polite">
+      {sections.map((section) => (
+        <section class="viz-panel" data-viz-panel={section.id} data-viz-type={section.viz.type} data-data-key={section.viz.dataKey}>
+          <header>
+            <div>
+              <p>{section.navLabel}</p>
+              <h2>{section.viz.title}</h2>
+            </div>
+            <span class="placeholder-badge">Демонстрационные данные</span>
+          </header>
+          <div class="viz-canvas"></div>
+          <p class="viz-caption">{section.viz.caption}</p>
+        </section>
+      ))}
+    </aside>
+  </div>
+
+  <script>
+    import { initScrollytelling } from "../scrolly/runtime";
+    initScrollytelling();
+  </script>
+</BaseLayout>

@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const materials = [
+  ["Текст диссертации", "Полный текст исследования"],
+  ["Автореферат", "Краткое изложение результатов"],
+  ["Презентация", "Слайды к защите"],
+  ["Python pipeline: SSA + DRPI", "Расчёт компонент, паттернов и индекса"],
+  ["Python pipeline: SSA window test", "Проверка длины окна SSA"],
+  ["Dataset templates", "Шаблоны входных и выходных данных"]
+];
+---
+
+<BaseLayout title="Материалы диссертации">
+  <article class="prose-page">
+    <header class="page-intro">
+      <p class="hero-label">Репозиторий исследования</p>
+      <h1>Материалы</h1>
+      <p>Файлы будут размещены после подготовки финальных версий. Заглушки PDF, ZIP и IPYNB намеренно не создаются.</p>
+    </header>
+    <div class="materials-grid">
+      {materials.map(([title, description], index) => (
+        <article class="material-card">
+          <span class="material-number">{String(index + 1).padStart(2, "0")}</span>
+          <h2>{title}</h2>
+          <p>{description}</p>
+          <span class="material-status">Будет добавлено позднее</span>
+        </article>
+      ))}
+    </div>
+  </article>
+</BaseLayout>

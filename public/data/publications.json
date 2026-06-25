@@ -1,0 +1,7 @@
+[
+  {"type":"Scopus","authors":"Иванов И. И., Петров П. П.","title":"Demand response potential identification in autonomous power systems","source":"International Journal of Electrical Power Systems","year":2024,"doi":"10.0000/example.2024.001","url":"https://doi.org/10.0000/example.2024.001","relatedPosition":"position-1","isPlaceholder":true},
+  {"type":"ВАК","authors":"Иванов И. И.","title":"Идентификация паттернов электропотребления методом SSA","source":"Электротехнические системы и комплексы","year":2024,"doi":"","url":"https://example.org/publication-2","relatedPosition":"position-1","isPlaceholder":true},
+  {"type":"ВАК","authors":"Иванов И. И., Сидоров С. С.","title":"Классификация электроприёмников для задач управления спросом","source":"Промышленная энергетика","year":2025,"doi":"","url":"https://example.org/publication-3","relatedPosition":"position-2","isPlaceholder":true},
+  {"type":"Conference","authors":"Иванов И. И.","title":"DRPI как критерий применимости управления спросом","source":"Энергетика автономных территорий — 2024","year":2024,"doi":"","url":"https://example.org/publication-4","relatedPosition":"both","isPlaceholder":true},
+  {"type":"Other","authors":"Иванов И. И.","title":"Модели управления нагрузкой автономного электротехнического комплекса","source":"Материалы научного семинара","year":2025,"doi":"","url":"https://example.org/publication-5","relatedPosition":"position-2","isPlaceholder":true}
+]

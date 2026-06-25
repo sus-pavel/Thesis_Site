@@ -1,0 +1,57 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  frontmatter?: {
+    title?: string;
+    description?: string;
+  };
+}
+
+const title = Astro.props.title || Astro.props.frontmatter?.title || "Кандидатская диссертация";
+const description = Astro.props.description || Astro.props.frontmatter?.description || "Научный scrollytelling об управлении спросом автономных электротехнических комплексов.";
+
+const base = import.meta.env.BASE_URL;
+const links = [
+  [base, "Главная"],
+  [`${base}position-1/`, "Положение 1"],
+  [`${base}position-2/`, "Положение 2"],
+  [`${base}publications/`, "Публикации"],
+  [`${base}materials/`, "Материалы"]
+];
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#06101d" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="reading-progress" aria-hidden="true"><span></span></div>
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Основная навигация">
+        <a class="site-mark" href={base} aria-label="На главную">DR<span>·</span>AEС</a>
+        <div class="nav-links">
+          {links.map(([href, label]) => <a href={href}>{label}</a>)}
+        </div>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <span>Кандидатская диссертация</span>
+      <span>Специальность 2.4.2</span>
+    </footer>
+    <script>
+      import { initStaticVisualizations } from "../scrolly/runtime";
+      initStaticVisualizations();
+    </script>
+  </body>
+</html>

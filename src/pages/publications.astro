@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import publications from "../../public/data/publications.json";
+
+const order = ["Scopus", "ВАК", "Conference", "Other"];
+const labels: Record<string, string> = {
+  "position-1": "Положение 1",
+  "position-2": "Положение 2",
+  both: "Оба положения"
+};
+---
+
+<BaseLayout title="Публикации по теме диссертации">
+  <article class="prose-page publications-page">
+    <header class="page-intro">
+      <p class="hero-label">Научная апробация</p>
+      <h1>Публикации</h1>
+      <p>Материалы сгруппированы по типу издания. Сейчас список содержит демонстрационные записи.</p>
+    </header>
+    {order.map((type) => {
+      const items = publications.filter((item) => item.type === type);
+      return items.length > 0 && (
+        <section class="publication-group">
+          <h2>{type}</h2>
+          <div class="publication-list">
+            {items.map((item) => (
+              <article class="publication">
+                <div class="publication-meta">
+                  <span>{item.year}</span>
+                  <span class="position-badge">{labels[item.relatedPosition]}</span>
+                  <span class="placeholder-badge">Демонстрационные данные</span>
+                </div>
+                <h3>{item.title}</h3>
+                <p>{item.authors}</p>
+                <p class="publication-source">{item.source}</p>
+                <a href={item.url} target="_blank" rel="noreferrer">
+                  {item.doi ? `DOI: ${item.doi}` : "Открыть публикацию"} ↗
+                </a>
+              </article>
+            ))}
+          </div>
+        </section>
+      );
+    })}
+  </article>
+</BaseLayout>
