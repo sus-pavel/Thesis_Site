@@ -1,4 +1,8 @@
 ---
+/**
+ * Единый компактный набор SVG-визуализаций для scrollytelling.
+ * Не создавать отдельный компонент под каждый график, пока проект небольшой.
+ */
 import type { VisualDefinition } from '../../data/visuals';
 interface Props { visual: VisualDefinition; index?: number; }
 const { visual, index = 0 } = Astro.props;

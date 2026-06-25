@@ -1,3 +1,8 @@
+/**
+ * Главный конфиг scrollytelling-страницы.
+ * Здесь задаются порядок визуальных сцен, их id, подписи и пути к данным.
+ * Значения id должны совпадать с visual в src/content/ru/story.mdx.
+ */
 export type VisualDefinition = {
   id: string;
   title: string;

@@ -1,6 +1,5 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
-import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 
 const repository = process.env.GITHUB_REPOSITORY?.split("/")[1];
@@ -10,5 +9,5 @@ export default defineConfig({
   site: process.env.SITE_URL || "https://example.github.io",
   base: repository && !isUserSite ? `/${repository}/` : "/",
   output: "static",
-  integrations: [mdx(), react(), tailwind({ applyBaseStyles: false })]
+  integrations: [mdx(), tailwind({ applyBaseStyles: false })]
 });

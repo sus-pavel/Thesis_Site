@@ -1,4 +1,8 @@
 ---
+/**
+ * Runtime scrollytelling: связывает активный текстовый шаг со sticky-визуализацией.
+ * Менять только при изменении поведения прокрутки или мобильного режима.
+ */
 import StickyVisual from './StickyVisual.astro';
 import type { VisualDefinition } from '../../data/visuals';
 interface Props { visuals: VisualDefinition[]; }

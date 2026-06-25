@@ -6,16 +6,16 @@ import DownloadsEn from '../content/en/downloads.mdx';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 const files = [
-  { code: 'PDF · RU', title: 'Автореферат', file: 'autoreferat.pdf' },
-  { code: 'PDF · RU', title: 'Диссертация', file: 'dissertation.pdf' },
-  { code: 'PDF · RU', title: 'Презентация', file: 'presentation.pdf' },
-  { code: 'CSV · JSON', title: 'Сырые данные', file: '../data/README.md' },
+  { code: 'PDF · RU', title: 'Автореферат', path: 'downloads/autoreferat.pdf' },
+  { code: 'PDF · RU', title: 'Диссертация', path: 'downloads/dissertation.pdf' },
+  { code: 'PDF · RU', title: 'Презентация', path: 'downloads/presentation.pdf' },
+  { code: 'CSV', title: 'Данные для визуализации', path: 'data/drpi/data_for_visualization.csv' },
 ];
 const base = import.meta.env.BASE_URL;
 const rows = files.map((item) => ({
   ...item,
-  exists: item.file.startsWith('../data') || existsSync(join(process.cwd(), 'public/downloads', item.file)),
-  href: `${base}downloads/${item.file}`,
+  exists: existsSync(join(process.cwd(), 'public', item.path)),
+  href: `${base}${item.path}`,
 }));
 ---
 <BaseLayout title="Материалы для загрузки">
@@ -27,9 +27,9 @@ const rows = files.map((item) => ({
         <article class="download-card">
           <div><span>{item.code}</span><b>{String(index + 1).padStart(2, '0')}</b></div>
           <h2>{item.title}</h2>
-          <p><code>public/downloads/{item.file}</code></p>
+          <p><code>public/{item.path}</code></p>
           {item.exists
-            ? <a class="download-action" href={item.href} download={!item.file.endsWith('README.md')}><i></i> открыть файл</a>
+            ? <a class="download-action" href={item.href} download><i></i> открыть файл</a>
             : <button type="button" disabled><i></i> ожидается файл</button>}
         </article>
       ))}
