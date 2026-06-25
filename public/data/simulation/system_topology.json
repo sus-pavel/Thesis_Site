@@ -1,0 +1,14 @@
+{
+  "isPlaceholder": true,
+  "nodes": [
+    {"id": "dg", "type": "diesel", "label": "ДГУ", "isPlaceholder": true},
+    {"id": "res", "type": "renewable", "label": "ВИЭ", "isPlaceholder": true},
+    {"id": "bus", "type": "bus", "label": "Шина", "isPlaceholder": true},
+    {"id": "load", "type": "load", "label": "Нагрузка", "isPlaceholder": true}
+  ],
+  "links": [
+    {"source": "dg", "target": "bus", "capacity_mw": 2.5, "isPlaceholder": true},
+    {"source": "res", "target": "bus", "capacity_mw": 1.2, "isPlaceholder": true},
+    {"source": "bus", "target": "load", "capacity_mw": 3.0, "isPlaceholder": true}
+  ]
+}

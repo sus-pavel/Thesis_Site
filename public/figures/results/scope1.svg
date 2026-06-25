@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" role="img" aria-labelledby="t">
+  <title id="t">Демонстрационное сравнение Scope 1</title>
+  <rect width="720" height="390" rx="18" fill="#f8fafc"/>
+  <text x="40" y="42" fill="#18212f" font-family="system-ui" font-size="18" font-weight="700">Демонстрационные данные · тCO₂/год</text>
+  <rect x="155" y="95" width="150" height="235" rx="10" fill="#9eacb9"/><rect x="415" y="118" width="150" height="212" rx="10" fill="#3f866b"/>
+  <g fill="#18212f" font-family="system-ui" text-anchor="middle" font-size="26" font-weight="800"><text x="230" y="80">5207</text><text x="490" y="103">4943</text></g>
+  <g fill="#566478" font-family="system-ui" text-anchor="middle" font-size="15"><text x="230" y="360">BASE</text><text x="490" y="360">DSM</text></g>
+</svg>

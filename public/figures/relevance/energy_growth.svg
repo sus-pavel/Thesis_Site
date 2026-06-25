@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" role="img" aria-labelledby="t d">
+  <title id="t">Демонстрационный рост электропотребления</title>
+  <desc id="d">Заглушка. Замените графиком из energy_growth.csv.</desc>
+  <rect width="720" height="390" rx="18" fill="#f8fafc"/>
+  <path d="M70 315H675M70 315V50" stroke="#9aa9b8" stroke-width="2"/>
+  <path d="M80 285C180 265 210 230 300 238S430 180 505 155 585 95 665 72" fill="none" stroke="#1856d8" stroke-width="6"/>
+  <g fill="#1856d8"><circle cx="80" cy="285" r="7"/><circle cx="300" cy="238" r="7"/><circle cx="505" cy="155" r="7"/><circle cx="665" cy="72" r="7"/></g>
+  <text x="70" y="34" fill="#18212f" font-family="system-ui" font-size="18" font-weight="700">Демонстрационная схема · замените реальными данными</text>
+</svg>

@@ -1,0 +1,4 @@
+component_id,frequency_cycles_per_day,period_hours,rms_amplitude_kw,relative_contribution,cluster_id,is_noise,is_placeholder
+1,1.0,24,75.0,0.28,daily,false,true
+2,0.142857,168,52.0,0.20,weekly,false,true
+3,3.0,8,44.0,0.17,shift,false,true

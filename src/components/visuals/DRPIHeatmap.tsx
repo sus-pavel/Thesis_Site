@@ -1,0 +1,1 @@
+export default function DRPIHeatmap() { return <div style={{display:'grid',gridTemplateColumns:'repeat(12,1fr)',gap:3}}>{Array.from({length:84},(_,i)=><span key={i} style={{aspectRatio:'1',borderRadius:3,background:`hsl(215 72% ${94-(i*17)%50}%)`}} />)}</div>; }

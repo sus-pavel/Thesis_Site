@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageShell from '../components/layout/PageShell.astro';
+import StatementsRu from '../content/ru/statements.mdx';
+import StatementsEn from '../content/en/statements.mdx';
+---
+<BaseLayout title="Положения, выносимые на защиту">
+  <PageShell eyebrow="Научный вклад · 02 положения" title="Положения, выносимые на защиту" description="Два взаимосвязанных результата: количественная оценка потенциала DSM и повышение эффективности автономного ЭТК через адресное управление нагрузками.">
+    <div class="statement-index">
+      <a href="#statement-1"><span>01</span><strong>Аудит: данные → паттерны → DR PI</strong><b>↓</b></a>
+      <a href="#statement-2"><span>02</span><strong>Применение: классы → модели → эффекты</strong><b>↓</b></a>
+    </div>
+    <div class="statement-body language-content prose" data-lang="ru"><StatementsRu /></div>
+    <div class="statement-body language-content prose" data-lang="en"><StatementsEn /></div>
+  </PageShell>
+</BaseLayout>
+<script>
+  const articleHeadings = document.querySelectorAll('.statement-body h2');
+  articleHeadings.forEach((heading, index) => heading.id = `statement-${index + 1}`);
+</script>
+<style>
+  .statement-index { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 80px; }
+  .statement-index a { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 18px; padding: 24px; border: 1px solid var(--line); border-radius: 16px; background: white; }
+  .statement-index span { color: var(--orange); font-size: .75rem; font-weight: 800; }
+  .statement-index b { color: var(--blue); }
+  .statement-body { max-width: 960px; }
+  .statement-body :global(h2) { margin-top: 100px; }
+  .statement-body :global(blockquote) { margin: 28px 0 38px; padding: 26px 30px; border: 0; border-radius: 18px; background: #e9efff; color: var(--ink); font-family: Georgia, serif; font-size: 1.18rem; }
+  .statement-body :global(ol) { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0; list-style: none; counter-reset: proof; }
+  .statement-body :global(li) { counter-increment: proof; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.8); }
+  .statement-body :global(li)::before { content: "0" counter(proof); display: block; margin-bottom: 12px; color: var(--orange); font-size: .66rem; font-weight: 800; }
+  @media (max-width: 700px) { .statement-index, .statement-body :global(ol) { grid-template-columns: 1fr; } }
+</style>

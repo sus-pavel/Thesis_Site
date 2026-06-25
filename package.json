@@ -1,24 +1,30 @@
 {
-  "name": "dissertation-scrollytelling",
-  "version": "1.0.0",
+  "name": "dissertation-scrollytelling-site",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "astro dev",
+    "check": "astro check",
     "build": "astro check && astro build",
     "preview": "astro preview"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.3.0",
+    "@astrojs/mdx": "^4.3.13",
+    "@astrojs/react": "^4.4.2",
     "@astrojs/tailwind": "^6.0.2",
-    "astro": "^5.10.0",
+    "astro": "^5.18.2",
     "d3": "^7.9.0",
-    "tailwindcss": "^3.4.17"
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwindcss": "^3.4.18"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.4",
+    "@astrojs/check": "^0.9.6",
     "@types/d3": "^7.4.3",
-    "@types/node": "^22.15.0",
-    "typescript": "^5.8.3"
+    "@types/node": "^22.19.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "typescript": "^5.9.3"
   }
 }

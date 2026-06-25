@@ -1,57 +1,28 @@
 ---
-import "../styles/global.css";
-
-interface Props {
-  title?: string;
-  description?: string;
-  frontmatter?: {
-    title?: string;
-    description?: string;
-  };
-}
-
-const title = Astro.props.title || Astro.props.frontmatter?.title || "Кандидатская диссертация";
-const description = Astro.props.description || Astro.props.frontmatter?.description || "Научный scrollytelling об управлении спросом автономных электротехнических комплексов.";
-
-const base = import.meta.env.BASE_URL;
-const links = [
-  [base, "Главная"],
-  [`${base}position-1/`, "Положение 1"],
-  [`${base}position-2/`, "Положение 2"],
-  [`${base}publications/`, "Публикации"],
-  [`${base}materials/`, "Материалы"]
-];
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import '../styles/global.css';
+import { siteConfig } from '../data/siteConfig';
+interface Props { title?: string; description?: string; }
+const { title, description = siteConfig.description } = Astro.props;
+const pageTitle = title ? `${title} — ${siteConfig.author}` : `${siteConfig.title} — ${siteConfig.author}`;
 ---
-
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#06101d" />
-    <title>{title}</title>
+    <meta name="theme-color" content="#f4f7f9" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%231856d8%22/><path d=%22M17 3 8 18h7l-1 11 10-16h-7z%22 fill=%22white%22/></svg>" />
+    <title>{pageTitle}</title>
+    <script is:inline>
+      document.documentElement.dataset.lang = localStorage.getItem('research-language') || 'ru';
+    </script>
   </head>
   <body>
-    <div class="reading-progress" aria-hidden="true"><span></span></div>
-    <header class="site-header">
-      <nav class="site-nav" aria-label="Основная навигация">
-        <a class="site-mark" href={base} aria-label="На главную">DR<span>·</span>AEС</a>
-        <div class="nav-links">
-          {links.map(([href, label]) => <a href={href}>{label}</a>)}
-        </div>
-      </nav>
-    </header>
-    <main>
-      <slot />
-    </main>
-    <footer class="site-footer">
-      <span>Кандидатская диссертация</span>
-      <span>Специальность 2.4.2</span>
-    </footer>
-    <script>
-      import { initStaticVisualizations } from "../scrolly/runtime";
-      initStaticVisualizations();
-    </script>
+    <Header />
+    <slot />
+    <Footer />
   </body>
 </html>

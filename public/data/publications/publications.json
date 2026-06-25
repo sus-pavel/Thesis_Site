@@ -1,0 +1,36 @@
+[
+  {
+    "id": "placeholder-scopus-1",
+    "type": "scopus",
+    "year": 2025,
+    "titleRu": "Название будет добавлено",
+    "titleEn": "Publication title will be added",
+    "authors": ["Сусликов П. К."],
+    "source": "Journal placeholder",
+    "volume": null,
+    "issue": null,
+    "pages": null,
+    "doi": null,
+    "url": null,
+    "registrationNumber": null,
+    "relatedStatement": "1",
+    "isPlaceholder": true
+  },
+  {
+    "id": "placeholder-software-1",
+    "type": "software",
+    "year": 2025,
+    "titleRu": "Программа идентификации паттернов и расчёта DR PI",
+    "titleEn": "Load pattern identification and DR PI calculation software",
+    "authors": ["Сусликов П. К."],
+    "source": "Роспатент",
+    "volume": null,
+    "issue": null,
+    "pages": null,
+    "doi": null,
+    "url": null,
+    "registrationNumber": null,
+    "relatedStatement": "both",
+    "isPlaceholder": true
+  }
+]

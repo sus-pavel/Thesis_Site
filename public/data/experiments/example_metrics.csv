@@ -1,0 +1,3 @@
+experiment_id,variant,metric,value,unit,sample_id,seed,is_placeholder
+ssa-window,L=48,ARI,0.82,score,demo-01,42,true
+ssa-window,L=72,NMI,0.79,score,demo-01,42,true

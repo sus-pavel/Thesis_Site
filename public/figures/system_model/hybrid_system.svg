@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" role="img" aria-labelledby="t d">
+  <title id="t">Демонстрационная схема гибридного ЭТК</title>
+  <desc id="d">ДГУ, ВИЭ, накопитель, шина и нагрузка.</desc>
+  <rect width="720" height="390" rx="18" fill="#f8fafc"/>
+  <g font-family="system-ui" text-anchor="middle">
+    <g transform="translate(105 125)"><rect x="-62" y="-38" width="124" height="76" rx="12" fill="#fff1df" stroke="#f28c28" stroke-width="3"/><text y="6" fill="#8d4d0d" font-weight="700">ДГУ</text></g>
+    <g transform="translate(105 275)"><rect x="-62" y="-38" width="124" height="76" rx="12" fill="#e5f4eb" stroke="#3f866b" stroke-width="3"/><text y="6" fill="#286047" font-weight="700">ВИЭ</text></g>
+    <g transform="translate(360 200)"><circle r="52" fill="#e4ecff" stroke="#1856d8" stroke-width="3"/><text y="6" fill="#103b91" font-weight="700">ШИНА</text></g>
+    <g transform="translate(615 125)"><rect x="-62" y="-38" width="124" height="76" rx="12" fill="#eee8ff" stroke="#7655c5" stroke-width="3"/><text y="6" fill="#513798" font-weight="700">СНЭЭ</text></g>
+    <g transform="translate(615 275)"><rect x="-62" y="-38" width="124" height="76" rx="12" fill="#e4ecff" stroke="#1856d8" stroke-width="3"/><text y="6" fill="#103b91" font-weight="700">НАГРУЗКА</text></g>
+  </g>
+  <path d="M167 125 315 185M167 275 315 215M412 185 553 125M412 215 553 275" stroke="#607286" stroke-width="4"/>
+  <text x="30" y="35" fill="#18212f" font-family="system-ui" font-size="18" font-weight="700">Демонстрационная схема</text>
+</svg>

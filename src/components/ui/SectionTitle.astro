@@ -1,0 +1,16 @@
+---
+interface Props { number?: string; eyebrow?: string; title: string; description?: string; }
+const { number, eyebrow, title, description } = Astro.props;
+---
+<header class="section-title">
+  {(number || eyebrow) && <p class="eyebrow">{number && <span>{number}</span>}{eyebrow}</p>}
+  <h2>{title}</h2>
+  {description && <p class="description">{description}</p>}
+</header>
+<style>
+  .section-title { max-width: 820px; margin-bottom: 42px; }
+  .eyebrow { display: flex; align-items: center; gap: 10px; }
+  .eyebrow span { color: var(--orange); }
+  h2 { margin: 0; font-size: clamp(2rem, 5vw, 4rem); line-height: 1.04; letter-spacing: -.045em; }
+  .description { max-width: 680px; color: #5b6879; font-family: Georgia, serif; font-size: 1.13rem; }
+</style>

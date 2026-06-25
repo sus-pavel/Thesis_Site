@@ -1,0 +1,5 @@
+scenario,opex_rub_per_day,saving_percent,npv_thousand_rub,irr_percent,pi,payback_years
+base,795288,0,,,,
+dsm,622858,21.51,103825,82.07,7.95,2.2
+bess_ru,601028,24.43,33561,52.64,2.68,5.0
+bess_world,601028,24.43,19384,39.01,1.78,3.5

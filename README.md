@@ -1,72 +1,201 @@
-# Что это за проект
+# Dissertation Scrollytelling Site
 
-Минималистичный статический сайт кандидатской диссертации на Astro. Главная страница построена как научный scrollytelling: MDX хранит нарратив, TypeScript — конфигурацию истории, Astro — layout, а небольшой vanilla TypeScript runtime связывает прокрутку с D3-визуализациями.
+Статический билингвальный research-story сайт диссертационного исследования:
 
-## Как запустить
+> «Управление спросом на электроэнергию автономных электротехнических комплексов путём идентификации паттернов и классификации нагрузок»
+
+Автор: Сусликов Павел Константинович  
+Специальность: 2.4.2. Электротехнические комплексы и системы
+
+Проект построен на Astro 5, TypeScript, MDX, Tailwind CSS и подготовлен к подключению D3.js-графиков.
+
+## 1. Запуск
+
+Рекомендуется Node.js 20.10+ или 22 LTS и npm 9+.
 
 ```bash
+cd dissertation-scrollytelling-site
 npm install
 npm run dev
 ```
 
-Проверка production-сборки:
+Astro покажет локальный адрес, обычно `http://localhost:4321`.
+
+Полезные команды:
 
 ```bash
+npm run check
 npm run build
 npm run preview
 ```
 
-## Структура файлов
+## 2. Страницы
 
-- `src/pages/` — пять страниц сайта;
-- `src/layouts/` — общий и scrollytelling layout;
-- `src/components/ScrollySection.astro` — единственный контентный компонент;
-- `src/scrolly/dissertation.ts` — метаданные и восемь состояний главной истории;
-- `src/scrolly/runtime.ts` — Intersection Observer, progress bar, hash и mobile fallback;
-- `src/scrolly/viz.ts` — все D3-визуализации;
-- `src/styles/global.css` — визуальная система и responsive layout;
-- `public/data/` — демонстрационные JSON;
-- `public/materials/` — место для будущих материалов.
+- `/` — главная, аннотация и ключевые показатели;
+- `/story` — двухколоночный scrollytelling из 16 сцен;
+- `/statements` — положения, выносимые на защиту;
+- `/publications` — публикации и программа для ЭВМ;
+- `/downloads` — документы и наборы данных.
 
-## Где менять текст
+## 3. Куда добавлять данные
 
-- главная история: `src/pages/index.mdx`;
-- первое положение: `src/pages/position-1.mdx`;
-- второе положение: `src/pages/position-2.mdx`;
-- подписи и порядок визуализаций: `src/scrolly/dissertation.ts`;
-- метаданные диссертации и hero: `src/scrolly/dissertation.ts`.
+Все доступные браузеру данные хранятся в `public/data`:
 
-`id` каждого `<ScrollySection>` на главной должен совпадать с `id` секции в `dissertation.ts`.
+```text
+public/data/
+  relevance/
+  load_profiles/
+  ssa/
+  drpi/
+  load_classification/
+  simulation/
+  economics/
+  emissions/
+  experiments/
+  publications/
+```
 
-## Где менять данные
+Каждая папка содержит README с точной схемой полей и примером. CSV должны использовать UTF-8, запятую, точку как десятичный разделитель и ISO 8601 для времени.
 
-- `public/data/main-data.json` — главная история;
-- `public/data/position-1-data.json` — подробности первого положения;
-- `public/data/position-2-data.json` — классы нагрузок, модели и эффекты;
-- `public/data/publications.json` — публикации.
+Путь `public/data/ssa/component_features.csv` в компоненте или браузере превращается в `/data/ssa/component_features.csv`.
 
-Все текущие записи демонстрационные и содержат `"isPlaceholder": true`.
+Важно: не восстанавливайте численные данные из PDF-графиков. Заменяйте демонстрационные строки только результатами авторских Python-скриптов.
 
-## Как заменить placeholder JSON реальными результатами из Python
+## 4. Куда добавлять изображения
 
-1. Экспортируйте результаты Python-пайплайна в JSON с теми же именами полей.
-2. Сохраните временные метки в ISO 8601, например `2024-01-01T00:00:00+03:00`.
-3. Замените соответствующие массивы в `public/data/*.json`.
-4. Установите `"isPlaceholder": false` для реальных записей.
-5. При необходимости обновите подписи, единицы и диапазоны в `src/scrolly/viz.ts`.
-6. Уберите или измените бейдж «Демонстрационные данные» после полной замены данных.
+SVG/PNG/WebP размещаются в `public/figures`:
 
-Основные контракты: `loadTimeSeries`, `ssaPoints`, `patterns`, `drpiTimeSeries`, `drpiHeatmap`, `loadClasses`, `controlModels`, `effects`.
+```text
+public/figures/
+  relevance/
+  system_model/
+  ssa/
+  drpi/
+  classification/
+  optimization/
+  results/
+```
 
-## Как добавить публикации
+Рекомендуется SVG для схем и графиков. Имена ожидаемых файлов перечислены в `src/data/visuals.ts` и показаны прямо на placeholder-карточках. Недостающие рисунки представлены честными SVG-заглушками.
 
-Добавьте объект в `public/data/publications.json` с полями `type`, `authors`, `title`, `source`, `year`, `doi`, `url`, `relatedPosition` и `isPlaceholder`. Допустимые значения `relatedPosition`: `position-1`, `position-2`, `both`.
+## 5. Как заменить placeholder на реальный график
 
-## Как опубликовать на GitHub Pages
+1. Добавьте проверенный CSV в нужную папку `public/data`.
+2. Откройте соответствующий компонент в `src/components/visuals`.
+3. Загрузите данные на клиенте:
 
-1. Создайте репозиторий GitHub и загрузите проект.
-2. Выполните `npm run build`.
-3. Публикуйте содержимое папки `dist/` через GitHub Actions или ветку Pages.
-4. В GitHub выберите **Settings → Pages → Source: GitHub Actions**.
+```ts
+const response = await fetch('/data/drpi/drpi_timeseries.csv');
+const text = await response.text();
+```
 
-`astro.config.mjs` автоматически использует имя репозитория из `GITHUB_REPOSITORY` как `base` для project Pages. Для пользовательского репозитория вида `username.github.io` базовый путь остаётся `/`. При необходимости задайте канонический адрес через переменную `SITE_URL`.
+4. Разберите CSV через `d3.csvParse` или используйте `d3.csv`.
+5. Отрисуйте SVG внутри React-компонента или Astro-компонента с клиентским скриптом.
+6. В `src/components/scrollytelling/StickyVisual.astro` замените `PlaceholderVisual` на диспетчер реальных компонентов по `visual.id`.
+7. Сохраните `data-visual` и `data-visual-panel`: они связывают текст и sticky-визуализацию.
+
+Файлы `LoadProfileChart.tsx`, `SSAComponentsChart.tsx`, `AmplitudeFrequencyChart.tsx`, `DRPITimeSeriesChart.tsx`, `DRPIHeatmap.tsx` и `ScenarioComparisonChart.tsx` уже созданы как стартовые компоненты.
+
+## 6. Как редактировать историю
+
+Русский MDX:
+
+- `src/content/ru/home.mdx`;
+- `src/content/ru/story.mdx`;
+- `src/content/ru/statements.mdx`;
+- `src/content/ru/publications.mdx`;
+- `src/content/ru/downloads.mdx`.
+
+Scrollytelling-блок:
+
+```mdx
+<StoryStep
+  visual="drpi-line"
+  number="09"
+  label="Количественная оценка"
+  title="DR PI показывает потенциал DSM"
+>
+  Текст этапа.
+</StoryStep>
+```
+
+`visual` должен совпадать с `id` в `src/data/visuals.ts`.
+
+## 7. Как добавить английскую версию
+
+Файлы-заготовки находятся в `src/content/en`. Переведите содержимое, сохраняя структуру компонентов и идентификаторы визуализаций.
+
+Переключатель RU/EN:
+
+- хранит выбор в `localStorage`;
+- меняет `html[data-lang]`;
+- показывает соответствующие `.language-content`;
+- не требует создавать отдельные маршруты.
+
+Если позднее понадобятся индексируемые локализованные URL (`/en/story`), существующий контент можно перенести в динамические маршруты Astro без изменения визуальных компонентов.
+
+## 8. PDF для загрузки
+
+Положите документы в `public/downloads`:
+
+- `dissertation.pdf`;
+- `autoreferat.pdf`;
+- `presentation.pdf`;
+- `brochure.pdf`.
+
+После следующей сборки карточка включится автоматически, если файл существует. Не создавайте пустые PDF-заглушки: пользователь должен видеть честный статус файла.
+
+## 9. Production build
+
+```bash
+npm run build
+```
+
+Команда сначала выполняет `astro check`, затем создаёт статический сайт в `dist`.
+
+Проверка локальной production-сборки:
+
+```bash
+npm run preview
+```
+
+## 10. Деплой
+
+### Vercel
+
+1. Импортируйте репозиторий.
+2. Root Directory: `dissertation-scrollytelling-site`.
+3. Build Command: `npm run build`.
+4. Output Directory: `dist`.
+
+### Netlify
+
+1. Base directory: `dissertation-scrollytelling-site`.
+2. Build command: `npm run build`.
+3. Publish directory: `dissertation-scrollytelling-site/dist` (либо `dist`, если base directory уже задана).
+
+### GitHub Pages
+
+Для сайта проекта укажите в `astro.config.mjs`:
+
+```js
+export default defineConfig({
+  site: 'https://USERNAME.github.io',
+  base: '/REPOSITORY_NAME'
+});
+```
+
+После этого используйте официальный GitHub Action для Astro. При размещении в корне пользовательского домена `base` не нужен.
+
+## 11. Контроль перед публикацией
+
+- `npm run build` завершается без ошибок;
+- все пять маршрутов открываются;
+- переключатель RU/EN сохраняет состояние;
+- все 16 сцен `/story` переключают sticky-панель;
+- ссылки навигации не ведут на 404;
+- CSV соответствуют схемам README;
+- источники и единицы измерения указаны;
+- в публикациях нет placeholder-записей;
+- кнопки PDF включены только для реально существующих файлов;
+- проверены мобильная ширина, клавиатурная навигация и reduced motion.
