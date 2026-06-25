@@ -1,0 +1,1 @@
+export default function DRPITimeSeriesChart() { return <svg viewBox="0 0 640 260" aria-label="Заглушка DR PI"><path d="M20 170L70 80l50 100 50-65 50 30 50-100 50 75 50-45 50 82 50-60 50 34 70-60" fill="none" stroke="#1856d8" strokeWidth="4"/></svg>; }

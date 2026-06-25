@@ -1,0 +1,51 @@
+---
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { navigation } from '../../data/navigation';
+import { siteConfig } from '../../data/siteConfig';
+const { pathname } = Astro.url;
+---
+
+<header>
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="На главную">
+      <span class="brand-mark" aria-hidden="true">
+        <i></i><i></i><i></i>
+      </span>
+      <span>{siteConfig.shortTitle}</span>
+    </a>
+
+    <nav aria-label="Основная навигация">
+      {navigation.map((item) => (
+        <a href={item.href} aria-current={pathname === item.href ? 'page' : undefined}>
+          <span class="lang-inline" data-lang="ru">{item.ru}</span>
+          <span class="lang-inline" data-lang="en">{item.en}</span>
+        </a>
+      ))}
+    </nav>
+    <LanguageSwitcher />
+  </div>
+</header>
+
+<style>
+  header {
+    position: sticky; top: 0; z-index: 50;
+    border-bottom: 1px solid rgba(215,224,231,.85);
+    background: rgba(244,247,249,.88);
+    backdrop-filter: blur(18px);
+  }
+  .header-inner { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 28px; min-height: 64px; }
+  .brand { display: inline-flex; align-items: center; gap: 11px; width: fit-content; font-size: .76rem; font-weight: 850; letter-spacing: .07em; text-transform: uppercase; }
+  .brand-mark { display: flex; align-items: end; gap: 3px; width: 23px; height: 18px; }
+  .brand-mark i { display: block; width: 5px; border-radius: 2px 2px 0 0; background: var(--blue); }
+  .brand-mark i:nth-child(1) { height: 8px; }
+  .brand-mark i:nth-child(2) { height: 17px; background: var(--orange); }
+  .brand-mark i:nth-child(3) { height: 12px; }
+  nav { display: flex; align-items: center; gap: 22px; }
+  nav a { position: relative; color: #5b6879; font-size: .76rem; font-weight: 700; }
+  nav a:hover, nav a[aria-current="page"] { color: var(--ink); }
+  nav a[aria-current="page"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -21px; height: 2px; background: var(--blue); }
+  @media (max-width: 950px) {
+    .header-inner { grid-template-columns: 1fr auto; }
+    nav { display: none; }
+  }
+</style>

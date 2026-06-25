@@ -1,0 +1,4 @@
+hour,scenario,generator_id,p_mw,on
+0,base,DG1,0.45,true
+0,dsm,DG1,0.58,true
+0,bess,DG1,0.56,true

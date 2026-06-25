@@ -1,0 +1,28 @@
+---
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import '../styles/global.css';
+import { siteConfig } from '../data/siteConfig';
+interface Props { title?: string; description?: string; }
+const { title, description = siteConfig.description } = Astro.props;
+const pageTitle = title ? `${title} — ${siteConfig.author}` : `${siteConfig.title} — ${siteConfig.author}`;
+---
+<!doctype html>
+<html lang="ru" data-lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f4f7f9" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%231856d8%22/><path d=%22M17 3 8 18h7l-1 11 10-16h-7z%22 fill=%22white%22/></svg>" />
+    <title>{pageTitle}</title>
+    <script is:inline>
+      document.documentElement.dataset.lang = localStorage.getItem('research-language') || 'ru';
+    </script>
+  </head>
+  <body>
+    <Header />
+    <slot />
+    <Footer />
+  </body>
+</html>

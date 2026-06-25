@@ -1,0 +1,6 @@
+class_id,action_id,action_ru,action_en,enabled
+variable,power_modulation,Модуляция мощности,Power modulation,true
+sliding,time_shift,Сдвиг цикла,Time shift,true
+flexible,charge_discharge,Заряд или разряд,Charge or discharge,true
+migrating,supply_center,Выбор центра питания,Supply centre selection,true
+passive,none,Управление запрещено,No control,false
