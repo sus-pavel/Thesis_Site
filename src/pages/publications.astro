@@ -2,37 +2,32 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageShell from '../components/layout/PageShell.astro';
 import PublicationsRu from '../content/ru/publications.mdx';
-import PublicationsEn from '../content/en/publications.mdx';
 import publications from '../../public/data/publications/publications.json';
 
-const typeLabels: Record<string, { ru: string; en: string }> = {
-  scopus: { ru: 'Scopus', en: 'Scopus' },
-  vak: { ru: 'ВАК', en: 'HAC journals' },
-  conference: { ru: 'Конференции', en: 'Conferences' },
-  other: { ru: 'Прочие', en: 'Other' },
-  software: { ru: 'Программы для ЭВМ', en: 'Software registrations' },
+const typeLabels: Record<string, string> = {
+  scopus: 'Scopus',
+  vak: 'Журналы ВАК',
+  conference: 'Конференции',
+  other: 'Прочие',
+  software: 'Программы для ЭВМ',
 };
 const types = Object.keys(typeLabels);
 const counts = Object.fromEntries(types.map((type) => [type, publications.filter((item) => item.type === type).length]));
 ---
 <BaseLayout title="Публикации">
-  <PageShell eyebrow="Апробация результатов" title="Публикации и программная реализация">
+  <PageShell eyebrow="АПРОБАЦИЯ РЕЗУЛЬТАТОВ" title="Публикации и программы для ЭВМ">
     <div class="stats">
       <div><strong>{String(counts.scopus).padStart(2, '0')}</strong><span>Scopus</span></div>
-      <div><strong>{String(counts.vak).padStart(2, '0')}</strong><span>ВАК</span></div>
-      <div><strong>{String(counts.software).padStart(2, '0')}</strong><span>программы для ЭВМ</span></div>
+      <div><strong>{String(counts.vak).padStart(2, '0')}</strong><span>Журналы ВАК</span></div>
+      <div><strong>{String(counts.software).padStart(2, '0')}</strong><span>Программы для ЭВМ</span></div>
     </div>
-    <article class="publication-content language-content prose" data-lang="ru"><PublicationsRu /></article>
-    <article class="publication-content language-content prose" data-lang="en"><PublicationsEn /></article>
+    <article class="publication-content prose"><PublicationsRu /></article>
     <div class="publication-groups">
       {types.map((type) => {
         const items = publications.filter((item) => item.type === type);
         return items.length > 0 && (
           <section>
-            <h2>
-              <span class="lang-inline" data-lang="ru">{typeLabels[type].ru}</span>
-              <span class="lang-inline" data-lang="en">{typeLabels[type].en}</span>
-            </h2>
+            <h2>{typeLabels[type]}</h2>
             <div class="publication-list">
               {items.map((item) => (
                 <article class="publication-card">
@@ -41,10 +36,7 @@ const counts = Object.fromEntries(types.map((type) => [type, publications.filter
                     <span>Положение {item.relatedStatement === 'both' ? '1 + 2' : item.relatedStatement}</span>
                     {item.isPlaceholder && <span class="placeholder">Демонстрационная запись</span>}
                   </div>
-                  <h3>
-                    <span class="lang-inline" data-lang="ru">{item.titleRu}</span>
-                    <span class="lang-inline" data-lang="en">{item.titleEn}</span>
-                  </h3>
+                  <h3>{item.titleRu}</h3>
                   <p>{item.authors.join(', ')}</p>
                   <p>{item.source}{item.registrationNumber ? ` · № ${item.registrationNumber}` : ''}</p>
                   {item.doi && <a href={`https://doi.org/${item.doi}`} target="_blank" rel="noreferrer">DOI: {item.doi} ↗</a>}

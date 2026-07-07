@@ -74,6 +74,31 @@ export const glossary = {
     en: 'amplitude–frequency plane',
     note: 'Use this form when referring to the feature space of SSA components.',
   },
+  researchOutputs: {
+    ru: 'Апробация результатов',
+    en: 'RESEARCH OUTPUTS',
+    note: 'Use for the publications page eyebrow and related dissertation output sections.',
+  },
+  researchProposition: {
+    ru: 'Положение',
+    en: 'Research Proposition',
+    note: 'Use for dissertation propositions or statements submitted for defence.',
+  },
+  higherAttestationCommission: {
+    ru: 'ВАК',
+    en: 'Journals listed by the Higher Attestation Commission',
+    note: 'Use for the Russian Higher Attestation Commission journal category in publication listings.',
+  },
+  vakJournals: {
+    ru: 'Журналы ВАК',
+    en: 'Journals listed by the Higher Attestation Commission',
+    note: 'Use for the VAK journal section and statistics label.',
+  },
+  softwareRegistrations: {
+    ru: 'Программы для ЭВМ',
+    en: 'Software Registrations',
+    note: 'Use for Russian software registration certificates and related publication sections.',
+  },
 } as const;
 
 export type GlossaryKey = keyof typeof glossary;
