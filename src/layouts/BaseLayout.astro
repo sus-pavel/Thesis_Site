@@ -2,27 +2,47 @@
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import '../styles/global.css';
-import { siteConfig } from '../data/siteConfig';
-interface Props { title?: string; description?: string; }
-const { title, description = siteConfig.description } = Astro.props;
+import { defaultLanguage, localizedHref, type Language } from '../i18n/config';
+import { siteLocales } from '../i18n/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: Language;
+  canonicalPath?: string;
+  hasEnglishAlternate?: boolean;
+}
+
+const { title, lang = defaultLanguage, canonicalPath = Astro.url.pathname, hasEnglishAlternate = true } = Astro.props;
+const siteConfig = siteLocales[lang];
+const description = Astro.props.description ?? siteConfig.description;
 const pageTitle = title ? `${title} — ${siteConfig.author}` : `${siteConfig.title} — ${siteConfig.author}`;
+const canonical = new URL(localizedHref(canonicalPath, lang), Astro.site ?? Astro.url.origin);
+const alternateRu = new URL(localizedHref(canonicalPath, 'ru'), Astro.site ?? Astro.url.origin);
+const alternateEn = new URL(localizedHref(canonicalPath, 'en'), Astro.site ?? Astro.url.origin);
 ---
 <!doctype html>
-<html lang="ru" data-lang="ru">
+<html lang={lang} data-lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#f4f7f9" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="ru" href={alternateRu} />
+    {hasEnglishAlternate && <link rel="alternate" hreflang="en" href={alternateEn} />}
+    <link rel="alternate" hreflang="x-default" href={alternateRu} />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%231856d8%22/><path d=%22M17 3 8 18h7l-1 11 10-16h-7z%22 fill=%22white%22/></svg>" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={lang === 'ru' ? 'ru_RU' : 'en_US'} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
     <title>{pageTitle}</title>
-    <script is:inline>
-      document.documentElement.dataset.lang = localStorage.getItem('research-language') || 'ru';
-    </script>
   </head>
   <body>
-    <Header />
+    <Header lang={lang} />
     <slot />
-    <Footer />
+    <Footer lang={lang} />
   </body>
 </html>

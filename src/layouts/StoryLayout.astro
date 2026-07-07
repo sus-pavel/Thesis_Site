@@ -1,8 +1,14 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-interface Props { title?: string; }
-const { title = 'История исследования' } = Astro.props;
+import { defaultLanguage, type Language } from '../i18n/config';
+
+interface Props {
+  title?: string;
+  lang?: Language;
+}
+
+const { title = 'История исследования', lang = defaultLanguage } = Astro.props;
 ---
-<BaseLayout title={title}>
+<BaseLayout title={title} lang={lang} hasEnglishAlternate={false}>
   <slot />
 </BaseLayout>

@@ -33,25 +33,71 @@ npm run preview
 - `/statements` — положения, выносимые на защиту;
 - `/publications` — публикации и программы для ЭВМ;
 - `/downloads` — диссертация, автореферат, презентация и данные.
+- `/en/` — placeholder главной английской версии;
+- `/en/statements/` — placeholder английской страницы положений;
+- `/en/publications/` — placeholder английской страницы публикаций;
+- `/en/downloads/` — placeholder английской страницы материалов.
 
 # Как вручную редактировать сайт
 
-1. Главная страница и её крупные блоки редактируются в `src/pages/index.astro`.
-2. Текст аннотации главной страницы редактируется в `src/content/ru/home.mdx`.
-3. Полный текст scrollytelling редактируется в `src/content/ru/story.mdx`.
+## Русская версия
+
+Русские маршруты находятся в `src/pages/`:
+
+- `src/pages/index.astro`;
+- `src/pages/statements.astro`;
+- `src/pages/publications.astro`;
+- `src/pages/downloads.astro`;
+- `src/pages/story.astro`.
+
+Русский MDX-контент находится в `src/content/ru/`.
+
+## Английская версия
+
+Английские маршруты находятся в `src/pages/en/`:
+
+- `src/pages/en/index.astro`;
+- `src/pages/en/statements.astro`;
+- `src/pages/en/publications.astro`;
+- `src/pages/en/downloads.astro`.
+
+Пока эти страницы содержат placeholder `English version is being prepared.`. Английский scrollytelling-маршрут `/en/story/` не создавался: русская scrollytelling-страница остаётся в `src/pages/story.astro`.
+
+Английский MDX-контент-заготовка находится в `src/content/en/`.
+
+## Как вручную переводить
+
+1. Переводить тексты только вручную, без автоматической замены русских страниц.
+2. Для английских страниц редактировать файлы в `src/pages/en/`.
+3. Для английских MDX-текстов использовать `src/content/en/`.
+4. Общие SEO-данные, короткое название сайта и подписи layout/header/footer редактировать в `src/i18n/site.ts`.
+5. Навигационные подписи и правила локализации ссылок редактировать в `src/i18n/navigation.ts`.
+6. Пути и языковые префиксы редактировать в `src/i18n/config.ts`.
+7. Русскую версию трогать только при отдельной правке русского контента.
+
+## Terminology / Терминология
+
+При переводе английских страниц обязательно использовать `src/i18n/glossary.ts` как источник утверждённых терминов проекта. Если появляется новый спорный термин, сначала добавить его в словарь с `ru`, `en` и `note`, затем использовать в страницах.
+
+## Какие файлы трогать
+
+1. Главная русская страница и её крупные блоки редактируются в `src/pages/index.astro`.
+2. Текст аннотации русской главной страницы редактируется в `src/content/ru/home.mdx`.
+3. Полный русский scrollytelling редактируется в `src/content/ru/story.mdx`.
 4. Текст первого и второго положений редактируется в `src/content/ru/statements.mdx`.
-5. Навигация хранится в `src/data/navigation.ts`, а базовая оболочка — в `src/layouts/BaseLayout.astro`.
+5. Навигация хранится в `src/i18n/navigation.ts`, а базовая оболочка — в `src/layouts/BaseLayout.astro`.
 6. Порядок сцен и соответствие текстовых секций визуализациям редактируются в `src/data/visuals.ts`.
 7. Логика переключения визуализаций при прокрутке находится в `src/components/scrollytelling/ScrollStory.astro`.
 8. Единая SVG-логика визуальных сцен находится в `src/components/visuals/PlaceholderVisual.astro`.
 9. Данные графиков лежат в `public/data/`, а готовые изображения — в `public/figures/`.
 10. Публикации редактируются в `public/data/publications/publications.json`.
 11. PDF-файлы заменяются в `public/downloads/` без изменения их имён.
-12. Общий внешний вид редактируется в `src/styles/global.css`. Стили отдельной страницы или компонента находятся в блоке `<style>` в соответствующем `.astro`-файле.
+12. Даты на странице материалов задаются вручную в `publicationDate` внутри `src/pages/downloads.astro`.
+13. Общий внешний вид редактируется в `src/styles/global.css`. Стили отдельной страницы или компонента находятся в блоке `<style>` в соответствующем `.astro`-файле.
 
 Важно: значение `visual` у каждого `StoryStep` в `src/content/ru/story.mdx` должно совпадать с `id` сцены в `src/data/visuals.ts`.
 
-Английские тексты находятся в `src/content/en/`. Переключатель языка показывает русскую или английскую версию без создания отдельных маршрутов.
+Переключатель языка сейчас не отображается. Реальные английские маршруты находятся под `/en/`.
 
 # Что не нужно редактировать без необходимости
 
@@ -61,7 +107,7 @@ npm run preview
 - `tailwind.config.mjs` — настройка обработки CSS;
 - `src/components/scrollytelling/ScrollStory.astro` — runtime прокрутки;
 - `src/components/visuals/PlaceholderVisual.astro` — логика визуальных сцен;
-- `src/layouts/BaseLayout.astro` — HTML-оболочка, metadata и глобальное подключение стилей.
+- `src/layouts/BaseLayout.astro` — HTML-оболочка, metadata, canonical/alternate links и глобальное подключение стилей.
 
 Эти файлы лучше менять только при изменении архитектуры, сборки или поведения визуализаций.
 
@@ -99,8 +145,7 @@ npm run build
 ## Контроль перед публикацией
 
 - `npm run build` завершается без ошибок;
-- открываются все пять маршрутов;
-- переключатель RU/EN сохраняет состояние;
+- открываются русские маршруты и placeholder-маршруты `/en/`;
 - все 14 сцен `/story` переключают визуальную панель;
 - ссылки навигации и скачивания не ведут на 404;
 - публикации и PDF содержат финальные материалы;

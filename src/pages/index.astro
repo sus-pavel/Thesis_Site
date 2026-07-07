@@ -10,6 +10,7 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
 import HomeRu from '../content/ru/home.mdx';
 import HomeEn from '../content/en/home.mdx';
 import { siteConfig } from '../data/siteConfig';
+import { localizedHref } from '../i18n/config';
 
 const sections = [
   { number: '01', href: '/story', title: 'Последовательность исследования', text: 'От временного ряда нагрузки до оптимального режима автономного ЭТК.' },
@@ -18,8 +19,7 @@ const sections = [
   { number: '04', href: '/downloads', title: 'Материалы', text: 'Диссертация, автореферат, презентация и данные.' },
 ];
 
-const base = import.meta.env.BASE_URL;
-const hrefFor = (href: string) => `${base}${href.replace(/^\//, '')}/`;
+const hrefFor = (href: string) => localizedHref(href);
 ---
 
 <BaseLayout>
@@ -49,7 +49,7 @@ const hrefFor = (href: string) => `${base}${href.replace(/^\//, '')}/`;
 
             <div class="actions">
               <a class="button button--primary" href={hrefFor('/story')}>
-                Начать исследование <span>↓</span>
+                Ознакомиться с исследованием <span>↓</span>
               </a>
               <a class="button" href={hrefFor('/statements')}>Положения на защиту</a>
             </div>

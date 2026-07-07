@@ -1,3 +1,50 @@
-## Statements submitted for defence
+## First statement — potential audit
 
-The approved academic translation will be added later. The page structure already supports a complete English version with the same evidence hierarchy as the Russian source.
+> The use of the Demand Response Potential Index (DRPI), calculated from electricity consumption patterns obtained through the proposed clustering principle for Singular Spectrum Analysis (SSA) components of an electricity consumption time series, provides a quantitative assessment of demand-side management potential in isolated power systems with hybrid generation.
+
+### Research question
+
+**Does a specific isolated power system have a temporal load structure that makes the deployment of demand-side management technically justified?**
+
+### Logic of proof
+
+1. **Initial object model.** The topology, equivalent-circuit parameters, and power-supply system elements are supplemented with consumption time series.
+2. **Segmentation and Singular Spectrum Analysis.** The time series is transformed into a trajectory matrix and decomposed into elementary components.
+3. **Component features.** For each component, the dominant frequency, root-mean-square amplitude, and contribution to the signal are determined.
+4. **Amplitude–frequency plane clustering.** The components are grouped by k-means using features that can be interpreted in terms of operating modes.
+5. **Pattern reconstruction.** Components within each cluster are summed in the time domain and form daily, weekly, shift-related, and other electricity consumption patterns.
+6. **DRPI calculation.** The index combines the volume of flexible energy F1, its temporal concentration F2, and consumption dynamics F3.
+7. **Applicability map.** DRPI is calculated every 30 minutes and transformed into a heatmap of preferred demand-side management intervals.
+8. **Robustness check.** Sensitivity to the SSA window, k-means initialization, and F1/F2/F3 weights is evaluated.
+
+### Practical outcome
+
+The first statement does not control loads directly. It forms **a decision-support tool for assessing whether demand-side management should be launched** at the analyzed facility.
+
+## Second statement — applied control
+
+> The implementation of demand-side management based on the proposed classification of electrical loads improves the economic, technical, and environmental performance of an isolated power system with hybrid generation.
+
+### Research question
+
+**How can targeted control of different electrical loads be implemented after the demand-side management potential has been confirmed?**
+
+### Logic of proof
+
+1. **Five classes.** Variable, shiftable, flexible, migration, and passive loads are separated according to physical and technological features.
+2. **Variable load.** Power is redistributed within an admissible time window while preserving the energy balance.
+3. **Shiftable load.** A new start time is selected for a continuous cycle without changing its shape.
+4. **Flexible load.** Bidirectional control is implemented subject to power and state-of-charge constraints.
+5. **Migration load.** An admissible supply point is selected with regard to route and topology.
+6. **Passive load.** The load is excluded from the set of controllable loads.
+7. **Integrated optimization.** Demand-side management parameters are included in the CC-PSO vector, and the adjusted load profiles are passed to Matpower/MOST.
+8. **Effect assessment.** The baseline scenario, demand-side management scenario, and battery energy storage scenario are compared.
+
+### Confirmed effects in the calculation example
+
+- OPEX: from 795,288 to 622,858 RUB/day, a **21.5%** reduction;
+- Scope 1: from 5,207 to 4,943 tCO2/year, a **5.1%** reduction;
+- fewer short-term diesel generator starts;
+- elimination of diesel generator operation at low load;
+- reduced power ramps and drops;
+- higher capacity factor for renewable energy sources.

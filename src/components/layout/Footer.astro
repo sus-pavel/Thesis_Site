@@ -1,8 +1,14 @@
 ---
-import { siteConfig } from '../../data/siteConfig';
+import { defaultLanguage, localizedHref, type Language } from '../../i18n/config';
+import { siteLocales, siteUi } from '../../i18n/site';
 
-const base = import.meta.env.BASE_URL;
-const hrefFor = (href: string) => `${base}${href.replace(/^\//, '')}/`;
+interface Props {
+  lang?: Language;
+}
+
+const { lang = defaultLanguage } = Astro.props;
+const siteConfig = siteLocales[lang];
+const ui = siteUi[lang];
 
 const telegramUrl = 'https://t.me/sus_pav';
 const linkedinUrl = 'https://www.linkedin.com/in/pavel-suslikov/';
@@ -11,45 +17,45 @@ const linkedinUrl = 'https://www.linkedin.com/in/pavel-suslikov/';
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-thesis">
-      <p class="footer-eyebrow">Диссертация</p>
+      <p class="footer-eyebrow">{ui.thesis}</p>
 
       <h2>
-        Управление спросом на электроэнергию автономных электротехнических комплексов путём идентификации паттернов и классификации нагрузок
+        {siteConfig.footerTitle}
       </h2>
     </div>
 
     <div class="footer-meta">
       <p>
-        <strong>Автор:</strong>
+        <strong>{ui.author}</strong>
         <span>{siteConfig.author}</span>
       </p>
 
       <p>
-        <strong>Университет:</strong>
-        <span>Санкт-Петербургский горный университет императрицы Екатерины II</span>
+        <strong>{ui.organization}</strong>
+        <span>{siteConfig.organization}</span>
       </p>
 
       <p>
-        <strong>Специальность:</strong>
+        <strong>{ui.specialty}</strong>
         <span>{siteConfig.specialty}</span>
       </p>
 
       <p>
-        <strong>Формат:</strong>
-        <span>статический исследовательский сайт</span>
+        <strong>{ui.format}</strong>
+        <span>{siteConfig.footerFormat}</span>
       </p>
     </div>
 
     <div class="footer-actions">
-      <a class="footer-button footer-button--primary" href={hrefFor('/downloads')}>
-        Скачать материалы
+      <a class="footer-button footer-button--primary" href={localizedHref('/downloads', lang)}>
+        {ui.downloadMaterials}
       </a>
 
       <a class="footer-button footer-button--secondary" href="mailto:Suslikov.PK@gmail.com">
-        Связаться с автором
+        {ui.contactAuthor}
       </a>
 
-      <div class="footer-social" aria-label="Социальные сети автора">
+      <div class="footer-social" aria-label={ui.authorSocials}>
         <a class="footer-social-link" href={telegramUrl} target="_blank" rel="noopener noreferrer" aria-label="Telegram">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M21.7 4.2 18.5 19.3c-.2 1-.8 1.2-1.6.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2l-11 6.9-4.7-1.5c-1-.3-1-1 .2-1.5L20.3 3c.8-.3 1.6.2 1.4 1.2z" />

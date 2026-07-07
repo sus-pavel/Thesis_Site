@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout lang="en" title="English version">
+  <main class="placeholder-page">
+    <section class="container placeholder-inner">
+      <p class="eyebrow">English version</p>
+      <h1>English version is being prepared.</h1>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .placeholder-page {
+    min-height: 62vh;
+    display: flex;
+    align-items: center;
+    padding: clamp(72px, 10vw, 132px) 0;
+  }
+
+  h1 {
+    max-width: 860px;
+    margin: 0;
+    font-size: clamp(2.6rem, 6vw, 5.4rem);
+    line-height: 1;
+    letter-spacing: -.05em;
+  }
+</style>
