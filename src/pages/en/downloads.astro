@@ -1,12 +1,56 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageShell from '../../components/layout/PageShell.astro';
----
+import DownloadsEn from '../../content/en/downloads.mdx';
+import { withBase } from '../../i18n/config';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 
-<BaseLayout lang="en" title="Downloads">
-  <PageShell eyebrow="English version" title="Downloads">
-    <div class="prose">
-      <p>English version is being prepared.</p>
+// Official publication dates are maintained manually here.
+const files = [
+  { code: 'PDF · RU', title: 'Dissertation Abstract', path: 'downloads/autoreferat.pdf', publicationDate: '14 July 2026' },
+  { code: 'PDF · RU', title: 'Dissertation', path: 'downloads/dissertation.pdf', publicationDate: '8 July 2026' },
+  { code: 'PDF · RU', title: 'Presentation', path: 'downloads/presentation.pdf', publicationDate: null },
+  { code: 'CSV', title: 'Visualization Data', path: 'data/drpi/data_for_visualization.csv', publicationDate: null },
+];
+
+const rows = files.map((item) => ({
+  ...item,
+  exists: existsSync(join(process.cwd(), 'public', item.path)),
+  href: withBase(item.path),
+}));
+---
+<BaseLayout
+  lang="en"
+  title="Downloads"
+  description="Dissertation materials, including the dissertation, dissertation abstract, presentation, and research data."
+>
+  <PageShell eyebrow="Downloads" title="Dissertation Materials" description="Access the approved PDF documents and calculation results.">
+    <div class="prose intro"><DownloadsEn /></div>
+    <div class="download-grid">
+      {rows.map((item, index) => (
+        <article class="download-card">
+          <div><span>{item.code}</span><b>{String(index + 1).padStart(2, '0')}</b></div>
+          <h2>{item.title}</h2>
+          <p>{item.publicationDate ? `Officially published: ${item.publicationDate}` : 'Official publication date: To be added'}</p>
+          {item.exists
+            ? <a class="download-action" href={item.href} download aria-label={`Download ${item.title}`}><i></i> Download</a>
+            : <button type="button" disabled><i></i> Not available</button>}
+        </article>
+      ))}
     </div>
   </PageShell>
 </BaseLayout>
+<style>
+  .intro { margin-bottom: 50px; }
+  .download-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
+  .download-card { min-height: 245px; display: flex; flex-direction: column; padding: 26px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.88); }
+  .download-card > div { display: flex; justify-content: space-between; color: #8a97a5; font-size: .66rem; font-weight: 800; letter-spacing: .08em; }
+  h2 { margin: 34px 0 7px; font-size: 1.75rem; letter-spacing: -.03em; }
+  p { margin: 0; color: var(--muted); font-size: .7rem; overflow-wrap: anywhere; }
+  button, .download-action { width: fit-content; margin-top: auto; padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; color: #7b8795; background: #f4f7f9; font-size: .68rem; font-weight: 800; text-transform: uppercase; }
+  button i, .download-action i { display: inline-block; width: 6px; height: 6px; margin-right: 7px; border-radius: 50%; background: var(--orange); }
+  .download-action { border-color: rgba(24,86,216,.28); color: var(--blue); background: #edf2ff; }
+  .download-action i { background: var(--blue); }
+  @media (max-width: 650px) { .download-grid { grid-template-columns: 1fr; } }
+</style>

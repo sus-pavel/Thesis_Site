@@ -2,16 +2,15 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageShell from '../components/layout/PageShell.astro';
 import DownloadsRu from '../content/ru/downloads.mdx';
-import DownloadsEn from '../content/en/downloads.mdx';
 import { withBase } from '../i18n/config';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 
 const files = [
-  { code: 'PDF · RU', title: 'Автореферат', path: 'downloads/autoreferat.pdf', publicationDate: 'уточняется' },
-  { code: 'PDF · RU', title: 'Диссертация', path: 'downloads/dissertation.pdf', publicationDate: 'уточняется' },
-  { code: 'PDF · RU', title: 'Презентация', path: 'downloads/presentation.pdf', publicationDate: 'уточняется' },
-  { code: 'CSV', title: 'Данные для визуализации', path: 'data/drpi/data_for_visualization.csv', publicationDate: 'уточняется' },
+  { code: 'PDF · RU', title: 'Автореферат', path: 'downloads/autoreferat.pdf', publicationDate: '14 июля 2026 года' },
+  { code: 'PDF · RU', title: 'Диссертация', path: 'downloads/dissertation.pdf', publicationDate: '8 июля 2026 года' },
+  { code: 'PDF · RU', title: 'Презентация', path: 'downloads/presentation.pdf', publicationDate: null },
+  { code: 'CSV', title: 'Данные для визуализации', path: 'data/drpi/data_for_visualization.csv', publicationDate: null },
 ];
 
 const rows = files.map((item) => ({
@@ -20,19 +19,18 @@ const rows = files.map((item) => ({
   href: withBase(item.path),
 }));
 ---
-<BaseLayout title="Материалы для загрузки">
+<BaseLayout title="Материалы для загрузки" description="Диссертация, автореферат, презентация и данные диссертационного исследования.">
   <PageShell eyebrow="Документы и результаты расчётов" title="Материалы для скачивания" description="Единая точка доступа к утверждённым PDF-версиям и результатам расчётов.">
-    <div class="language-content prose intro" data-lang="ru"><DownloadsRu /></div>
-    <div class="language-content prose intro" data-lang="en"><DownloadsEn /></div>
+    <div class="prose intro"><DownloadsRu /></div>
     <div class="download-grid">
       {rows.map((item, index) => (
         <article class="download-card">
           <div><span>{item.code}</span><b>{String(index + 1).padStart(2, '0')}</b></div>
           <h2>{item.title}</h2>
-          <p>Официально опубликован: {item.publicationDate}</p>
+          <p>{item.publicationDate ? `Дата официальной публикации: ${item.publicationDate}` : 'Дата официальной публикации: будет добавлена позднее'}</p>
           {item.exists
-            ? <a class="download-action" href={item.href} download><i></i> открыть файл</a>
-            : <button type="button" disabled><i></i> ожидается файл</button>}
+            ? <a class="download-action" href={item.href} download><i></i> Скачать</a>
+            : <button type="button" disabled><i></i> Недоступно</button>}
         </article>
       ))}
     </div>

@@ -8,9 +8,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import KPIBlock from '../components/visuals/KPIBlock.astro';
 import SectionTitle from '../components/ui/SectionTitle.astro';
 import HomeRu from '../content/ru/home.mdx';
-import HomeEn from '../content/en/home.mdx';
 import { siteConfig } from '../data/siteConfig';
 import { localizedHref } from '../i18n/config';
+
+// Сведения о защите редактируются вручную здесь.
+const defence = {
+  dateTime: '29 сентября 2026 года, 13:00',
+  venue: 'Санкт-Петербургский горный университет императрицы Екатерины II',
+  room: 'аудитория 1171',
+};
 
 const sections = [
   { number: '01', href: '/story', title: 'Последовательность исследования', text: 'От временного ряда нагрузки до оптимального режима автономного ЭТК.' },
@@ -58,6 +64,27 @@ const hrefFor = (href: string) => localizedHref(href);
       </div>
     </section>
 
+    <section class="defence-section" aria-labelledby="defence-title">
+      <div class="container">
+        <div class="defence-card">
+          <div>
+            <p class="eyebrow">Предстоящая защита</p>
+            <h2 id="defence-title">Защита диссертации</h2>
+          </div>
+          <dl>
+            <div>
+              <dt>Дата защиты</dt>
+              <dd>{defence.dateTime}</dd>
+            </div>
+            <div>
+              <dt>Место проведения</dt>
+              <dd>{defence.venue}, {defence.room}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
     <section class="section section--summary">
       <div class="container summary-grid">
         <div>
@@ -90,8 +117,7 @@ const hrefFor = (href: string) => localizedHref(href);
         </div>
 
         <div>
-          <div class="language-content prose" data-lang="ru"><HomeRu /></div>
-          <div class="language-content prose" data-lang="en"><HomeEn /></div>
+          <div class="prose"><HomeRu /></div>
         </div>
       </div>
     </section>
@@ -249,6 +275,55 @@ const hrefFor = (href: string) => localizedHref(href);
   .hero-footer strong {
     color: var(--ink);
     font-size: .92rem;
+  }
+
+  .defence-section {
+    padding: 0 0 clamp(64px, 8vw, 96px);
+  }
+
+  .defence-card {
+    display: grid;
+    grid-template-columns: minmax(220px, .7fr) 1.3fr;
+    gap: clamp(28px, 6vw, 72px);
+    padding: clamp(26px, 4vw, 46px);
+    border: 1px solid rgba(24, 86, 216, .24);
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(24, 86, 216, .1), rgba(255, 255, 255, .9));
+    box-shadow: 0 18px 60px rgba(42, 60, 86, .07);
+  }
+
+  .defence-card h2 {
+    margin: 0;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -.04em;
+  }
+
+  .defence-card dl {
+    display: grid;
+    gap: 24px;
+    margin: 0;
+  }
+
+  .defence-card dl div + div {
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+
+  .defence-card dt {
+    color: var(--muted);
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  .defence-card dd {
+    margin: 6px 0 0;
+    color: var(--ink);
+    font-family: Georgia, serif;
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+    line-height: 1.45;
   }
 
   .actions {
@@ -464,6 +539,10 @@ const hrefFor = (href: string) => localizedHref(href);
     }
 
     .summary-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .defence-card {
       grid-template-columns: 1fr;
     }
 

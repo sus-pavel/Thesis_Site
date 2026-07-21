@@ -1,29 +1,20 @@
-<div class="language-switcher" role="group" aria-label="Language">
-  <button type="button" data-language="ru" aria-pressed="true">RU</button>
-  <span>/</span>
-  <button type="button" data-language="en" aria-pressed="false">EN</button>
-</div>
+---
+import { getRoutePath, localizedHref } from '../../i18n/config';
 
-<script is:inline>
-  (() => {
-    const saved = localStorage.getItem('research-language') || 'ru';
-    const setLanguage = (language) => {
-      document.documentElement.dataset.lang = language;
-      document.documentElement.lang = language;
-      localStorage.setItem('research-language', language);
-      document.querySelectorAll('[data-language]').forEach((button) => {
-        button.setAttribute('aria-pressed', String(button.dataset.language === language));
-      });
-    };
-    setLanguage(saved);
-    document.querySelectorAll('[data-language]').forEach((button) => {
-      button.addEventListener('click', () => setLanguage(button.dataset.language));
-    });
-  })();
-</script>
+const routePath = getRoutePath(Astro.url.pathname, 'ru');
+const ruHref = localizedHref(routePath, 'ru');
+const enHref = localizedHref(routePath, 'en');
+const isEnglish = Astro.url.pathname.replace(import.meta.env.BASE_URL, '/').startsWith('/en/');
+---
+
+<nav class="language-switcher" aria-label={isEnglish ? 'Language selection' : 'Выбор языка'}>
+  <a href={ruHref} lang="ru" hreflang="ru" aria-current={!isEnglish ? 'page' : undefined}>RU</a>
+  <span aria-hidden="true">/</span>
+  <a href={enHref} lang="en" hreflang="en" aria-current={isEnglish ? 'page' : undefined}>EN</a>
+</nav>
 
 <style>
   .language-switcher { display: flex; align-items: center; gap: 7px; color: #8a96a4; font-size: .72rem; font-weight: 800; }
-  button { padding: 4px 2px; border: 0; color: inherit; background: transparent; cursor: pointer; }
-  button[aria-pressed="true"] { color: var(--blue); }
+  a { padding: 4px 2px; color: inherit; }
+  a[aria-current="page"] { color: var(--blue); }
 </style>

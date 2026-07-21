@@ -14,7 +14,7 @@ const typeLabels: Record<string, string> = {
 const types = Object.keys(typeLabels);
 const counts = Object.fromEntries(types.map((type) => [type, publications.filter((item) => item.type === type).length]));
 ---
-<BaseLayout title="Публикации">
+<BaseLayout title="Публикации" description="Публикации и программы для ЭВМ по теме диссертационного исследования.">
   <PageShell eyebrow="АПРОБАЦИЯ РЕЗУЛЬТАТОВ" title="Публикации и программы для ЭВМ">
     <div class="stats">
       <div><strong>{String(counts.scopus).padStart(2, '0')}</strong><span>Scopus</span></div>

@@ -25,14 +25,14 @@ export const siteLocales: Record<Language, SiteLocaleConfig> = {
     footerFormat: 'статический исследовательский сайт',
   },
   en: {
-    title: 'Demand-side management for autonomous electrical engineering complexes',
+    title: 'Demand-Side Management for Isolated Power Grid Systems Through Pattern Identification and Load Classification',
     footerTitle:
-      'Demand-side management for autonomous electrical engineering complexes through pattern identification and load classification',
+      'Demand-Side Management for Isolated Power Grid Systems Through Pattern Identification and Load Classification',
     shortTitle: 'Dissertation · Pavel Suslikov',
-    author: 'Pavel K. Suslikov',
-    specialty: '2.4.2. Electrical Engineering Complexes and Systems',
+    author: 'Pavel Suslikov',
+    specialty: '2.4.2. Electrical Engineering Complexes and Systems (Engineering Sciences)',
     description:
-      'Interactive presentation of a dissertation research project on pattern identification, load classification, and demand-side management.',
+      'Dissertation research on electricity consumption pattern identification, electrical load classification, and demand-side management in isolated power systems.',
     organization: 'Empress Catherine II Saint Petersburg Mining University',
     footerFormat: 'static research website',
   },
