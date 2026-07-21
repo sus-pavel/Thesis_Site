@@ -30,13 +30,11 @@ npm run preview
 
 - `/` — главная страница, аннотация и ключевые показатели;
 - `/story` — scrollytelling из 14 сцен;
-- `/statements` — положения, выносимые на защиту;
 - `/publications` — публикации и программы для ЭВМ;
 - `/downloads` — диссертация, автореферат, презентация и данные.
-- `/en/` — placeholder главной английской версии;
-- `/en/statements/` — placeholder английской страницы положений;
-- `/en/publications/` — placeholder английской страницы публикаций;
-- `/en/downloads/` — placeholder английской страницы материалов.
+- `/en/` — английская главная страница;
+- `/en/publications/` — английская страница публикаций;
+- `/en/downloads/` — английская страница материалов.
 
 # Как вручную редактировать сайт
 
@@ -45,7 +43,6 @@ npm run preview
 Русские маршруты находятся в `src/pages/`:
 
 - `src/pages/index.astro`;
-- `src/pages/statements.astro`;
 - `src/pages/publications.astro`;
 - `src/pages/downloads.astro`;
 - `src/pages/story.astro`.
@@ -57,11 +54,10 @@ npm run preview
 Английские маршруты находятся в `src/pages/en/`:
 
 - `src/pages/en/index.astro`;
-- `src/pages/en/statements.astro`;
 - `src/pages/en/publications.astro`;
 - `src/pages/en/downloads.astro`.
 
-Пока эти страницы содержат placeholder `English version is being prepared.`. Английский scrollytelling-маршрут `/en/story/` не создавался: русская scrollytelling-страница остаётся в `src/pages/story.astro`.
+Английский scrollytelling-маршрут `/en/story/` не создавался: русская scrollytelling-страница остаётся в `src/pages/story.astro`.
 
 Английский MDX-контент-заготовка находится в `src/content/en/`.
 
@@ -84,20 +80,19 @@ npm run preview
 1. Главная русская страница и её крупные блоки редактируются в `src/pages/index.astro`.
 2. Текст аннотации русской главной страницы редактируется в `src/content/ru/home.mdx`.
 3. Полный русский scrollytelling редактируется в `src/content/ru/story.mdx`.
-4. Текст первого и второго положений редактируется в `src/content/ru/statements.mdx`.
-5. Навигация хранится в `src/i18n/navigation.ts`, а базовая оболочка — в `src/layouts/BaseLayout.astro`.
-6. Порядок сцен и соответствие текстовых секций визуализациям редактируются в `src/data/visuals.ts`.
-7. Логика переключения визуализаций при прокрутке находится в `src/components/scrollytelling/ScrollStory.astro`.
-8. Единая SVG-логика визуальных сцен находится в `src/components/visuals/PlaceholderVisual.astro`.
-9. Данные графиков лежат в `public/data/`, а готовые изображения — в `public/figures/`.
-10. Публикации редактируются в `public/data/publications/publications.json`.
-11. PDF-файлы заменяются в `public/downloads/` без изменения их имён.
-12. Даты на странице материалов задаются вручную в `publicationDate` внутри `src/pages/downloads.astro`.
-13. Общий внешний вид редактируется в `src/styles/global.css`. Стили отдельной страницы или компонента находятся в блоке `<style>` в соответствующем `.astro`-файле.
+4. Навигация хранится в `src/i18n/navigation.ts`, а базовая оболочка — в `src/layouts/BaseLayout.astro`.
+5. Порядок сцен и соответствие текстовых секций визуализациям редактируются в `src/data/visuals.ts`.
+6. Логика переключения визуализаций при прокрутке находится в `src/components/scrollytelling/ScrollStory.astro`.
+7. Единая SVG-логика визуальных сцен находится в `src/components/visuals/PlaceholderVisual.astro`.
+8. Данные графиков лежат в `public/data/`, а готовые изображения — в `public/figures/`.
+9. Публикации редактируются в `public/data/publications/publications.json`.
+10. PDF-файлы заменяются в `public/downloads/` без изменения их имён.
+11. Даты на странице материалов задаются вручную в `publicationDate` внутри `src/pages/downloads.astro`.
+12. Общий внешний вид редактируется в `src/styles/global.css`. Стили отдельной страницы или компонента находятся в блоке `<style>` в соответствующем `.astro`-файле.
 
 Важно: значение `visual` у каждого `StoryStep` в `src/content/ru/story.mdx` должно совпадать с `id` сцены в `src/data/visuals.ts`.
 
-Переключатель языка сейчас не отображается. Реальные английские маршруты находятся под `/en/`.
+Переключатель языка отображается в шапке и ведёт на соответствующий RU/EN-маршрут. Поскольку `/en/story/` не существует, переключение на EN со страницы `/story/` ведёт на `/en/`.
 
 # Что не нужно редактировать без необходимости
 

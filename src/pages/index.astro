@@ -20,9 +20,8 @@ const defence = {
 
 const sections = [
   { number: '01', href: '/story', title: 'Последовательность исследования', text: 'От временного ряда нагрузки до оптимального режима автономного ЭТК.' },
-  { number: '02', href: '/statements', title: 'Положения, выносимые на защиту', text: 'Два положения и связанная с ними доказательная структура.' },
-  { number: '03', href: '/publications', title: 'Публикации', text: 'Scopus, ВАК, конференции и свидетельство на программу для ЭВМ.' },
-  { number: '04', href: '/downloads', title: 'Материалы', text: 'Диссертация, автореферат, презентация и данные.' },
+  { number: '02', href: '/publications', title: 'Публикации', text: 'Scopus, ВАК, конференции и свидетельство на программу для ЭВМ.' },
+  { number: '03', href: '/downloads', title: 'Материалы', text: 'Диссертация, автореферат, презентация и данные.' },
 ];
 
 const hrefFor = (href: string) => localizedHref(href);
@@ -57,7 +56,6 @@ const hrefFor = (href: string) => localizedHref(href);
               <a class="button button--primary" href={hrefFor('/story')}>
                 Ознакомиться с исследованием <span>↓</span>
               </a>
-              <a class="button" href={hrefFor('/statements')}>Положения на защиту</a>
             </div>
           </div>
         </div>
@@ -204,7 +202,7 @@ const hrefFor = (href: string) => localizedHref(href);
 
     <section class="section">
       <div class="container">
-        <SectionTitle number="→" eyebrow="Навигация" title="Четыре способа прочитать работу" />
+        <SectionTitle number="→" eyebrow="Навигация" title="Три способа прочитать работу" />
 
         <div class="section-links">
           {sections.map((section) => (

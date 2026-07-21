@@ -22,7 +22,7 @@ export const siteLocales: Record<Language, SiteLocaleConfig> = {
     description:
       'Интерактивное представление диссертационного исследования по идентификации паттернов, классификации нагрузок и управлению спросом.',
     organization: 'Санкт-Петербургский горный университет императрицы Екатерины II',
-    footerFormat: 'статический исследовательский сайт',
+    footerFormat: 'Жуковский Юрий Леонидович',
   },
   en: {
     title: 'Demand-Side Management for Isolated Power Grid Systems Through Pattern Identification and Load Classification',
@@ -34,7 +34,7 @@ export const siteLocales: Record<Language, SiteLocaleConfig> = {
     description:
       'Dissertation research on electricity consumption pattern identification, electrical load classification, and demand-side management in isolated power systems.',
     organization: 'Empress Catherine II Saint Petersburg Mining University',
-    footerFormat: 'static research website',
+    footerFormat: 'Zhukovski Uriy Leonidovich',
   },
 };
 
@@ -46,7 +46,7 @@ export const siteUi: Record<Language, Record<string, string>> = {
     author: 'Автор:',
     organization: 'Выполнено в:',
     specialty: 'Специальность:',
-    format: 'Формат:',
+    format: 'Научный руководитель:',
     downloadMaterials: 'Скачать материалы',
     contactAuthor: 'Связаться с автором',
     authorSocials: 'Социальные сети автора',
@@ -58,7 +58,7 @@ export const siteUi: Record<Language, Record<string, string>> = {
     author: 'Author:',
     organization: 'Prepared at:',
     specialty: 'Specialty:',
-    format: 'Format:',
+    format: 'Sci Supervisor:',
     downloadMaterials: 'Download materials',
     contactAuthor: 'Contact the author',
     authorSocials: 'Author social links',

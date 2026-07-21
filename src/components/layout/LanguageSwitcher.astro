@@ -3,7 +3,8 @@ import { getRoutePath, localizedHref } from '../../i18n/config';
 
 const routePath = getRoutePath(Astro.url.pathname, 'ru');
 const ruHref = localizedHref(routePath, 'ru');
-const enHref = localizedHref(routePath, 'en');
+// The scrollytelling page has no English route, so EN leads to the English homepage.
+const enHref = localizedHref(routePath === '/story/' ? '/' : routePath, 'en');
 const isEnglish = Astro.url.pathname.replace(import.meta.env.BASE_URL, '/').startsWith('/en/');
 ---
 

@@ -2,6 +2,7 @@
 import { defaultLanguage, localizedHref, type Language } from '../../i18n/config';
 import { getNavigation } from '../../i18n/navigation';
 import { siteLocales, siteUi } from '../../i18n/site';
+import LanguageSwitcher from './LanguageSwitcher.astro';
 
 interface Props {
   lang?: Language;
@@ -25,13 +26,17 @@ const normalizePath = (path: string) => path.replace(base, '/').replace(/\/$/, '
       <span>{siteConfig.shortTitle}</span>
     </a>
 
-    <nav aria-label={ui.primaryNavigation}>
+    <nav class="primary-nav" aria-label={ui.primaryNavigation}>
       {navigation.map((item) => (
         <a href={item.href} aria-current={normalizePath(pathname) === normalizePath(new URL(item.href, Astro.url).pathname) ? 'page' : undefined}>
           <span>{item.label}</span>
         </a>
       ))}
     </nav>
+
+    <div class="language-control">
+      <LanguageSwitcher />
+    </div>
   </div>
 </header>
 
@@ -42,20 +47,20 @@ const normalizePath = (path: string) => path.replace(base, '/').replace(/\/$/, '
     background: rgba(244,247,249,.88);
     backdrop-filter: blur(18px);
   }
-  .header-inner { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 28px; min-height: 64px; }
+  .header-inner { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 28px; min-height: 64px; }
   .brand { display: inline-flex; align-items: center; gap: 11px; width: fit-content; font-size: .76rem; font-weight: 850; letter-spacing: .07em; text-transform: uppercase; }
   .brand-mark { display: flex; align-items: end; gap: 3px; width: 23px; height: 18px; }
   .brand-mark i { display: block; width: 5px; border-radius: 2px 2px 0 0; background: var(--blue); }
   .brand-mark i:nth-child(1) { height: 8px; }
   .brand-mark i:nth-child(2) { height: 17px; background: var(--orange); }
   .brand-mark i:nth-child(3) { height: 12px; }
-  nav { display: flex; align-items: center; gap: 22px; }
-  nav a { position: relative; color: #5b6879; font-size: .76rem; font-weight: 700; }
-  nav a:hover, nav a[aria-current="page"] { color: var(--ink); }
-  nav a[aria-current="page"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -21px; height: 2px; background: var(--blue); }
+  .primary-nav { display: flex; align-items: center; gap: 22px; }
+  .primary-nav a { position: relative; color: #5b6879; font-size: .76rem; font-weight: 700; }
+  .primary-nav a:hover, .primary-nav a[aria-current="page"] { color: var(--ink); }
+  .primary-nav a[aria-current="page"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -21px; height: 2px; background: var(--blue); }
   @media (max-width: 950px) {
     .header-inner { grid-template-columns: 1fr auto; }
-    nav {
+    .primary-nav {
       grid-column: 1 / -1;
       order: 3;
       width: 100%;
@@ -64,9 +69,9 @@ const normalizePath = (path: string) => path.replace(base, '/').replace(/\/$/, '
       overflow-x: auto;
       scrollbar-width: none;
     }
-    nav::-webkit-scrollbar { display: none; }
-    nav a { flex: 0 0 auto; font-size: .7rem; }
-    nav a[aria-current="page"]::after { bottom: -10px; }
+    .primary-nav::-webkit-scrollbar { display: none; }
+    .primary-nav a { flex: 0 0 auto; font-size: .7rem; }
+    .primary-nav a[aria-current="page"]::after { bottom: -10px; }
     .header-inner { gap: 8px 20px; }
   }
 </style>
