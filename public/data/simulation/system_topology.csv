@@ -1,0 +1,50 @@
+record_type,id,type,label,source,target,rated_power_mw,voltage_kv,voltage_primary_kv,voltage_secondary_kv
+node,dgu-1,diesel_generator,ДГУ 1,,,1,,,
+node,dgu-2,diesel_generator,ДГУ 2,,,1,,,
+node,dgu-3,diesel_generator,ДГУ 3,,,1,,,
+node,dgu-4,diesel_generator,ДГУ 4,,,1,,,
+node,wind,wind_generator,ВЭУ,,,0.5,,,
+node,solar,solar_generator,СЭС,,,1,,,
+node,bus-1,bus,Шина 1,,,,0.4,,
+node,bus-2,bus,Шина 2,,,,0.4,,
+node,transformer-1,transformer,T1,,,,,0.4,6
+node,transformer-2,transformer,T2,,,,,0.4,6
+node,bus-3,bus,Шина 3,,,,6,,
+node,bus-4,bus,Шина 4,,,,6,,
+node,bus-5,bus,Шина 5,,,,6,,
+node,transformer-3,transformer,T3,,,,,6,0.4
+node,transformer-4,transformer,T4,,,,,6,0.4
+node,transformer-5,transformer,T5,,,,,6,0.4
+node,transformer-6,transformer,T6,,,,,6,0.4
+node,transformer-7,transformer,T7,,,,,6,0.4
+node,transformer-8,transformer,T8,,,,,6,0.4
+node,load-1,load,Нагрузка 1,,,,0.4,,
+node,load-2,load,Нагрузка 2,,,,0.4,,
+node,load-3,load,Нагрузка 3,,,,0.4,,
+node,load-4,load,Нагрузка 4,,,,0.4,,
+node,load-5,load,Нагрузка 5,,,,0.4,,
+node,load-6,load,Нагрузка 6,,,,0.4,,
+link,link-01,connection,,dgu-1,bus-1,,,,
+link,link-02,connection,,dgu-2,bus-1,,,,
+link,link-03,connection,,dgu-3,bus-1,,,,
+link,link-04,connection,,dgu-4,bus-1,,,,
+link,link-05,connection,,wind,bus-2,,,,
+link,link-06,connection,,solar,bus-2,,,,
+link,link-07,connection,,bus-1,transformer-1,,,,
+link,link-08,connection,,transformer-1,bus-3,,,,
+link,link-09,connection,,bus-3,bus-5,,,,
+link,link-10,connection,,bus-2,transformer-2,,,,
+link,link-11,connection,,transformer-2,bus-4,,,,
+link,link-12,connection,,bus-4,bus-5,,,,
+link,link-13,connection,,bus-5,transformer-3,,,,
+link,link-14,connection,,transformer-3,load-1,,,,
+link,link-15,connection,,bus-5,transformer-4,,,,
+link,link-16,connection,,transformer-4,load-2,,,,
+link,link-17,connection,,bus-5,transformer-5,,,,
+link,link-18,connection,,transformer-5,load-3,,,,
+link,link-19,connection,,bus-5,transformer-6,,,,
+link,link-20,connection,,transformer-6,load-4,,,,
+link,link-21,connection,,bus-5,transformer-7,,,,
+link,link-22,connection,,transformer-7,load-5,,,,
+link,link-23,connection,,bus-5,transformer-8,,,,
+link,link-24,connection,,transformer-8,load-6,,,,

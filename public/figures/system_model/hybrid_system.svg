@@ -1,5 +1,135 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2774 1886" role="img" aria-labelledby="title description">
-  <title id="title">Автономный ЭТК с гибридной генерацией</title>
-  <desc id="description">Однолинейная схема с четырьмя дизель-генераторами, ветровой и солнечной генерацией, шинами 0,4 и 6 кВ и шестью отходящими линиями нагрузки.</desc>
-  <image href="hybrid_system-diagram.png" width="2774" height="1886" preserveAspectRatio="xMidYMid meet"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="title description">
+  <title id="title">Автономный электротехнический комплекс с гибридной генерацией</title>
+  <desc id="description">Четыре дизель-генератора, ветровая и солнечная электростанции через две шины 0,4 киловольта и повышающие трансформаторы питают общую шину 6 киловольт. От неё отходят шесть линий к понижающим трансформаторам и нагрузкам 0,4 киловольта.</desc>
+
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="10" flood-color="#24415f" flood-opacity="0.08"/>
+    </filter>
+    <symbol id="diesel" viewBox="0 0 80 80">
+      <circle cx="40" cy="40" r="34" fill="#fff" stroke="currentColor" stroke-width="3"/>
+      <path d="M18 41c8-18 14-18 22 0s14 18 22 0" fill="none" stroke="#18212f" stroke-width="6" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="wind" viewBox="0 0 80 80">
+      <circle cx="40" cy="40" r="34" fill="#fff" stroke="currentColor" stroke-width="3"/>
+      <circle cx="40" cy="38" r="4" fill="#18212f"/>
+      <path d="M40 38 36 14c-1-7 4-9 7-3 3 8 4 18 2 27M40 38 19 50c-6 4-10 0-5-5 6-6 15-11 26-12M40 38l17 18c5 5 2 10-4 6-8-4-15-12-18-22M40 42v25" fill="none" stroke="#18212f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="solar" viewBox="0 0 90 80">
+      <rect x="5" y="5" width="80" height="70" rx="12" fill="#fff" stroke="currentColor" stroke-width="3"/>
+      <circle cx="68" cy="22" r="7" fill="none" stroke="#18212f" stroke-width="2.5"/>
+      <path d="M68 9v5m0 16v5M55 22h5m16 0h5M58 12l4 4m12 12 4 4m0-20-4 4M62 28l-4 4" stroke="#18212f" stroke-width="2" stroke-linecap="round"/>
+      <path d="M18 29h34l10 34H28zM22 40h33M25 51h34M31 29l7 34M42 29l7 34" fill="#edf3ff" stroke="#18212f" stroke-width="2" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="transformer" viewBox="0 0 100 64">
+      <circle cx="39" cy="32" r="25" fill="#fff" stroke="currentColor" stroke-width="3"/>
+      <circle cx="61" cy="32" r="25" fill="#fff" stroke="currentColor" stroke-width="3"/>
+    </symbol>
+    <symbol id="load" viewBox="0 0 150 72">
+      <rect x="3" y="3" width="144" height="66" rx="13" fill="#fff" stroke="#dbe4ec" stroke-width="2"/>
+      <path d="M20 54V18M20 54h112" fill="none" stroke="#aab7c3" stroke-width="2"/>
+      <path d="M24 50c12-1 15-28 28-29 14-1 12 27 27 28 15 1 17-18 29-17 9 1 11 12 21 13" fill="none" stroke="#1856d8" stroke-width="4" stroke-linecap="round"/>
+      <path d="M25 53c14-2 18-13 30-13 13 0 17 10 29 10 14 0 16-10 28-9 7 0 11 5 17 6" fill="none" stroke="#8ca0b2" stroke-width="2.5" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+
+  <rect width="1400" height="820" fill="#ffffff"/>
+  <rect x="22" y="22" width="622" height="776" rx="26" fill="#f7f9ff" stroke="#dfe7f8" stroke-width="2"/>
+  <rect x="658" y="22" width="720" height="776" rx="26" fill="#f8fafc" stroke="#e3e9ee" stroke-width="2"/>
+
+  <g font-family="Inter, ui-sans-serif, system-ui, sans-serif">
+    <text x="54" y="62" fill="#1856d8" font-size="17" font-weight="800" letter-spacing="2.4">ГЕНЕРАЦИЯ · 0,4 кВ</text>
+    <text x="690" y="62" fill="#53657a" font-size="17" font-weight="800" letter-spacing="2.4">РАСПРЕДЕЛЕНИЕ · 6 кВ / 0,4 кВ</text>
+
+    <!-- Generation connections -->
+    <g fill="none" stroke="#1856d8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M167 120H285M167 215H285M167 310H285M167 405H285"/>
+      <path d="M285 88V438M285 265H380M480 265H540M540 235V295M540 265H650"/>
+    </g>
+    <g fill="none" stroke="#35c765" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M167 565H285M179 685H285M285 530V715M285 625H380M480 625H540M540 595V655M540 625H650"/>
+    </g>
+
+    <!-- Main bus and outgoing feeders -->
+    <path d="M650 86V742" fill="none" stroke="#18212f" stroke-width="5" stroke-linecap="round"/>
+    <g fill="none" stroke="#18212f" stroke-width="4" stroke-linecap="round">
+      <path d="M650 120H995M1095 120H1185"/>
+      <path d="M650 235H995M1095 235H1185"/>
+      <path d="M650 350H995M1095 350H1185"/>
+      <path d="M650 465H995M1095 465H1185"/>
+      <path d="M650 580H995M1095 580H1185"/>
+      <path d="M650 695H995M1095 695H1185"/>
+    </g>
+
+    <!-- Flow markers -->
+    <g fill="#18212f">
+      <path d="m760 111 17 9-17 9zM915 111l-17 9 17 9z"/>
+      <path d="m760 226 17 9-17 9zM915 226l-17 9 17 9z"/>
+      <path d="m760 341 17 9-17 9zM915 341l-17 9 17 9z"/>
+      <path d="m760 456 17 9-17 9zM915 456l-17 9 17 9z"/>
+      <path d="m760 571 17 9-17 9zM915 571l-17 9 17 9z"/>
+      <path d="m760 686 17 9-17 9zM915 686l-17 9 17 9z"/>
+    </g>
+    <g fill="#1856d8"><path d="m570 256 18 9-18 9zM622 256l-18 9 18 9z"/></g>
+    <g fill="#35c765"><path d="m570 616 18 9-18 9zM622 616l-18 9 18 9z"/></g>
+
+    <!-- Source icons -->
+    <g color="#1856d8">
+      <use href="#diesel" x="87" y="80" width="80" height="80"/>
+      <use href="#diesel" x="87" y="175" width="80" height="80"/>
+      <use href="#diesel" x="87" y="270" width="80" height="80"/>
+      <use href="#diesel" x="87" y="365" width="80" height="80"/>
+    </g>
+    <g color="#35c765">
+      <use href="#wind" x="87" y="525" width="80" height="80"/>
+      <use href="#solar" x="84" y="645" width="90" height="80"/>
+    </g>
+
+    <!-- Transformers -->
+    <g color="#1856d8"><use href="#transformer" x="380" y="233" width="100" height="64"/></g>
+    <g color="#35c765"><use href="#transformer" x="380" y="593" width="100" height="64"/></g>
+    <g color="#18212f">
+      <use href="#transformer" x="995" y="88" width="100" height="64"/>
+      <use href="#transformer" x="995" y="203" width="100" height="64"/>
+      <use href="#transformer" x="995" y="318" width="100" height="64"/>
+      <use href="#transformer" x="995" y="433" width="100" height="64"/>
+      <use href="#transformer" x="995" y="548" width="100" height="64"/>
+      <use href="#transformer" x="995" y="663" width="100" height="64"/>
+    </g>
+
+    <!-- Load icons -->
+    <g filter="url(#shadow)">
+      <use href="#load" x="1185" y="84" width="150" height="72"/>
+      <use href="#load" x="1185" y="199" width="150" height="72"/>
+      <use href="#load" x="1185" y="314" width="150" height="72"/>
+      <use href="#load" x="1185" y="429" width="150" height="72"/>
+      <use href="#load" x="1185" y="544" width="150" height="72"/>
+      <use href="#load" x="1185" y="659" width="150" height="72"/>
+    </g>
+
+    <!-- Direct labels -->
+    <g fill="#18212f" font-size="17" font-weight="750">
+      <text x="76" y="126" text-anchor="end">ДГУ 1</text><text x="76" y="221" text-anchor="end">ДГУ 2</text><text x="76" y="316" text-anchor="end">ДГУ 3</text><text x="76" y="411" text-anchor="end">ДГУ 4</text>
+      <text x="76" y="571" text-anchor="end">ВЭУ</text><text x="76" y="691" text-anchor="end">СЭС</text>
+      <text x="430" y="218" text-anchor="middle">T1</text><text x="430" y="578" text-anchor="middle">T2</text>
+      <text x="1045" y="78" text-anchor="middle">T3</text><text x="1045" y="193" text-anchor="middle">T4</text><text x="1045" y="308" text-anchor="middle">T5</text>
+      <text x="1045" y="423" text-anchor="middle">T6</text><text x="1045" y="538" text-anchor="middle">T7</text><text x="1045" y="653" text-anchor="middle">T8</text>
+    </g>
+    <g fill="#8290a0" font-size="14" font-weight="700">
+      <text x="127" y="171" text-anchor="middle">1 МВт</text><text x="127" y="266" text-anchor="middle">1 МВт</text><text x="127" y="361" text-anchor="middle">1 МВт</text><text x="127" y="456" text-anchor="middle">1 МВт</text>
+      <text x="127" y="616" text-anchor="middle">0,5 МВт</text><text x="129" y="746" text-anchor="middle">1 МВт</text>
+    </g>
+    <g fill="#53657a" font-size="14" font-weight="800" letter-spacing="1">
+      <text x="285" y="76" text-anchor="middle">ШИНА 1</text><text x="285" y="511" text-anchor="middle">ШИНА 2</text>
+      <text x="540" y="218" text-anchor="middle">ШИНА 3</text><text x="540" y="578" text-anchor="middle">ШИНА 4</text>
+      <text x="650" y="76" text-anchor="middle">ШИНА 5</text>
+    </g>
+    <g fill="#98a5b2" font-size="14" font-weight="700">
+      <text x="302" y="102">0,4 кВ</text><text x="302" y="725">0,4 кВ</text>
+      <text x="555" y="250">6 кВ</text><text x="555" y="610">6 кВ</text>
+      <text x="672" y="102">6 кВ</text>
+      <text x="1125" y="108">0,4 кВ</text><text x="1125" y="223">0,4 кВ</text><text x="1125" y="338">0,4 кВ</text>
+      <text x="1125" y="453">0,4 кВ</text><text x="1125" y="568">0,4 кВ</text><text x="1125" y="683">0,4 кВ</text>
+    </g>
+  </g>
 </svg>

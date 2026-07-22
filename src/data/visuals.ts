@@ -20,7 +20,7 @@ export const storyVisuals: VisualDefinition[] = [
   {
     id: 'system-model',
     title: 'Автономный ЭТК с гибридной генерацией',
-    dataFile: publicPath('/data/simulation/system_topology.json'),
+    dataFile: publicPath('/data/simulation/system_topology.csv'),
     figureFile: publicPath('/figures/system_model/hybrid_system.svg'),
     figureAlt: 'Однолинейная схема автономного электротехнического комплекса с четырьмя ДГУ, ветровой и солнечной генерацией и шестью отходящими линиями нагрузки',
     isReady: true,

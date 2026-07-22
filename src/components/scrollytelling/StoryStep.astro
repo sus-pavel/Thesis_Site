@@ -7,7 +7,6 @@ const { visual, number, label = 'Этап исследования', title } = A
   <h2>{title}</h2>
   <div class="step-body"><slot /></div>
   <div class="mobile-visual" data-mobile-visual></div>
-  <a class="step-data" href={`#visual-${visual}`}>Данные и формат визуализации <span>↗</span></a>
 </section>
 <style>
   .story-step { min-height: 78vh; display: flex; flex-direction: column; justify-content: center; padding: 80px 12px 80px 0; opacity: .36; transition: opacity .45s ease; }
@@ -18,12 +17,10 @@ const { visual, number, label = 'Этап исследования', title } = A
   .step-body { max-width: 600px; color: #536176; font-family: Georgia, serif; font-size: 1.08rem; }
   .step-body :global(p) { margin: 0 0 1em; }
   .step-body :global(strong) { color: var(--ink); }
-  .step-data { width: fit-content; margin-top: 16px; color: var(--blue); font-size: .75rem; font-weight: 800; }
   .mobile-visual { display: none; }
   @media (max-width: 900px) {
     .story-step { min-height: auto; padding: 70px 0 30px; opacity: 1; }
     .mobile-visual { display: block; margin-top: 30px; }
-    .mobile-visual :global(.visual-stage) { height: auto; min-height: 220px; }
-    .step-data { display: none; }
+    .mobile-visual :global(.visual-stage) { height: auto; min-height: 0; }
   }
 </style>
