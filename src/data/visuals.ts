@@ -8,6 +8,8 @@ export type VisualDefinition = {
   title: string;
   dataFile: string;
   figureFile: string;
+  figureAlt?: string;
+  isReady?: boolean;
   kind: 'line' | 'map' | 'system' | 'matrix' | 'scatter' | 'clusters' | 'heatmap' | 'table' | 'flow' | 'bars' | 'emissions';
 };
 
@@ -15,7 +17,15 @@ const base = import.meta.env.BASE_URL;
 const publicPath = (path: string) => `${base}${path.replace(/^\//, '')}`;
 
 export const storyVisuals: VisualDefinition[] = [
-  { id: 'system-model', title: 'Автономный ЭТК с гибридной генерацией', dataFile: publicPath('/data/simulation/system_topology.json'), figureFile: publicPath('/figures/system_model/hybrid_system.svg'), kind: 'system' },
+  {
+    id: 'system-model',
+    title: 'Автономный ЭТК с гибридной генерацией',
+    dataFile: publicPath('/data/simulation/system_topology.json'),
+    figureFile: publicPath('/figures/system_model/hybrid_system.svg'),
+    figureAlt: 'Однолинейная схема автономного электротехнического комплекса с четырьмя ДГУ, ветровой и солнечной генерацией и шестью отходящими линиями нагрузки',
+    isReady: true,
+    kind: 'system',
+  },
   { id: 'load-profile', title: 'Временные ряды нагрузки по фидерам', dataFile: publicPath('/data/load_profiles/placeholder_load_profile.csv'), figureFile: publicPath('/figures/load_profiles/load_profile_fragment.svg'), kind: 'line' },
   { id: 'ssa-matrix', title: 'Траекторная матрица SSA', dataFile: publicPath('/data/ssa/components.csv'), figureFile: publicPath('/figures/ssa/ssa_trajectory_matrix.svg'), kind: 'matrix' },
   { id: 'ssa-components', title: 'Элементарные SSA компоненты', dataFile: publicPath('/data/ssa/components.csv'), figureFile: publicPath('/figures/ssa/ssa_component_contribution.svg'), kind: 'line' },

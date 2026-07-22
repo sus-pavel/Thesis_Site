@@ -10,9 +10,16 @@ const seed = index + 1;
 ---
 <article class="visual-card">
   <div class="visual-top">
-    <span class="pill"><i class="dot"></i> data pending</span>
+    <span class:list={['pill', { 'is-ready': visual.isReady }]}>
+      <i class="dot"></i>{visual.isReady ? 'data ready' : 'data pending'}
+    </span>
     <span class="visual-number">{String(index + 1).padStart(2, '0')}</span>
   </div>
+  {visual.isReady ? (
+    <figure class={`visual-stage visual-figure kind-${visual.kind}`}>
+      <img src={visual.figureFile} alt={visual.figureAlt ?? visual.title} loading={index === 0 ? 'eager' : 'lazy'} />
+    </figure>
+  ) : (
   <div class={`visual-stage kind-${visual.kind}`} aria-hidden="true">
     <svg viewBox="0 0 720 390" role="img">
       <defs>
@@ -99,12 +106,13 @@ const seed = index + 1;
       )}
     </svg>
   </div>
+  )}
   <div class="visual-copy">
-    <p class="eyebrow">Visualization placeholder</p>
+    <p class="eyebrow">{visual.isReady ? 'Исходная схема' : 'Visualization placeholder'}</p>
     <h3>{visual.title}</h3>
     <dl>
-      <div><dt>DATA</dt><dd>{visual.dataFile}</dd></div>
-      <div><dt>FIGURE</dt><dd>{visual.figureFile}</dd></div>
+      <div><dt>DATA</dt><dd><a href={visual.dataFile} target="_blank" rel="noreferrer">{visual.dataFile}</a></dd></div>
+      <div><dt>FIGURE</dt><dd><a href={visual.figureFile} target="_blank" rel="noreferrer">{visual.figureFile}</a></dd></div>
     </dl>
   </div>
 </article>
@@ -113,9 +121,13 @@ const seed = index + 1;
   .visual-card { overflow: hidden; height: 100%; border: 1px solid var(--line); border-radius: 22px; background: rgba(255,255,255,.96); box-shadow: 0 26px 80px rgba(32,56,86,.12); }
   .visual-top { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px 0; }
   .visual-top .pill { border: 0; padding-left: 0; background: transparent; }
+  .visual-top .pill.is-ready { color: #286047; }
+  .visual-top .pill.is-ready .dot { background: #3f866b; }
   .visual-number { color: #a0adba; font-size: .72rem; font-weight: 800; }
   .visual-stage { height: min(39vh, 390px); min-height: 250px; margin: 8px 14px 0; overflow: hidden; border: 1px solid #e3e9ee; border-radius: 14px; background: #f9fbfc; }
   .visual-stage svg { width: 100%; height: 100%; }
+  .visual-figure { display: flex; align-items: center; justify-content: center; margin-block-end: 0; background: #fff; }
+  .visual-figure img { width: 100%; height: 100%; object-fit: contain; }
   .visual-copy { padding: 22px 24px 25px; }
   .visual-copy .eyebrow { margin-bottom: 6px; font-size: .62rem; }
   h3 { margin: 0; font-size: clamp(1.25rem, 2.3vw, 2rem); line-height: 1.13; letter-spacing: -.025em; }
@@ -123,4 +135,6 @@ const seed = index + 1;
   dl div { display: grid; grid-template-columns: 58px 1fr; gap: 8px; }
   dt { color: #8794a3; font-size: .61rem; font-weight: 800; letter-spacing: .08em; }
   dd { margin: 0; overflow-wrap: anywhere; color: #566478; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .68rem; }
+  dd a { text-decoration: underline; text-decoration-color: #c3ced8; text-underline-offset: 3px; }
+  dd a:hover { color: var(--blue); text-decoration-color: currentColor; }
 </style>
