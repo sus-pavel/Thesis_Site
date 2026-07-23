@@ -1,7 +1,12 @@
 ---
 import { getRoutePath, localizedHref } from '../../i18n/config';
 
-const routePath = getRoutePath(Astro.url.pathname, 'ru');
+interface Props {
+  routePathOverride?: string;
+}
+
+const { routePathOverride } = Astro.props;
+const routePath = routePathOverride ?? getRoutePath(Astro.url.pathname, 'ru');
 const ruHref = localizedHref(routePath, 'ru');
 // The architecture explorer has no English route, so EN leads to the English homepage.
 const enHref = localizedHref(routePath === '/architecture/' ? '/' : routePath, 'en');
@@ -15,7 +20,7 @@ const isEnglish = Astro.url.pathname.replace(import.meta.env.BASE_URL, '/').star
 </nav>
 
 <style>
-  .language-switcher { display: flex; align-items: center; gap: 7px; color: #8a96a4; font-size: .72rem; font-weight: 800; }
-  a { padding: 4px 2px; color: inherit; }
+  .language-switcher { display: flex; align-items: center; gap: 3px; color: #596777; font-size: .72rem; font-weight: 800; }
+  a { min-width: 32px; min-height: 32px; display: inline-flex; align-items: center; justify-content: center; padding: 4px; color: inherit; }
   a[aria-current="page"] { color: var(--blue); }
 </style>

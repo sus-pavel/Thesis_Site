@@ -6,9 +6,10 @@ import LanguageSwitcher from './LanguageSwitcher.astro';
 
 interface Props {
   lang?: Language;
+  languagePath?: string;
 }
 
-const { lang = defaultLanguage } = Astro.props;
+const { lang = defaultLanguage, languagePath } = Astro.props;
 const { pathname } = Astro.url;
 const base = import.meta.env.BASE_URL;
 const navigation = getNavigation(lang);
@@ -35,7 +36,7 @@ const normalizePath = (path: string) => path.replace(base, '/').replace(/\/$/, '
     </nav>
 
     <div class="language-control">
-      <LanguageSwitcher />
+      <LanguageSwitcher routePathOverride={languagePath} />
     </div>
   </div>
 </header>
@@ -48,14 +49,14 @@ const normalizePath = (path: string) => path.replace(base, '/').replace(/\/$/, '
     backdrop-filter: blur(18px);
   }
   .header-inner { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 28px; min-height: 64px; }
-  .brand { display: inline-flex; align-items: center; gap: 11px; width: fit-content; font-size: .76rem; font-weight: 850; letter-spacing: .07em; text-transform: uppercase; }
+  .brand { min-height: 40px; display: inline-flex; align-items: center; gap: 11px; width: fit-content; font-size: .76rem; font-weight: 850; letter-spacing: .07em; text-transform: uppercase; }
   .brand-mark { display: flex; align-items: end; gap: 3px; width: 23px; height: 18px; }
   .brand-mark i { display: block; width: 5px; border-radius: 2px 2px 0 0; background: var(--blue); }
   .brand-mark i:nth-child(1) { height: 8px; }
   .brand-mark i:nth-child(2) { height: 17px; background: var(--orange); }
   .brand-mark i:nth-child(3) { height: 12px; }
   .primary-nav { display: flex; align-items: center; gap: 22px; }
-  .primary-nav a { position: relative; color: #5b6879; font-size: .76rem; font-weight: 700; }
+  .primary-nav a { min-height: 40px; display: inline-flex; align-items: center; position: relative; color: #526173; font-size: .76rem; font-weight: 700; }
   .primary-nav a:hover, .primary-nav a[aria-current="page"] { color: var(--ink); }
   .primary-nav a[aria-current="page"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -21px; height: 2px; background: var(--blue); }
   @media (max-width: 950px) {
@@ -70,7 +71,7 @@ const normalizePath = (path: string) => path.replace(base, '/').replace(/\/$/, '
       scrollbar-width: none;
     }
     .primary-nav::-webkit-scrollbar { display: none; }
-    .primary-nav a { flex: 0 0 auto; font-size: .7rem; }
+    .primary-nav a { flex: 0 0 auto; min-height: 36px; font-size: .72rem; }
     .primary-nav a[aria-current="page"]::after { bottom: -10px; }
     .header-inner { gap: 8px 20px; }
   }

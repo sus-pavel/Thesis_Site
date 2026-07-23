@@ -62,7 +62,14 @@ const scenes = architectureScenes;
       </div>
     </div>
 
-    <aside class="detail-panel is-hidden" data-detail-panel aria-live="polite">
+    <aside
+      class="detail-panel is-hidden"
+      data-detail-panel
+      aria-live="polite"
+      aria-hidden="true"
+      hidden
+      inert
+    >
       <button class="detail-panel__close" type="button" data-panel-close aria-label="Закрыть описание">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="m6 6 12 12M18 6 6 18"></path>
@@ -126,6 +133,7 @@ const scenes = architectureScenes;
       const panelText = explorer.querySelector('[data-detail-text]');
       const panelItems = explorer.querySelector('[data-detail-items]');
       const panelTerms = explorer.querySelector('[data-detail-terms]');
+      const panelClose = explorer.querySelector('[data-panel-close]');
       const sceneButtons = [...explorer.querySelectorAll('[data-scene]')];
       const surfaces = [...explorer.querySelectorAll('[data-scene-surface]')];
 
@@ -144,6 +152,7 @@ const scenes = architectureScenes;
       let initialScale = 1;
       let initialPanX = 0;
       let initialPanY = 0;
+      let lastDetailTrigger = null;
 
       const getMinScale = () => activeSceneKey === 'position1' ? .86 : .48;
 
@@ -189,7 +198,7 @@ const scenes = architectureScenes;
           }
 
           if (activeSceneKey === 'position1') {
-            const desiredTop = compact ? 142 : 48;
+            const desiredTop = compact ? 150 : 148;
             panY = desiredTop + scaledHeight / 2 - viewport.clientHeight / 2;
           } else {
             panY = compact ? 54 : activeSceneKey === 'position2' ? 80 : 72;
@@ -243,6 +252,10 @@ const scenes = architectureScenes;
         const detail = sceneData[activeSceneKey].details[detailId];
         if (!detail) return;
 
+        lastDetailTrigger = trigger ?? null;
+        panel.hidden = false;
+        panel.removeAttribute('inert');
+        panel.setAttribute('aria-hidden', 'false');
         panel.classList.remove('is-hidden');
         panelKind.textContent = detail.kind;
         panelTitle.textContent = detail.title;
@@ -283,11 +296,18 @@ const scenes = architectureScenes;
         panelTerms.hidden = terms.length === 0;
 
         if (trigger) selectTrigger(trigger);
+        requestAnimationFrame(() => panelClose.focus({ preventScroll: true }));
       };
 
-      const activateDefaultDetail = () => {
+      const activateDefaultDetail = (returnFocus = true) => {
+        const triggerToRestore = returnFocus ? lastDetailTrigger : null;
+        lastDetailTrigger = null;
         clearSelection();
         panel.classList.add('is-hidden');
+        panel.setAttribute('aria-hidden', 'true');
+        panel.setAttribute('inert', '');
+        panel.hidden = true;
+        if (triggerToRestore?.isConnected) triggerToRestore.focus({ preventScroll: true });
       };
 
       const setScene = (key, focus = false) => {
@@ -306,7 +326,7 @@ const scenes = architectureScenes;
           surface.classList.toggle('is-active', surface.dataset.sceneSurface === key);
         });
 
-        activateDefaultDetail();
+        activateDefaultDetail(false);
         requestAnimationFrame(() => fitScene(focus));
       };
 
@@ -363,7 +383,12 @@ const scenes = architectureScenes;
         applyTransform();
       });
       explorer.querySelector('[data-fit]').addEventListener('click', () => fitScene(false));
-      explorer.querySelector('[data-panel-close]').addEventListener('click', activateDefaultDetail);
+      panelClose.addEventListener('click', () => activateDefaultDetail(true));
+      panel.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') return;
+        event.preventDefault();
+        activateDefaultDetail(true);
+      });
 
       viewport.addEventListener('wheel', (event) => {
         event.preventDefault();
@@ -558,13 +583,13 @@ const scenes = architectureScenes;
   }
 
   [data-active-scene="position2"] .canvas-heading h1 {
-    color: #ff835f;
+    color: #bd442c;
   }
 
   .canvas-heading p {
     max-width: 620px;
     margin: 10px 0 0;
-    color: #61758b;
+    color: #526579;
     font-size: clamp(.78rem, 1.1vw, .98rem);
     line-height: 1.45;
   }
@@ -741,7 +766,7 @@ const scenes = architectureScenes;
   }
 
   .architecture-explorer :global(.node-main small) {
-    color: #68819a;
+    color: #50677e;
     font-size: .7rem;
     line-height: 1.3;
   }
@@ -771,8 +796,8 @@ const scenes = architectureScenes;
 
   .architecture-explorer :global(.diagram-zone--blue) { left: 55px; border-color: #4d9bea; }
   .architecture-explorer :global(.diagram-zone--coral) { right: 55px; border-color: #ff7558; border-radius: 22px 90px 22px 90px; }
-  .architecture-explorer :global(.zone-title) { position: absolute; top: -42px; left: 30px; color: #5da9f4; font-size: 1.35rem; font-weight: 800; letter-spacing: -.02em; }
-  .architecture-explorer :global(.diagram-zone--coral .zone-title) { color: #ff7558; }
+  .architecture-explorer :global(.zone-title) { position: absolute; top: -42px; left: 30px; color: #2f73d9; font-size: 1.35rem; font-weight: 800; letter-spacing: -.02em; }
+  .architecture-explorer :global(.diagram-zone--coral .zone-title) { color: #bd442c; }
 
   .architecture-explorer :global(.system-node) { width: 185px; height: 135px; }
   .architecture-explorer :global(.node-monitoring) { left: 110px; top: 290px; }
@@ -1041,22 +1066,23 @@ const scenes = architectureScenes;
   }
 
   .detail-panel.is-hidden { opacity: 0; pointer-events: none; transform: translateX(18px); }
+  .detail-panel[hidden] { display: none; }
 
   .detail-panel__close {
     position: absolute;
     top: 14px;
     right: 14px;
-    width: 34px;
-    height: 34px;
-    padding: 7px;
+    width: 42px;
+    height: 42px;
+    padding: 10px;
     border: 0;
     color: #24496f;
     background: transparent;
   }
 
   .detail-panel__close svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-linecap: round; stroke-width: 1.4; }
-  .detail-panel__kind { margin: 0 38px 9px 0; color: #2f73d9; font-size: .67rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-  .detail-panel h2 { margin: 0 36px 18px 0; color: #0b1f3a; font-size: 1.22rem; line-height: 1.12; letter-spacing: -.025em; }
+  .detail-panel__kind { margin: 0 46px 9px 0; color: #2f73d9; font-size: .67rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .detail-panel h2 { margin: 0 44px 18px 0; color: #0b1f3a; font-size: 1.22rem; line-height: 1.12; letter-spacing: -.025em; }
   .detail-panel__formula { margin: -3px 0 18px; padding: 13px 14px; border: 1px solid rgba(255, 117, 88, .38); border-radius: 9px; color: #8f3c2c; background: #fff6f3; font-family: "Times New Roman", Georgia, serif; font-size: 1.05rem; line-height: 1.35; white-space: pre-line; }
   .detail-panel__formula img { display: block; width: auto; max-width: 100%; max-height: 74px; margin: 0 auto; object-fit: contain; }
   .detail-panel__text { margin: 0; color: #465f78; font-family: Georgia, "Times New Roman", serif; font-size: .92rem; line-height: 1.55; }
@@ -1081,7 +1107,7 @@ const scenes = architectureScenes;
     gap: 9px;
     max-width: calc(100% - 52px);
     margin: 0;
-    color: #61758b;
+    color: #526579;
     font-size: .67rem;
     font-weight: 620;
     pointer-events: none;
@@ -1121,6 +1147,23 @@ const scenes = architectureScenes;
   }
 
   @media (max-width: 700px) {
+    .scene-rail {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 5px;
+      overflow: visible;
+      padding: 8px;
+    }
+    .scene-rail button {
+      width: 100%;
+      min-width: 0;
+      grid-template-columns: 20px minmax(0, auto);
+      justify-content: center;
+      gap: 6px;
+      padding-inline: 7px;
+      font-size: .68rem;
+      text-align: center;
+    }
     .canvas-heading { top: 20px; left: 18px; }
     .canvas-heading h1 { font-size: 1.48rem; }
     .canvas-heading p { margin-top: 6px; font-size: .75rem; }
@@ -1138,6 +1181,15 @@ const scenes = architectureScenes;
     .interaction-hint span:not(:first-of-type), .interaction-hint i { display: none; }
     .zoom-controls { top: 100px; right: 14px; bottom: auto; grid-template-columns: repeat(4, 43px); }
     .zoom-controls button { width: 43px; height: 43px; }
+  }
+
+  @media (max-width: 430px) {
+    .scene-rail button {
+      display: flex;
+      padding-inline: 5px;
+      font-size: .65rem;
+    }
+    .scene-rail button svg { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {

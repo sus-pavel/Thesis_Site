@@ -9,11 +9,10 @@ import KPIBlock from '../components/visuals/KPIBlock.astro';
 import SectionTitle from '../components/ui/SectionTitle.astro';
 import HomeRu from '../content/ru/home.mdx';
 import { siteConfig } from '../data/siteConfig';
-import { localizedHref } from '../i18n/config';
+import { localizedHref, withBase } from '../i18n/config';
 
 // Сведения о защите редактируются вручную здесь.
 const defence = {
-  dateTime: '29 сентября 2026 года, 13:00',
   venue: 'Санкт-Петербургский горный университет императрицы Екатерины II',
   room: 'аудитория 1171',
 };
@@ -28,7 +27,7 @@ const hrefFor = (href: string) => localizedHref(href);
 ---
 
 <BaseLayout>
-  <main>
+  <main id="main-content" tabindex="-1">
     <section class="hero">
       <div class="container hero-inner">
         <div>
@@ -37,7 +36,11 @@ const hrefFor = (href: string) => localizedHref(href);
               <i class="dot"></i>
               Диссертация на соискание учёной степени кандидата технических наук
             </span>
-            <span>{siteConfig.specialty}</span>
+            <span class="hero-topline">
+              {siteConfig.specialty}
+              <i aria-hidden="true">·</i>
+              <strong>Защита 29.09.2026 · 13:00</strong>
+            </span>
           </div>
 
           <h1 class="display">
@@ -46,39 +49,42 @@ const hrefFor = (href: string) => localizedHref(href);
 
           <p class="subtitle">путём идентификации паттернов и классификации нагрузок</p>
 
-          <div class="hero-footer">
-            <p>
-              <strong>Исследование выполнено в</strong><br />
-              Санкт-Петербургском горном университете императрицы Екатерины II
-            </p>
+          <div class="hero-utility">
+            <div class="author-card">
+              <span>Автор</span>
+              <strong>{siteConfig.author}</strong>
+              <small>Санкт-Петербургский горный университет императрицы Екатерины II</small>
+            </div>
+
+            <dl class="defence-brief" aria-label="Сведения о защите">
+              <div>
+                <dt>Защита</dt>
+                <dd>
+                  <time datetime="2026-09-29T13:00:00+03:00">29 сентября 2026</time>
+                  <span>13:00</span>
+                </dd>
+              </div>
+              <div>
+                <dt>Место</dt>
+                <dd>{defence.venue}<span>{defence.room}</span></dd>
+              </div>
+            </dl>
 
             <div class="actions">
-              <a class="button button--primary" href={hrefFor('/architecture')}>
-                Открыть архитектуру решения <span>↓</span>
+              <a class="button button--primary" href={withBase('/downloads/autoreferat.pdf')} download>
+                <span class="desktop-label">Скачать автореферат</span>
+                <span class="mobile-label">Автореферат · PDF</span>
+              </a>
+              <a class="button" href={hrefFor('/architecture')}>
+                <span class="desktop-label">Открыть архитектуру</span>
+                <span class="mobile-label">Архитектура</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+              <a class="text-link" href={withBase('/downloads/dissertation.pdf')} download>
+                Полный текст диссертации · PDF
               </a>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="defence-section" aria-labelledby="defence-title">
-      <div class="container">
-        <div class="defence-card">
-          <div>
-            <p class="eyebrow">Предстоящая защита</p>
-            <h2 id="defence-title">Защита диссертации</h2>
-          </div>
-          <dl>
-            <div>
-              <dt>Дата защиты</dt>
-              <dd>{defence.dateTime}</dd>
-            </div>
-            <div>
-              <dt>Место проведения</dt>
-              <dd>{defence.venue}, {defence.room}</dd>
-            </div>
-          </dl>
         </div>
       </div>
     </section>
@@ -227,7 +233,7 @@ const hrefFor = (href: string) => localizedHref(href);
     display: flex;
     align-items: center;
     overflow: hidden;
-    padding: 78px 0 50px;
+    padding: 64px 0 44px;
   }
 
   .hero-inner {
@@ -241,11 +247,29 @@ const hrefFor = (href: string) => localizedHref(href);
     justify-content: space-between;
     gap: 20px;
     margin-bottom: 34px;
-    color: #768394;
+    color: #596777;
     font-size: .7rem;
     font-weight: 700;
     letter-spacing: .05em;
     text-transform: uppercase;
+  }
+
+  .hero-topline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    text-align: right;
+  }
+
+  .hero-topline i {
+    color: var(--orange);
+    font-style: normal;
+  }
+
+  .hero-topline strong {
+    color: var(--ink);
+    font-weight: 850;
   }
 
   .subtitle {
@@ -256,78 +280,106 @@ const hrefFor = (href: string) => localizedHref(href);
     font-size: clamp(1.18rem, 2.2vw, 1.65rem);
   }
 
-  .hero-footer {
-    display: flex;
+  .hero-utility {
+    display: grid;
+    grid-template-columns: minmax(260px, 1fr) minmax(340px, 1.15fr) auto;
+    gap: clamp(24px, 4vw, 52px);
     align-items: end;
-    justify-content: space-between;
-    gap: 30px;
-    margin-top: 46px;
-  }
-
-  .hero-footer p {
-    margin: 0;
-    color: #657284;
-    font-size: .8rem;
-  }
-
-  .hero-footer strong {
-    color: var(--ink);
-    font-size: .92rem;
-  }
-
-  .defence-section {
-    padding: 0 0 clamp(64px, 8vw, 96px);
-  }
-
-  .defence-card {
-    display: grid;
-    grid-template-columns: minmax(220px, .7fr) 1.3fr;
-    gap: clamp(28px, 6vw, 72px);
-    padding: clamp(26px, 4vw, 46px);
-    border: 1px solid rgba(24, 86, 216, .24);
-    border-radius: 22px;
-    background: linear-gradient(135deg, rgba(24, 86, 216, .1), rgba(255, 255, 255, .9));
-    box-shadow: 0 18px 60px rgba(42, 60, 86, .07);
-  }
-
-  .defence-card h2 {
-    margin: 0;
-    font-size: clamp(1.8rem, 3.5vw, 3rem);
-    line-height: 1.05;
-    letter-spacing: -.04em;
-  }
-
-  .defence-card dl {
-    display: grid;
-    gap: 24px;
-    margin: 0;
-  }
-
-  .defence-card dl div + div {
-    padding-top: 20px;
+    margin-top: 42px;
+    padding-top: 26px;
     border-top: 1px solid var(--line);
   }
 
-  .defence-card dt {
+  .author-card {
+    display: grid;
+    gap: 3px;
+  }
+
+  .author-card > span,
+  .defence-brief dt {
     color: var(--muted);
-    font-size: .68rem;
-    font-weight: 800;
-    letter-spacing: .1em;
+    font-size: .66rem;
+    font-weight: 850;
+    letter-spacing: .11em;
     text-transform: uppercase;
   }
 
-  .defence-card dd {
-    margin: 6px 0 0;
+  .author-card > strong {
     color: var(--ink);
-    font-family: Georgia, serif;
-    font-size: clamp(1.05rem, 2vw, 1.35rem);
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .author-card small {
+    max-width: 390px;
+    color: var(--muted-soft);
+    font-size: .74rem;
     line-height: 1.45;
+  }
+
+  .defence-brief {
+    display: grid;
+    grid-template-columns: .78fr 1.22fr;
+    gap: 20px;
+    margin: 0;
+  }
+
+  .defence-brief div {
+    min-width: 0;
+  }
+
+  .defence-brief dd {
+    margin: 5px 0 0;
+    color: var(--ink);
+    font-size: .82rem;
+    font-weight: 760;
+    line-height: 1.4;
+  }
+
+  .defence-brief dd span {
+    display: block;
+    color: var(--muted-soft);
+    font-size: .72rem;
+    font-weight: 650;
   }
 
   .actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    justify-content: flex-end;
+    gap: 9px;
+    max-width: 430px;
+  }
+
+  .actions .button {
+    min-height: 44px;
+    padding-inline: 16px;
+  }
+
+  .mobile-label {
+    display: none;
+  }
+
+  .actions .button:nth-child(2) {
+    border-color: var(--line);
+    color: var(--ink);
+    background: rgba(255, 255, 255, .72);
+  }
+
+  .actions .button:nth-child(2):hover {
+    border-color: var(--ink);
+    color: #ffffff;
+    background: var(--ink);
+  }
+
+  .text-link {
+    margin: 1px 12px 0 auto;
+    color: var(--blue-dark);
+    font-size: .72rem;
+    font-weight: 800;
+    text-decoration: underline;
+    text-decoration-color: rgba(24, 86, 216, .28);
+    text-underline-offset: 4px;
   }
 
   .section--summary {
@@ -415,7 +467,7 @@ const hrefFor = (href: string) => localizedHref(href);
   }
 
   .position-head b {
-    color: var(--orange);
+    color: var(--orange-text);
   }
 
   .position-map h3 {
@@ -472,7 +524,7 @@ const hrefFor = (href: string) => localizedHref(href);
     align-items: center;
     gap: 9px;
     margin: 20px 0 0;
-    color: #748191;
+    color: var(--muted-soft);
     font-size: .7rem;
   }
 
@@ -504,7 +556,7 @@ const hrefFor = (href: string) => localizedHref(href);
   }
 
   .section-links span {
-    color: var(--orange);
+    color: var(--orange-text);
     font-size: .72rem;
     font-weight: 800;
   }
@@ -530,17 +582,33 @@ const hrefFor = (href: string) => localizedHref(href);
       min-height: auto;
     }
 
-    .hero-meta,
-    .hero-footer {
+    .hero-meta {
       align-items: flex-start;
       flex-direction: column;
     }
 
-    .summary-grid {
-      grid-template-columns: 1fr;
+    .hero-topline {
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      text-align: left;
     }
 
-    .defence-card {
+    .hero-utility {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .actions {
+      order: -1;
+      justify-content: flex-start;
+      max-width: none;
+    }
+
+    .text-link {
+      margin-left: 0;
+    }
+
+    .summary-grid {
       grid-template-columns: 1fr;
     }
 
@@ -570,5 +638,15 @@ const hrefFor = (href: string) => localizedHref(href);
       grid-template-columns: 35px 1fr auto;
       gap: 10px;
     }
+  }
+
+  @media (max-width: 550px) {
+    .actions .button {
+      padding-inline: 13px;
+      font-size: .78rem;
+    }
+
+    .desktop-label { display: none; }
+    .mobile-label { display: inline; }
   }
 </style>

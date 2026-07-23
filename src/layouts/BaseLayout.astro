@@ -2,7 +2,7 @@
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import '../styles/global.css';
-import { defaultLanguage, localizedHref, type Language } from '../i18n/config';
+import { defaultLanguage, localizedHref, withBase, type Language } from '../i18n/config';
 import { siteLocales } from '../i18n/site';
 
 interface Props {
@@ -11,15 +11,57 @@ interface Props {
   lang?: Language;
   canonicalPath?: string;
   hasEnglishAlternate?: boolean;
+  noIndex?: boolean;
+  languagePath?: string;
 }
 
-const { title, lang = defaultLanguage, canonicalPath = Astro.url.pathname, hasEnglishAlternate = true } = Astro.props;
+const {
+  title,
+  lang = defaultLanguage,
+  canonicalPath = Astro.url.pathname,
+  hasEnglishAlternate = true,
+  noIndex = false,
+  languagePath,
+} = Astro.props;
 const siteConfig = siteLocales[lang];
 const description = Astro.props.description ?? siteConfig.description;
 const pageTitle = title ? `${title} — ${siteConfig.author}` : `${siteConfig.title} — ${siteConfig.author}`;
 const canonical = new URL(localizedHref(canonicalPath, lang), Astro.site ?? Astro.url.origin);
 const alternateRu = new URL(localizedHref(canonicalPath, 'ru'), Astro.site ?? Astro.url.origin);
 const alternateEn = new URL(localizedHref(canonicalPath, 'en'), Astro.site ?? Astro.url.origin);
+const homeUrl = new URL(localizedHref('/', lang), Astro.site ?? Astro.url.origin);
+const socialImage = new URL(withBase('/social-preview.png'), Astro.site ?? Astro.url.origin);
+const authorId = `${homeUrl.href}#author`;
+const workId = `${homeUrl.href}#dissertation`;
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': authorId,
+      name: siteConfig.author,
+      url: homeUrl.href,
+      affiliation: {
+        '@type': 'CollegeOrUniversity',
+        name: siteConfig.organization,
+      },
+    },
+    {
+      '@type': 'CreativeWork',
+      '@id': workId,
+      name: siteConfig.title,
+      url: homeUrl.href,
+      inLanguage: lang,
+      author: { '@id': authorId },
+      about: [
+        'Demand-side management',
+        'Electricity consumption patterns',
+        'Electrical load classification',
+        'Isolated power systems',
+      ],
+    },
+  ],
+};
 ---
 <!doctype html>
 <html lang={lang} data-lang={lang}>
@@ -28,6 +70,7 @@ const alternateEn = new URL(localizedHref(canonicalPath, 'en'), Astro.site ?? As
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#f4f7f9" />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="ru" href={alternateRu} />
     {hasEnglishAlternate && <link rel="alternate" hreflang="en" href={alternateEn} />}
@@ -38,33 +81,28 @@ const alternateEn = new URL(localizedHref(canonicalPath, 'en'), Astro.site ?? As
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content={lang === 'ru'
+        ? 'Диссертационное исследование Павла Сусликова об управлении спросом на электроэнергию'
+        : 'Pavel Suslikov’s dissertation research on demand-side management'}
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
     <title>{pageTitle}</title>
   </head>
   <body>
-    <div class="site-cursor" aria-hidden="true"></div>
-    <Header lang={lang} />
+    <a class="skip-link" href="#main-content">
+      {lang === 'ru' ? 'Перейти к основному содержанию' : 'Skip to main content'}
+    </a>
+    <Header lang={lang} languagePath={languagePath} />
     <slot />
     <Footer lang={lang} />
-    <script>
-      const finePointer = window.matchMedia('(pointer: fine)');
-      const cursor = document.querySelector<HTMLElement>('.site-cursor');
-
-      if (cursor && finePointer.matches) {
-        document.body.classList.add('has-custom-cursor');
-
-        window.addEventListener('pointermove', (event) => {
-          cursor.style.setProperty('--cursor-x', `${event.clientX}px`);
-          cursor.style.setProperty('--cursor-y', `${event.clientY}px`);
-          cursor.classList.add('is-visible');
-          const target = event.target as HTMLElement;
-          cursor.classList.toggle(
-            'is-active',
-            Boolean(target.closest('a, button, [role="button"], input, select, textarea, [data-hotspot]'))
-          );
-        });
-
-        document.documentElement.addEventListener('mouseleave', () => cursor.classList.remove('is-visible'));
-      }
-    </script>
   </body>
 </html>

@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { localizedHref } from '../i18n/config';
+---
+
+<BaseLayout
+  title="Страница не найдена"
+  description="Запрошенная страница диссертационного сайта не найдена."
+  canonicalPath="/"
+  hasEnglishAlternate={false}
+  noIndex
+  languagePath="/"
+>
+  <main id="main-content" tabindex="-1">
+    <section class="not-found">
+      <div class="container not-found__inner">
+        <div class="code" aria-hidden="true">404</div>
+        <div class="copy">
+          <p class="eyebrow">Ошибка навигации</p>
+          <h1>Такой страницы нет</h1>
+          <p>
+            Адрес мог измениться или содержать опечатку. Вернитесь на главную страницу
+            диссертационного проекта.
+          </p>
+          <a class="button button--primary" href={localizedHref('/')}>Перейти на главную</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .not-found {
+    min-height: min(720px, calc(100vh - 196px));
+    display: grid;
+    align-items: center;
+    padding: 72px 0;
+  }
+  .not-found__inner {
+    display: grid;
+    grid-template-columns: minmax(260px, .8fr) minmax(0, 1.2fr);
+    align-items: center;
+    gap: clamp(34px, 7vw, 100px);
+  }
+  .code {
+    color: var(--blue);
+    font-size: clamp(7rem, 18vw, 14rem);
+    font-weight: 900;
+    line-height: .8;
+    letter-spacing: -.1em;
+    text-shadow: 14px 14px 0 rgba(242, 140, 40, .2);
+  }
+  h1 {
+    max-width: 700px;
+    margin: 0;
+    font-size: clamp(2.7rem, 6vw, 5.2rem);
+    line-height: .98;
+    letter-spacing: -.055em;
+  }
+  .copy > p:not(.eyebrow) {
+    max-width: 580px;
+    margin: 22px 0 30px;
+    color: #3f4d60;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.15rem;
+  }
+  @media (max-width: 700px) {
+    .not-found { padding: 54px 0 76px; }
+    .not-found__inner { grid-template-columns: 1fr; }
+    .code { font-size: clamp(6rem, 38vw, 9rem); }
+  }
+</style>

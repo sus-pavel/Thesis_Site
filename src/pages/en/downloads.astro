@@ -2,23 +2,9 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageShell from '../../components/layout/PageShell.astro';
 import DownloadsEn from '../../content/en/downloads.mdx';
-import { withBase } from '../../i18n/config';
-import { existsSync } from 'node:fs';
-import { join } from 'node:path';
+import { getMaterials } from '../../data/materials';
 
-// Official publication dates are maintained manually here.
-const files = [
-  { code: 'PDF · RU', title: 'Dissertation Abstract', path: 'downloads/autoreferat.pdf', publicationDate: '14 July 2026' },
-  { code: 'PDF · RU', title: 'Dissertation', path: 'downloads/dissertation.pdf', publicationDate: '8 July 2026' },
-  { code: 'PDF · RU', title: 'Presentation', path: 'downloads/presentation.pdf', publicationDate: '29 September 2026' },
-  { code: 'CSV', title: 'Visualization Data', path: 'data/drpi/data_for_visualization.csv', publicationDate: '1 April 2026' },
-];
-
-const rows = files.map((item) => ({
-  ...item,
-  exists: existsSync(join(process.cwd(), 'public', item.path)),
-  href: withBase(item.path),
-}));
+const rows = getMaterials('en');
 ---
 <BaseLayout
   lang="en"
@@ -30,9 +16,16 @@ const rows = files.map((item) => ({
     <div class="download-grid">
       {rows.map((item, index) => (
         <article class="download-card">
-          <div><span>{item.code}</span><b>{String(index + 1).padStart(2, '0')}</b></div>
+          <div class="card-top"><span>{item.format}</span><b>{String(index + 1).padStart(2, '0')}</b></div>
           <h2>{item.title}</h2>
-          <p>{item.publicationDate ? `Officially published: ${item.publicationDate}` : 'Official publication date: To be added'}</p>
+          <p class="description">{item.description}</p>
+          <ul class="file-meta" aria-label={`File information for ${item.title}`}>
+            <li><span>Format</span><b>{item.format}</b></li>
+            <li><span>Language</span><b>{item.language}</b></li>
+            <li><span>Size</span><b>{item.fileSize}</b></li>
+            {item.pages && <li><span>Pages</span><b>{item.pages}</b></li>}
+          </ul>
+          <p class="date"><span>{item.dateLabel}</span><b>{item.date}</b></p>
           {item.exists
             ? <a class="download-action" href={item.href} download aria-label={`Download ${item.title}`}><i></i> Download</a>
             : <button type="button" disabled><i></i> Not available</button>}
@@ -42,15 +35,28 @@ const rows = files.map((item) => ({
   </PageShell>
 </BaseLayout>
 <style>
-  .intro { margin-bottom: 50px; }
+  .intro { margin-bottom: 34px; }
   .download-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
-  .download-card { min-height: 245px; display: flex; flex-direction: column; padding: 26px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.88); }
-  .download-card > div { display: flex; justify-content: space-between; color: #8a97a5; font-size: .66rem; font-weight: 800; letter-spacing: .08em; }
-  h2 { margin: 34px 0 7px; font-size: 1.75rem; letter-spacing: -.03em; }
-  p { margin: 0; color: var(--muted); font-size: .7rem; overflow-wrap: anywhere; }
-  button, .download-action { width: fit-content; margin-top: auto; padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; color: #7b8795; background: #f4f7f9; font-size: .68rem; font-weight: 800; text-transform: uppercase; }
+  .download-card { min-height: 330px; display: flex; flex-direction: column; padding: 25px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.88); }
+  .card-top { display: flex; justify-content: space-between; color: var(--muted-soft); font-size: .72rem; font-weight: 800; letter-spacing: .08em; }
+  h2 { margin: 20px 0 8px; font-size: 1.65rem; letter-spacing: -.03em; }
+  p { margin: 0; color: var(--muted); overflow-wrap: anywhere; }
+  .description { max-width: 54ch; font-size: .88rem; line-height: 1.55; }
+  .file-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px 18px; margin: 20px 0 14px; padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); list-style: none; }
+  .file-meta li { display: flex; justify-content: space-between; gap: 10px; font-size: .72rem; }
+  .file-meta span, .date span { color: var(--muted-soft); }
+  .file-meta b, .date b { color: var(--ink); font-weight: 750; }
+  .date { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 18px; font-size: .72rem; }
+  .date b { text-align: right; }
+  button, .download-action { min-height: 42px; display: inline-flex; align-items: center; width: fit-content; margin-top: auto; padding: 9px 15px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: #f4f7f9; font-size: .7rem; font-weight: 800; text-transform: uppercase; }
   button i, .download-action i { display: inline-block; width: 6px; height: 6px; margin-right: 7px; border-radius: 50%; background: var(--orange); }
   .download-action { border-color: rgba(24,86,216,.28); color: var(--blue); background: #edf2ff; }
   .download-action i { background: var(--blue); }
-  @media (max-width: 650px) { .download-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 650px) {
+    .download-grid { grid-template-columns: 1fr; }
+    .download-card { min-height: 0; }
+  }
+  @media (max-width: 420px) {
+    .file-meta { grid-template-columns: 1fr; }
+  }
 </style>

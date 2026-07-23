@@ -34,7 +34,7 @@ export const siteLocales: Record<Language, SiteLocaleConfig> = {
     description:
       'Dissertation research on electricity consumption pattern identification, electrical load classification, and demand-side management in isolated power systems.',
     organization: 'Empress Catherine II Saint Petersburg Mining University',
-    footerFormat: 'Zhukovski Uriy Leonidovich',
+    footerFormat: 'Y. L. Zhukovskiy',
   },
 };
 
@@ -58,7 +58,7 @@ export const siteUi: Record<Language, Record<string, string>> = {
     author: 'Author:',
     organization: 'Prepared at:',
     specialty: 'Specialty:',
-    format: 'Sci Supervisor:',
+    format: 'Academic Supervisor:',
     downloadMaterials: 'Download materials',
     contactAuthor: 'Contact the author',
     authorSocials: 'Author social links',

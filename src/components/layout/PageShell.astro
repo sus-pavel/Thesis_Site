@@ -13,10 +13,15 @@ const { eyebrow, title, description } = Astro.props;
     {description && <p>{description}</p>}
   </div>
 </section>
-<main class="container page-content"><slot /></main>
+<main id="main-content" class="container page-content" tabindex="-1"><slot /></main>
 <style>
-  .page-hero { padding: clamp(68px, 9vw, 120px) 0 60px; border-bottom: 1px solid var(--line); }
-  h1 { max-width: 920px; margin: 0; font-size: clamp(2.5rem, 6vw, 5.4rem); line-height: 1; letter-spacing: -.05em; }
-  .page-hero p:not(.eyebrow) { max-width: 720px; margin: 24px 0 0; color: #586578; font-family: Georgia, serif; font-size: 1.22rem; }
-  .page-content { padding-top: 72px; padding-bottom: 112px; }
+  .page-hero { padding: clamp(40px, 4vw, 58px) 0 clamp(30px, 3vw, 40px); border-bottom: 1px solid var(--line); }
+  h1 { max-width: 920px; margin: 0; font-size: clamp(2.5rem, 4.8vw, 4.4rem); line-height: 1; letter-spacing: -.05em; }
+  .page-hero p:not(.eyebrow) { max-width: 720px; margin: 16px 0 0; color: #4e5c6f; font-family: Georgia, serif; font-size: 1.14rem; }
+  .page-content { padding-top: clamp(36px, 4vw, 48px); padding-bottom: 112px; outline: none; }
+
+  @media (max-width: 650px) {
+    .page-hero { padding: 34px 0 30px; }
+    .page-content { padding-top: 34px; padding-bottom: 84px; }
+  }
 </style>

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Диссертация Павла Сусликова</title>
+  <desc id="description">Социальная карточка диссертационного сайта об управлении спросом на электроэнергию</desc>
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#1856d8" stroke-opacity=".065"/>
+    </pattern>
+    <linearGradient id="accent" x1="0" x2="1">
+      <stop stop-color="#1856d8"/>
+      <stop offset="1" stop-color="#103b91"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#f4f7f9"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect x="0" y="0" width="16" height="630" fill="url(#accent)"/>
+  <rect x="16" y="0" width="5" height="630" fill="#f28c28"/>
+
+  <g transform="translate(70 60)">
+    <rect width="38" height="14" y="18" rx="3" fill="#1856d8"/>
+    <rect x="49" width="38" height="32" rx="3" fill="#f28c28"/>
+    <rect x="98" width="38" height="24" y="8" rx="3" fill="#1856d8"/>
+  </g>
+
+  <text x="70" y="150" fill="#1856d8" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="800" letter-spacing="3">
+    ДИССЕРТАЦИОННОЕ ИССЛЕДОВАНИЕ
+  </text>
+  <text x="70" y="225" fill="#18212f" font-family="Inter,Arial,sans-serif" font-size="58" font-weight="850" letter-spacing="-2.8">
+    <tspan x="70" dy="0">Управление спросом</tspan>
+    <tspan x="70" dy="65" fill="#1856d8">на электроэнергию</tspan>
+    <tspan x="70" dy="65">автономных комплексов</tspan>
+  </text>
+
+  <line x1="70" y1="445" x2="1130" y2="445" stroke="#cbd7e1"/>
+  <text x="70" y="497" fill="#18212f" font-family="Inter,Arial,sans-serif" font-size="28" font-weight="750">
+    Сусликов Павел Константинович
+  </text>
+  <text x="70" y="543" fill="#526173" font-family="Inter,Arial,sans-serif" font-size="21" font-weight="600">
+    Защита · 29 сентября 2026 · 13:00
+  </text>
+
+  <g transform="translate(884 493)">
+    <rect width="246" height="62" rx="31" fill="#1856d8"/>
+    <text x="123" y="39" text-anchor="middle" fill="#fff" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="800">
+      THESIS SITE
+    </text>
+  </g>
+</svg>
