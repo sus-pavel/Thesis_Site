@@ -1,4 +1,0 @@
-timestamp,pattern_id,pattern_label,p_kw,is_placeholder
-2024-04-01T00:00:00+03:00,daily,Суточный паттерн,54.2,true
-2024-04-01T00:30:00+03:00,daily,Суточный паттерн,48.9,true
-2024-04-01T00:00:00+03:00,shift,Сменный паттерн,31.4,true

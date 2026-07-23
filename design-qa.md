@@ -1,44 +1,36 @@
 # Design QA — амплитудно-частотная плоскость
 
-- Source visual truth: `/var/folders/mp/7kwktbxj3x984hq7y27d2gn80000gn/T/codex-clipboard-de456e6a-205f-43bc-9e2a-5bc394614b3f.png`
-- Implementation screenshot: `/tmp/thesis-feature-plane.jpg`
-- Combined focused comparison: `/tmp/thesis-feature-plane-comparison.jpg`
-- Viewport: 1440 × 900 CSS px, desktop, device scale 1
-- Source pixels: 1606 × 958
-- Implementation pixels: 1440 × 900; focused component crop: 290 × 250
-- State: `/architecture/`, «Положение 1», схема смещена к нижней группе блоков
+Документ фиксирует результат проверки блока амплитудно-частотной плоскости в сцене «Положение 1» маршрута `/architecture/`.
 
-## Full-view comparison evidence
+Исходные comparison-скриншоты предыдущей проверки хранились во временных каталогах и не входят в репозиторий. Абсолютные ссылки на `/tmp` и `/var/folders` удалены как непереносимые.
 
-The implementation screenshot confirms that the enlarged feature-space block fits the existing architecture, keeps the formula visible, and does not overlap the pattern or heatmap blocks. The incoming and outgoing routes remain separated and readable.
+## Проверенное состояние
 
-## Focused-region comparison evidence
+- Viewport: 1440 × 900 CSS px, desktop, device scale 1.
+- Маршрут: `/architecture/`.
+- Сцена: «Положение 1».
+- Область: нижняя группа блоков, включая амплитудно-частотную плоскость.
 
-The combined comparison checks the component against the source at a readable scale. Both show frequency on the horizontal axis, amplitude on the vertical axis, a compressed low-amplitude point cloud, one high-amplitude outlier, colored cluster points, red centroid crosses, a grid, and a cluster color scale. The implementation intentionally uses fewer tick labels to remain legible inside the compact architecture card.
+## Результат сравнения
 
-## Required fidelity surfaces
+Блок помещается в существующую архитектуру, сохраняет видимость формулы и не перекрывает блоки паттернов и тепловой карты. Входящие и исходящие маршруты разделены и читаемы.
 
-- Fonts and typography: existing site typography is preserved; axis labels and ticks use compact Arial sizing appropriate for the card.
-- Spacing and layout rhythm: chart, title, and formula have distinct vertical zones; no component or route overlap is visible.
-- Colors and visual tokens: viridis-like cluster colors and coral-red centroids reproduce the source while matching the site palette.
-- Image quality and asset fidelity: the visualization is vector-rendered and remains sharp at the scene zoom levels.
-- Copy and content: Russian axis names, units, formula, and block title are retained.
+В реализации сохранены основные признаки эталона:
 
-## Findings
+- частота по горизонтальной оси и амплитуда по вертикальной;
+- облако компонент с низкой амплитудой и один высокоамплитудный выброс;
+- цветовое кодирование кластеров;
+- красные кресты центроидов;
+- сетка и шкала цветов кластеров;
+- русские подписи осей, единицы измерения, формула и название блока.
 
-No actionable P0, P1, or P2 mismatches.
+Количество подписей делений и легенда центроидов намеренно сокращены, чтобы сохранить читаемость компактной карточки.
 
-P3: the full-size source has more tick labels and a large centroid legend. These are intentionally condensed in the architecture card to preserve plot area and formula readability.
+## Interaction и runtime
 
-## Interaction and runtime checks
+- блок и кнопка формулы доступны для нажатия;
+- панель описания открывается для соответствующих `data-detail-id`;
+- в консоли браузера не было warnings/errors;
+- `npm run build` и `git diff --check` прошли.
 
-- Block click target remains available.
-- Formula button remains available.
-- Browser console checked: no warnings or errors.
-- `npm run build` and `git diff --check` passed.
-
-## Comparison history
-
-- Pass 1: no P0/P1/P2 findings; no corrective iteration required.
-
-final result: passed
+Итог предыдущей проверки: пройдено, замечаний P0–P2 нет.

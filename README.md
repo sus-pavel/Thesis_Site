@@ -1,4 +1,4 @@
-# Dissertation Scrollytelling Site
+# Сайт диссертационного исследования
 
 Статический билингвальный сайт диссертационного исследования:
 
@@ -7,7 +7,7 @@
 Автор: Сусликов Павел Константинович  
 Специальность: 2.4.2. Электротехнические комплексы и системы
 
-Проект построен на Astro 5, TypeScript, MDX и Tailwind CSS. D3 оставлен для подключения интерактивных графиков по мере развития визуализаций.
+Проект построен на Astro 5, TypeScript, MDX и Tailwind CSS. Основная интерактивная страница — архитектура решения с тремя масштабируемыми сценами.
 
 ## Запуск
 
@@ -26,106 +26,80 @@ npm run build
 npm run preview
 ```
 
-## Страницы
+## Действующие маршруты
 
-- `/` — главная страница, аннотация и ключевые показатели;
-- `/story` — scrollytelling из 14 сцен;
-- `/publications` — публикации и программы для ЭВМ;
-- `/downloads` — диссертация, автореферат, презентация и данные.
+- `/` — русская главная страница;
+- `/architecture/` — интерактивная архитектура решения;
+- `/publications/` — публикации и программы для ЭВМ;
+- `/downloads/` — диссертация, автореферат, презентация и данные;
 - `/en/` — английская главная страница;
 - `/en/publications/` — английская страница публикаций;
 - `/en/downloads/` — английская страница материалов.
 
-# Как вручную редактировать сайт
+У `/architecture/` пока нет отдельной английской версии, поэтому этот маршрут не показывается в английской навигации.
 
-## Русская версия
+## Как вручную редактировать сайт
 
-Русские маршруты находятся в `src/pages/`:
+### Страницы и тексты
 
-- `src/pages/index.astro`;
-- `src/pages/publications.astro`;
-- `src/pages/downloads.astro`;
-- `src/pages/story.astro`.
+- Главная RU: `src/pages/index.astro` и `src/content/ru/home.mdx`.
+- Главная EN: `src/pages/en/index.astro` и `src/content/en/home.mdx`.
+- Публикации: `src/pages/publications.astro`, `src/pages/en/publications.astro` и `public/data/publications/publications.json`.
+- Материалы RU/EN и даты публикации: `src/pages/downloads.astro` и `src/pages/en/downloads.astro`.
+- Вводные тексты страниц материалов и публикаций: `src/content/{ru,en}/downloads.mdx` и `src/content/{ru,en}/publications.mdx`.
+- PDF: `public/downloads/`; скачиваемый CSV: `public/data/drpi/data_for_visualization.csv`.
 
-Русский MDX-контент находится в `src/content/ru/`.
+### Архитектура решения
 
-## Английская версия
+- Названия сцен, размеры, начальные узлы и все описания узлов: `src/components/architecture/architectureScenes.ts`.
+- Интерактивный runtime, панель описания и стили страницы: `src/components/architecture/ArchitectureExplorer.astro`.
+- SVG-разметка трёх сцен: `src/components/architecture/scenes/*.astro`.
+- Исходник генерации формул: `scripts/render_architecture_formulas.sh`.
+- Используемые SVG-формулы: `public/architecture/formulas/*.svg`.
 
-Английские маршруты находятся в `src/pages/en/`:
+Значение `data-detail-id` у кликабельного узла или формулы в `scenes/*.astro` должно совпадать с ключом в `details` соответствующей сцены в `architectureScenes.ts`.
 
-- `src/pages/en/index.astro`;
-- `src/pages/en/publications.astro`;
-- `src/pages/en/downloads.astro`.
+### Оболочка и локализация
 
-Английский scrollytelling-маршрут `/en/story/` не создавался: русская scrollytelling-страница остаётся в `src/pages/story.astro`.
+- Навигация и видимость маршрутов: `src/i18n/navigation.ts`.
+- Языковые префиксы и base-aware пути: `src/i18n/config.ts`.
+- Переводы оболочки, SEO-тексты и подписи footer: `src/i18n/site.ts`.
+- Утверждённые термины RU/EN: `src/i18n/glossary.ts`.
+- Общая HTML-оболочка: `src/layouts/BaseLayout.astro`.
+- Header, footer и переключатель языка: `src/components/layout/`.
+- Общие стили: `src/styles/global.css`; локальные стили находятся в `<style>` соответствующего Astro-компонента.
 
-Английский MDX-контент-заготовка находится в `src/content/en/`.
+При переводе английских страниц используйте `src/i18n/glossary.ts` как источник утверждённых терминов. Новый спорный термин сначала добавляется в словарь с полями `ru`, `en` и `note`.
 
-## Как вручную переводить
-
-1. Переводить тексты только вручную, без автоматической замены русских страниц.
-2. Для английских страниц редактировать файлы в `src/pages/en/`.
-3. Для английских MDX-текстов использовать `src/content/en/`.
-4. Общие SEO-данные, короткое название сайта и подписи layout/header/footer редактировать в `src/i18n/site.ts`.
-5. Навигационные подписи и правила локализации ссылок редактировать в `src/i18n/navigation.ts`.
-6. Пути и языковые префиксы редактировать в `src/i18n/config.ts`.
-7. Русскую версию трогать только при отдельной правке русского контента.
-
-## Terminology / Терминология
-
-При переводе английских страниц обязательно использовать `src/i18n/glossary.ts` как источник утверждённых терминов проекта. Если появляется новый спорный термин, сначала добавить его в словарь с `ru`, `en` и `note`, затем использовать в страницах.
-
-## Какие файлы трогать
-
-1. Главная русская страница и её крупные блоки редактируются в `src/pages/index.astro`.
-2. Текст аннотации русской главной страницы редактируется в `src/content/ru/home.mdx`.
-3. Полный русский scrollytelling редактируется в `src/content/ru/story.mdx`.
-4. Навигация хранится в `src/i18n/navigation.ts`, а базовая оболочка — в `src/layouts/BaseLayout.astro`.
-5. Порядок сцен и соответствие текстовых секций визуализациям редактируются в `src/data/visuals.ts`.
-6. Логика переключения визуализаций при прокрутке находится в `src/components/scrollytelling/ScrollStory.astro`.
-7. Единая SVG-логика визуальных сцен находится в `src/components/visuals/PlaceholderVisual.astro`.
-8. Данные графиков лежат в `public/data/`, а готовые изображения — в `public/figures/`.
-9. Публикации редактируются в `public/data/publications/publications.json`.
-10. PDF-файлы заменяются в `public/downloads/` без изменения их имён.
-11. Даты на странице материалов задаются вручную в `publicationDate` внутри `src/pages/downloads.astro`.
-12. Общий внешний вид редактируется в `src/styles/global.css`. Стили отдельной страницы или компонента находятся в блоке `<style>` в соответствующем `.astro`-файле.
-
-Важно: значение `visual` у каждого `StoryStep` в `src/content/ru/story.mdx` должно совпадать с `id` сцены в `src/data/visuals.ts`.
-
-Переключатель языка отображается в шапке и ведёт на соответствующий RU/EN-маршрут. Поскольку `/en/story/` не существует, переключение на EN со страницы `/story/` ведёт на `/en/`.
-
-# Что не нужно редактировать без необходимости
-
-- `astro.config.mjs` — настройки сборки, GitHub Pages и интеграций Astro;
-- `tsconfig.json` — правила TypeScript;
-- `package.json` и `package-lock.json` — зависимости и команды проекта;
-- `tailwind.config.mjs` — настройка обработки CSS;
-- `src/components/scrollytelling/ScrollStory.astro` — runtime прокрутки;
-- `src/components/visuals/PlaceholderVisual.astro` — логика визуальных сцен;
-- `src/layouts/BaseLayout.astro` — HTML-оболочка, metadata, canonical/alternate links и глобальное подключение стилей.
-
-Эти файлы лучше менять только при изменении архитектуры, сборки или поведения визуализаций.
-
-## Карта данных и материалов
+## Данные и материалы
 
 ```text
 public/
+  architecture/formulas/  SVG-формулы интерактивной архитектуры
   data/
-    drpi/                 данные и расчёты DR PI
-    economics/            экономические показатели
-    emissions/            показатели Scope 1
-    experiments/          результаты проверок устойчивости
-    load_classification/  классы нагрузок и параметры управления
-    load_profiles/        профили нагрузки
-    publications/         публикации
-    relevance/            данные актуальности исследования
-    simulation/           сценарии и модель энергосистемы
-    ssa/                  данные SSA и реконструированные паттерны
-  downloads/              PDF и файл данных для скачивания
-  figures/                готовые SVG/PNG исследования
+    drpi/                  данные и расчёты DR PI
+    economics/             экономические показатели
+    emissions/             показатели Scope 1
+    load_classification/   классы нагрузок и параметры управления
+    publications/          данные страницы публикаций
+    simulation/            сценарии и модель энергосистемы
+    ssa/                   данные SSA
+  downloads/               PDF-материалы
+  figures/                 научные SVG/PNG-иллюстрации
 ```
 
-Файлы в `public/` доступны браузеру от корня сайта. Например, `public/data/drpi/drpi_timeseries.csv` публикуется как `/data/drpi/drpi_timeseries.csv`.
+Активные страницы напрямую читают `publications.json`; `data_for_visualization.csv` и PDF доступны для скачивания. Остальные научные наборы и изображения сохранены как материалы исследования, даже если текущие маршруты их не загружают.
+
+Любой файл в `public/` попадает в опубликованный сайт. Не размещайте там черновые, демонстрационные или placeholder-данные.
+
+## Что не нужно редактировать без необходимости
+
+- `astro.config.mjs` — сборка, интеграции и GitHub Pages `base`;
+- `tsconfig.json` — правила TypeScript;
+- `package.json` и `package-lock.json` — зависимости и команды;
+- `tailwind.config.mjs` — конфигурация Tailwind;
+- `src/content.config.ts` — конфигурация MDX Content Collections;
+- `dist/`, `.astro/` и `node_modules/` — генерируемые или установленные файлы.
 
 ## Production build и GitHub Pages
 
@@ -133,15 +107,23 @@ public/
 npm run build
 ```
 
-Команда выполняет `astro check`, затем создаёт статический сайт в `dist`.
+Команда сначала выполняет `astro check`, затем создаёт статический сайт в `dist/`.
 
-`astro.config.mjs` автоматически использует имя репозитория как `base` в GitHub Actions через переменную `GITHUB_REPOSITORY`. Для собственного домена можно передать `SITE_URL`.
+В GitHub Actions `astro.config.mjs` получает имя репозитория из `GITHUB_REPOSITORY` и автоматически задаёт `base`. Локальная проверка сборки для project page:
+
+```bash
+GITHUB_REPOSITORY=owner/Thesis_Site npm run build
+```
+
+Для собственного домена можно передать `SITE_URL`.
 
 ## Контроль перед публикацией
 
-- `npm run build` завершается без ошибок;
-- открываются русские маршруты и placeholder-маршруты `/en/`;
-- все 14 сцен `/story` переключают визуальную панель;
-- ссылки навигации и скачивания не ведут на 404;
-- публикации и PDF содержат финальные материалы;
-- проверены desktop, мобильная ширина и консоль браузера.
+- `npm ls` подтверждает согласованность установленного дерева и lockfile;
+- `npm run check` завершается без ошибок;
+- `npm run build` собирает все семь маршрутов;
+- отдельная сборка с `GITHUB_REPOSITORY=owner/Thesis_Site` не содержит сломанных base-aware путей;
+- все внутренние ссылки и скачиваемые файлы открываются;
+- на `/architecture/` переключаются три сцены, открываются описания и формулы, работает масштабирование;
+- desktop и мобильная ширина не имеют горизонтального переполнения;
+- в консоли браузера нет относящихся к приложению warnings/errors.
