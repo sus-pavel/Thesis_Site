@@ -101,8 +101,47 @@ const structuredData = {
     <a class="skip-link" href="#main-content">
       {lang === 'ru' ? 'Перейти к основному содержанию' : 'Skip to main content'}
     </a>
+    <div class="site-cursor" data-site-cursor aria-hidden="true"></div>
     <Header lang={lang} languagePath={languagePath} />
     <slot />
     <Footer lang={lang} />
+
+    <script is:inline>
+      (() => {
+        const cursor = document.querySelector('[data-site-cursor]');
+        if (!cursor || window.matchMedia('(pointer: coarse)').matches) return;
+
+        let pointerX = -100;
+        let pointerY = -100;
+        let animationFrame = 0;
+
+        const draw = () => {
+          cursor.style.transform = `translate3d(${pointerX}px, ${pointerY}px, 0) translate(-50%, -50%)`;
+          animationFrame = 0;
+        };
+
+        document.addEventListener('pointermove', (event) => {
+          if (event.pointerType && event.pointerType !== 'mouse') return;
+          pointerX = event.clientX;
+          pointerY = event.clientY;
+          cursor.classList.add('is-visible');
+          if (!animationFrame) animationFrame = window.requestAnimationFrame(draw);
+        }, { passive: true });
+
+        document.addEventListener('pointerover', (event) => {
+          const target = event.target;
+          cursor.classList.toggle(
+            'is-active',
+            target instanceof Element
+              && Boolean(target.closest('a, button, [role="button"], input, select, textarea, [data-hotspot]'))
+          );
+        }, { passive: true });
+
+        document.documentElement.addEventListener('mouseleave', () => {
+          cursor.classList.remove('is-visible');
+        });
+        window.addEventListener('blur', () => cursor.classList.remove('is-visible'));
+      })();
+    </script>
   </body>
 </html>

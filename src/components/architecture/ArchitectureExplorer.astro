@@ -428,6 +428,10 @@ const scenes = architectureScenes;
 
       viewport.addEventListener('pointerdown', (event) => {
         if (event.pointerType === 'mouse' && event.button !== 0) return;
+        if (
+          event.target instanceof Element
+          && event.target.closest('[data-detail-id], .route-path, .route-hit')
+        ) return;
         dragging = true;
         movedDuringDrag = false;
         pointerId = event.pointerId;
@@ -640,7 +644,6 @@ const scenes = architectureScenes;
     left: 50%;
     top: 50%;
     transform-origin: center;
-    will-change: transform;
   }
 
   .pan-layer::after {
