@@ -8,9 +8,7 @@ const scenes = architectureScenes;
 ---
 
 <section class="architecture-explorer" data-architecture-explorer>
-  <nav class="scene-rail" aria-label="Сцены архитектуры">
-    <span class="scene-rail__label">Сцена</span>
-
+  <nav class="scene-rail" aria-label="Режимы архитектуры">
     <button type="button" data-scene="system" aria-pressed="true">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <circle cx="5" cy="12" r="2.25"></circle>
@@ -64,7 +62,7 @@ const scenes = architectureScenes;
       </div>
     </div>
 
-    <aside class="detail-panel" data-detail-panel aria-live="polite">
+    <aside class="detail-panel is-hidden" data-detail-panel aria-live="polite">
       <button class="detail-panel__close" type="button" data-panel-close aria-label="Закрыть описание">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="m6 6 12 12M18 6 6 18"></path>
@@ -136,6 +134,8 @@ const scenes = architectureScenes;
       let panX = 0;
       let panY = 0;
       let dragging = false;
+      let movedDuringDrag = false;
+      let suppressClick = false;
       let pointerId = null;
       let startX = 0;
       let startY = 0;
@@ -363,7 +363,7 @@ const scenes = architectureScenes;
         applyTransform();
       });
       explorer.querySelector('[data-fit]').addEventListener('click', () => fitScene(false));
-      explorer.querySelector('[data-panel-close]').addEventListener('click', () => panel.classList.add('is-hidden'));
+      explorer.querySelector('[data-panel-close]').addEventListener('click', activateDefaultDetail);
 
       viewport.addEventListener('wheel', (event) => {
         event.preventDefault();
@@ -402,8 +402,9 @@ const scenes = architectureScenes;
       });
 
       viewport.addEventListener('pointerdown', (event) => {
-        if (event.target.closest('button')) return;
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
         dragging = true;
+        movedDuringDrag = false;
         pointerId = event.pointerId;
         startX = event.clientX;
         startY = event.clientY;
@@ -415,13 +416,23 @@ const scenes = architectureScenes;
 
       viewport.addEventListener('pointermove', (event) => {
         if (!dragging || event.pointerId !== pointerId) return;
-        panX = originX + event.clientX - startX;
-        panY = originY + event.clientY - startY;
+        const deltaX = event.clientX - startX;
+        const deltaY = event.clientY - startY;
+        if (!movedDuringDrag && Math.hypot(deltaX, deltaY) < 4) return;
+        movedDuringDrag = true;
+        panX = originX + deltaX;
+        panY = originY + deltaY;
         applyTransform();
       });
 
       const endDrag = (event) => {
         if (!dragging || event.pointerId !== pointerId) return;
+        if (event.type === 'pointerup' && movedDuringDrag) {
+          suppressClick = true;
+          window.setTimeout(() => {
+            suppressClick = false;
+          }, 0);
+        }
         dragging = false;
         viewport.classList.remove('is-dragging');
         if (viewport.hasPointerCapture(pointerId)) viewport.releasePointerCapture(pointerId);
@@ -430,6 +441,12 @@ const scenes = architectureScenes;
 
       viewport.addEventListener('pointerup', endDrag);
       viewport.addEventListener('pointercancel', endDrag);
+      viewport.addEventListener('click', (event) => {
+        if (!suppressClick) return;
+        event.preventDefault();
+        event.stopPropagation();
+        suppressClick = false;
+      }, true);
 
       viewport.addEventListener('keydown', (event) => {
         const distance = event.shiftKey ? 80 : 34;
@@ -453,15 +470,13 @@ const scenes = architectureScenes;
 
 <style>
   .architecture-explorer {
-    --canvas: #ffffff;
-    --canvas-deep: #f8fafd;
     --canvas-line: rgba(47, 115, 217, .09);
     --canvas-text: #0b1f3a;
     display: grid;
     grid-template-columns: 152px minmax(0, 1fr);
     min-height: calc(100svh - 64px);
     overflow: hidden;
-    background: #f7f9fc;
+    background: transparent;
   }
 
   .scene-rail {
@@ -472,14 +487,7 @@ const scenes = architectureScenes;
     gap: 7px;
     padding: 38px 10px 18px;
     border-right: 1px solid #d9e1e8;
-    background: #f7f9fc;
-  }
-
-  .scene-rail__label {
-    margin: 0 10px 8px;
-    color: #6c7889;
-    font-size: .68rem;
-    font-weight: 750;
+    background: transparent;
   }
 
   .scene-rail button {
@@ -529,7 +537,7 @@ const scenes = architectureScenes;
     min-height: calc(100svh - 64px);
     overflow: hidden;
     color: var(--canvas-text);
-    background: var(--canvas);
+    background: transparent;
   }
 
   .canvas-heading {
@@ -566,7 +574,14 @@ const scenes = architectureScenes;
     inset: 0;
     overflow: hidden;
     touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
     cursor: grab;
+  }
+
+  .architecture-viewport :global(img),
+  .architecture-viewport :global(svg) {
+    -webkit-user-drag: none;
   }
 
   .architecture-viewport:focus-visible {
@@ -579,14 +594,7 @@ const scenes = architectureScenes;
   }
 
   .technical-grid {
-    position: absolute;
-    inset: 0;
-    opacity: .36;
-    background-image:
-      linear-gradient(var(--canvas-line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--canvas-line) 1px, transparent 1px);
-    background-size: 44px 44px;
-    mask-image: radial-gradient(circle at center, black 18%, transparent 82%);
+    display: none;
   }
 
   .orbit {
@@ -1065,13 +1073,13 @@ const scenes = architectureScenes;
   .interaction-hint {
     position: absolute;
     left: 26px;
-    top: 112px;
-    bottom: auto;
+    top: auto;
+    bottom: 24px;
     z-index: 5;
     display: flex;
     align-items: center;
     gap: 9px;
-    max-width: calc(100% - 260px);
+    max-width: calc(100% - 52px);
     margin: 0;
     color: #61758b;
     font-size: .67rem;
@@ -1105,12 +1113,11 @@ const scenes = architectureScenes;
     .architecture-explorer { grid-template-columns: 1fr; min-height: calc(100svh - 108px); }
     .scene-rail { flex-direction: row; align-items: center; overflow-x: auto; padding: 9px 14px; border-right: 0; border-bottom: 1px solid #d9e1e8; scrollbar-width: none; }
     .scene-rail::-webkit-scrollbar { display: none; }
-    .scene-rail__label { display: none; }
     .scene-rail button { flex: 0 0 auto; grid-template-columns: 22px auto; min-height: 42px; width: auto; padding: 6px 11px; }
     .scene-rail svg { width: 20px; height: 20px; }
     .canvas-shell { min-height: calc(100svh - 168px); }
     .canvas-heading { max-width: calc(100% - 44px); }
-    .detail-panel { top: auto; bottom: 24px; max-height: 58%; }
+    .detail-panel { top: auto; bottom: 76px; max-height: 58%; }
   }
 
   @media (max-width: 700px) {
@@ -1127,7 +1134,7 @@ const scenes = architectureScenes;
     }
     .detail-panel h2 { margin-bottom: 11px; font-size: 1.05rem; }
     .detail-panel__text { font-size: .82rem; }
-    .interaction-hint { left: 16px; top: 108px; bottom: auto; max-width: calc(100% - 190px); }
+    .interaction-hint { left: 16px; top: auto; bottom: 18px; max-width: calc(100% - 32px); }
     .interaction-hint span:not(:first-of-type), .interaction-hint i { display: none; }
     .zoom-controls { top: 100px; right: 14px; bottom: auto; grid-template-columns: repeat(4, 43px); }
     .zoom-controls button { width: 43px; height: 43px; }
