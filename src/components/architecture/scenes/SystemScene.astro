@@ -34,7 +34,7 @@
     </defs>
 
     <g class="system-level system-level--physical">
-      <rect class="level-frame" x="40" y="120" width="1600" height="620" rx="42"></rect>
+      <rect class="level-frame" x="40" y="120" width="1600" height="366" rx="40"></rect>
       <rect class="level-title-backdrop" x="660" y="94" width="360" height="58" rx="29"></rect>
       <text class="level-title" x="840" y="134">Физический уровень</text>
 
@@ -46,18 +46,25 @@
         role="button"
         aria-label="Открыть описание генерации электроэнергии"
       >
-        <rect class="physical-hit" x="72" y="198" width="306" height="472" rx="24"></rect>
-        <text class="network-label" x="60" y="315">Gen 1</text>
-        <circle class="network-line" cx="174" cy="306" r="42"></circle>
-        <path class="network-line" d="M151 307c8-18 16-18 24 0s16 18 24 0"></path>
-        <line class="network-line" x1="216" y1="306" x2="380" y2="306"></line>
-        <line class="network-line" x1="380" y1="220" x2="380" y2="642"></line>
-        <path class="meter-coil" d="M278 274c0 14 18 14 18 0m0 0c0 14 18 14 18 0m-36 56c0 14 18 14 18 0m0 0c0 14 18 14 18 0"></path>
-        <rect class="meter-box" x="285" y="365" width="44" height="54"></rect>
-        <text class="meter-text" x="307" y="400">Wh</text>
-        <text class="network-muted" x="292" y="245">0,4 kV</text>
-        <text class="network-ellipsis" x="168" y="514">…</text>
-        <text class="network-block-title" x="82" y="635">Генерация ЭЭ</text>
+        <rect class="physical-hit" x="68" y="150" width="315" height="318" rx="20"></rect>
+        <text class="network-label network-label--plain" x="88" y="217">Gen 1</text>
+        <circle class="network-line" cx="184" cy="209" r="35"></circle>
+        <path class="network-line" d="M165 209c7-14 14-14 21 0s14 14 21 0"></path>
+        <line class="network-line" x1="219" y1="209" x2="355" y2="209"></line>
+        <line class="network-line" x1="355" y1="175" x2="355" y2="446"></line>
+
+        <line class="network-line" x1="266" y1="185" x2="338" y2="185"></line>
+        <line class="network-line" x1="266" y1="209" x2="338" y2="209"></line>
+        <line class="network-line" x1="266" y1="233" x2="338" y2="233"></line>
+        <path class="meter-coil" d="M280 185c0 14 22 14 22 0m0 0c0 14 22 14 22 0"></path>
+        <path class="meter-coil" d="M280 209c0 14 22 14 22 0m0 0c0 14 22 14 22 0"></path>
+        <path class="meter-coil" d="M280 233c0 14 22 14 22 0m0 0c0 14 22 14 22 0"></path>
+        <rect class="meter-box meter-box--solid" x="283" y="258" width="38" height="50"></rect>
+        <line class="meter-divider" x1="283" y1="274" x2="321" y2="274"></line>
+        <text class="meter-text" x="302" y="297">Wh</text>
+        <text class="network-muted" x="367" y="185">0,4 kV</text>
+        <text class="network-ellipsis" x="184" y="376">…</text>
+        <text class="network-block-title" x="100" y="453">Генерация ЭЭ</text>
       </g>
 
       <g
@@ -68,16 +75,16 @@
         role="button"
         aria-label="Открыть описание трансформаторов автономного ЭТК"
       >
-        <rect class="physical-hit" x="400" y="198" width="320" height="472" rx="24"></rect>
-        <text class="network-zone-title" x="540" y="292">Автономный ЭТК</text>
-        <text class="network-label" x="478" y="450">T1</text>
-        <line class="network-line" x1="380" y1="520" x2="457" y2="520"></line>
-        <circle class="network-line" cx="500" cy="520" r="43"></circle>
-        <circle class="network-line" cx="544" cy="520" r="43"></circle>
-        <line class="network-line" x1="587" y1="520" x2="720" y2="520"></line>
-        <path class="network-arrow network-arrow--ink" d="M620 520h54" marker-end="url(#system-arrow-ink)"></path>
-        <path class="network-arrow network-arrow--ink" d="M710 520h-42" marker-end="url(#system-arrow-ink)"></path>
-        <text class="network-muted" x="620" y="483">6 kV</text>
+        <rect class="physical-hit" x="376" y="150" width="298" height="318" rx="20"></rect>
+        <text class="network-zone-title" x="500" y="265">Автономный ЭТК</text>
+        <text class="network-label network-label--plain" x="446" y="330">T1</text>
+        <line class="network-line" x1="355" y1="381" x2="403" y2="381"></line>
+        <circle class="network-line" cx="438" cy="381" r="35"></circle>
+        <circle class="network-line" cx="478" cy="381" r="35"></circle>
+        <line class="network-line" x1="513" y1="381" x2="672" y2="381"></line>
+        <line class="network-line" x1="566" y1="347" x2="566" y2="415"></line>
+        <path class="network-arrowhead" d="M584 370l22 11-22 11Z"></path>
+        <path class="network-arrowhead" d="M650 370l-22 11 22 11Z"></path>
       </g>
 
       <g
@@ -88,15 +95,19 @@
         role="button"
         aria-label="Открыть описание шины 6 киловольт"
       >
-        <rect class="physical-hit" x="724" y="198" width="226" height="472" rx="24"></rect>
-        <line class="network-line" x1="720" y1="222" x2="720" y2="646"></line>
-        <text class="network-muted" x="748" y="206">Шина 6 кВ</text>
-        <path class="network-arrow network-arrow--ink" d="M720 278h198" marker-end="url(#system-arrow-ink)"></path>
-        <path class="network-arrow network-arrow--ink" d="M918 278h-60" marker-end="url(#system-arrow-ink)"></path>
-        <path class="network-arrow network-arrow--ink" d="M720 438h198" marker-end="url(#system-arrow-ink)"></path>
-        <path class="network-arrow network-arrow--ink" d="M918 438h-60" marker-end="url(#system-arrow-ink)"></path>
-        <path class="network-arrow network-arrow--ink" d="M720 598h198" marker-end="url(#system-arrow-ink)"></path>
-        <path class="network-arrow network-arrow--ink" d="M918 598h-60" marker-end="url(#system-arrow-ink)"></path>
+        <rect class="physical-hit" x="670" y="150" width="240" height="318" rx="20"></rect>
+        <text class="network-muted" x="616" y="187">6 kV</text>
+        <line class="network-line" x1="672" y1="175" x2="672" y2="446"></line>
+        <line class="network-line" x1="672" y1="199" x2="907" y2="199"></line>
+        <line class="network-line" x1="672" y1="313" x2="907" y2="313"></line>
+        <line class="network-line" x1="672" y1="427" x2="907" y2="427"></line>
+        <path class="network-arrowhead" d="M699 188l22 11-22 11Z"></path>
+        <path class="network-arrowhead" d="M851 188l-22 11 22 11Z"></path>
+        <path class="network-arrowhead" d="M699 302l22 11-22 11Z"></path>
+        <path class="network-arrowhead" d="M851 302l-22 11 22 11Z"></path>
+        <path class="network-arrowhead" d="M699 416l22 11-22 11Z"></path>
+        <path class="network-arrowhead" d="M851 416l-22 11 22 11Z"></path>
+        <text class="network-muted" x="853" y="187">6 kV</text>
       </g>
 
       <g
@@ -107,24 +118,25 @@
         role="button"
         aria-label="Открыть описание трансформаторов T2, T3 и Tn"
       >
-        <rect class="physical-hit" x="924" y="198" width="264" height="472" rx="24"></rect>
-        <line class="network-line" x1="926" y1="224" x2="926" y2="642"></line>
-        <circle class="network-line" cx="984" cy="278" r="42"></circle>
-        <circle class="network-line" cx="1028" cy="278" r="42"></circle>
-        <circle class="network-line" cx="984" cy="438" r="42"></circle>
-        <circle class="network-line" cx="1028" cy="438" r="42"></circle>
-        <circle class="network-line" cx="984" cy="598" r="42"></circle>
-        <circle class="network-line" cx="1028" cy="598" r="42"></circle>
-        <text class="network-label" x="982" y="210">T2</text>
-        <text class="network-label" x="982" y="370">T3</text>
-        <text class="network-label" x="982" y="530">Tₙ</text>
-        <line class="network-line" x1="1070" y1="278" x2="1180" y2="278"></line>
-        <line class="network-line" x1="1070" y1="438" x2="1180" y2="438"></line>
-        <line class="network-line" x1="1070" y1="598" x2="1180" y2="598"></line>
-        <path class="network-arrow network-arrow--ink" d="M1090 278h58" marker-end="url(#system-arrow-ink)"></path>
-        <path class="network-arrow network-arrow--ink" d="M1090 438h58" marker-end="url(#system-arrow-ink)"></path>
-        <path class="network-arrow network-arrow--ink" d="M1090 598h58" marker-end="url(#system-arrow-ink)"></path>
-        <text class="network-ellipsis" x="910" y="535">…</text>
+        <rect class="physical-hit" x="906" y="150" width="176" height="318" rx="20"></rect>
+        <line class="network-line" x1="907" y1="164" x2="907" y2="234"></line>
+        <line class="network-line" x1="907" y1="278" x2="907" y2="348"></line>
+        <line class="network-line" x1="907" y1="392" x2="907" y2="462"></line>
+        <circle class="network-line" cx="972" cy="199" r="35"></circle>
+        <circle class="network-line" cx="1012" cy="199" r="35"></circle>
+        <circle class="network-line" cx="972" cy="313" r="35"></circle>
+        <circle class="network-line" cx="1012" cy="313" r="35"></circle>
+        <circle class="network-line" cx="972" cy="427" r="35"></circle>
+        <circle class="network-line" cx="1012" cy="427" r="35"></circle>
+        <text class="network-label network-label--plain network-label--centered" x="992" y="159">T2</text>
+        <text class="network-label network-label--plain network-label--centered" x="992" y="273">T3</text>
+        <text class="network-label network-label--plain network-label--centered" x="992" y="387">
+          T<tspan baseline-shift="sub" font-size="15">n</tspan>
+        </text>
+        <line class="network-line" x1="1047" y1="199" x2="1080" y2="199"></line>
+        <line class="network-line" x1="1047" y1="313" x2="1080" y2="313"></line>
+        <line class="network-line" x1="1047" y1="427" x2="1080" y2="427"></line>
+        <text class="network-ellipsis" x="907" y="376">…</text>
       </g>
 
       <g
@@ -135,47 +147,60 @@
         role="button"
         aria-label="Открыть описание нагрузки и приборов учёта"
       >
-        <rect class="physical-hit" x="1190" y="198" width="170" height="472" rx="24"></rect>
-        <line class="network-line" x1="1180" y1="220" x2="1180" y2="642"></line>
-        <path class="meter-coil" d="M1210 244c0 14 18 14 18 0m0 0c0 14 18 14 18 0m-36 56c0 14 18 14 18 0m0 0c0 14 18 14 18 0"></path>
-        <circle class="network-line" cx="1296" cy="278" r="28"></circle>
-        <circle class="network-line" cx="1296" cy="278" r="17"></circle>
-        <rect class="meter-box" x="1268" y="365" width="48" height="54"></rect>
-        <rect class="meter-box" x="1268" y="451" width="48" height="54"></rect>
-        <rect class="meter-box" x="1268" y="537" width="48" height="54"></rect>
-        <text class="meter-text" x="1292" y="400">Wh</text>
-        <text class="meter-text" x="1292" y="486">Wh</text>
-        <text class="meter-text" x="1292" y="572">Wh</text>
-        <text class="network-muted" x="1198" y="635">0,4 kV</text>
-        <text class="network-block-title" x="1270" y="668">Нагрузка</text>
+        <rect class="physical-hit" x="1078" y="150" width="224" height="318" rx="20"></rect>
+        <line class="network-line" x1="1080" y1="149" x2="1080" y2="252"></line>
+        <line class="network-line" x1="1080" y1="278" x2="1080" y2="348"></line>
+        <line class="network-line" x1="1080" y1="392" x2="1080" y2="462"></line>
+        <path class="network-arrow network-arrow--ink" d="M1080 199h68" marker-end="url(#system-arrow-ink)"></path>
+        <path class="network-arrow network-arrow--ink" d="M1080 223h68" marker-end="url(#system-arrow-ink)"></path>
+        <path class="network-arrow network-arrow--ink" d="M1080 296h80" marker-end="url(#system-arrow-ink)"></path>
+        <path class="network-arrow network-arrow--ink" d="M1080 410h80" marker-end="url(#system-arrow-ink)"></path>
+
+        <line class="network-line" x1="1174" y1="149" x2="1174" y2="204"></line>
+        <line class="network-line" x1="1174" y1="161" x2="1230" y2="161"></line>
+        <line class="network-line" x1="1174" y1="177" x2="1230" y2="177"></line>
+        <line class="network-line" x1="1174" y1="193" x2="1230" y2="193"></line>
+        <path class="meter-coil" d="M1184 161c0 13 19 13 19 0m0 0c0 13 19 13 19 0"></path>
+        <path class="meter-coil" d="M1184 177c0 13 19 13 19 0m0 0c0 13 19 13 19 0"></path>
+        <path class="meter-coil" d="M1184 193c0 13 19 13 19 0m0 0c0 13 19 13 19 0"></path>
+        <line class="network-line" x1="1230" y1="177" x2="1237" y2="177"></line>
+        <circle class="network-line" cx="1258" cy="177" r="23"></circle>
+        <circle class="network-line" cx="1258" cy="177" r="14"></circle>
+
+        <rect class="meter-box" x="1241" y="220" width="32" height="49"></rect>
+        <rect class="meter-box" x="1241" y="286" width="32" height="49"></rect>
+        <rect class="meter-box" x="1241" y="352" width="32" height="49"></rect>
+        <text class="meter-text meter-text--compact" x="1257" y="258">Wh</text>
+        <text class="meter-text meter-text--compact" x="1257" y="324">Wh</text>
+        <text class="meter-text meter-text--compact" x="1257" y="390">Wh</text>
+        <text class="network-ellipsis" x="1160" y="376">…</text>
+        <text class="network-muted" x="1093" y="450">0,4 кВ</text>
+        <text class="network-block-title" x="1180" y="453">Нагрузка</text>
       </g>
 
       <g
-        class="system-hotspot context-panel"
+        class="physical-node physical-node--context"
         data-detail-id="external"
         data-node-id="external"
         tabindex="0"
         role="button"
         aria-label="Открыть описание внешних условий и технологического процесса"
       >
-        <rect class="context-card" x="1372" y="206" width="230" height="452" rx="24"></rect>
-        <text class="context-title" x="1400" y="254">Контекст режима</text>
-        <circle class="context-dot" cx="1403" cy="310" r="5"></circle>
-        <text class="context-copy" x="1422" y="316">
-          <tspan x="1422" dy="0">Технологический</tspan>
-          <tspan x="1422" dy="27">процесс</tspan>
+        <rect class="physical-hit" x="1308" y="150" width="304" height="318" rx="20"></rect>
+        <text class="physical-context-copy" x="1326" y="187">
+          <tspan x="1326" dy="0">• Технологический процесс</tspan>
+          <tspan x="1326" dy="30">  производства</tspan>
         </text>
-        <circle class="context-dot" cx="1403" cy="402" r="5"></circle>
-        <text class="context-copy" x="1422" y="408">
-          <tspan x="1422" dy="0">Погодные и внешние</tspan>
-          <tspan x="1422" dy="27">условия</tspan>
+        <text class="physical-context-copy" x="1326" y="278">
+          <tspan x="1326" dy="0">• Погодные условия /</tspan>
+          <tspan x="1326" dy="30">  внешние условия,</tspan>
+          <tspan x="1326" dy="30">  влияющие на</tspan>
+          <tspan x="1326" dy="30">  техпроцесс</tspan>
         </text>
-        <circle class="context-dot" cx="1403" cy="494" r="5"></circle>
-        <text class="context-copy" x="1422" y="500">
-          <tspan x="1422" dy="0">Обслуживание</tspan>
-          <tspan x="1422" dy="27">и ремонт</tspan>
+        <text class="physical-context-copy" x="1326" y="423">
+          <tspan x="1326" dy="0">• Графики технического</tspan>
+          <tspan x="1326" dy="30">  обслуживания и ремонта</tspan>
         </text>
-        <text class="context-action" x="1400" y="610">Подробнее →</text>
       </g>
     </g>
 
@@ -376,7 +401,7 @@
         <path class="flow-line flow-line--analysis route-path" data-route-id="decomposition-criterion" data-connects="decomposition criterion" tabindex="0" d="M1390 1815V1876H1150V1980" marker-end="url(#system-arrow-coral)"></path>
         <path class="flow-line flow-line--analysis route-path" data-route-id="criterion-no" data-connects="criterion" tabindex="0" d="M1370 2080H1404" marker-end="url(#system-arrow-coral)"></path>
         <path class="flow-line flow-line--control route-path" data-route-id="criterion-yes" data-connects="criterion optimization" tabindex="0" d="M1040 2230V2348H320V1840" marker-end="url(#system-arrow-control)"></path>
-        <path class="control-loop route-path" data-route-id="control-loop" data-connects="optimization load generator" tabindex="0" d="M120 1680H66V700H380V644" marker-end="url(#system-arrow-control)"></path>
+        <path class="control-loop route-path" data-route-id="control-loop" data-connects="optimization load generator" tabindex="0" d="M120 1680H66V700H355V446" marker-end="url(#system-arrow-control)"></path>
 
         <g class="flow-chip" data-route-for="optimization-monitor" transform="translate(96 1352)">
           <rect width="270" height="42" rx="21"></rect>
@@ -485,6 +510,10 @@
     vector-effect: non-scaling-stroke;
   }
 
+  .network-arrowhead {
+    fill: #24496f;
+  }
+
   .network-arrow--ink { stroke: #24496f; }
   #system-arrow-ink path { fill: #24496f; }
   #system-arrow-blue path { fill: #2f73d9; }
@@ -506,16 +535,38 @@
     vector-effect: non-scaling-stroke;
   }
 
+  .meter-box--solid {
+    stroke-dasharray: none;
+  }
+
+  .meter-divider {
+    stroke: #2f73d9;
+    stroke-width: 1.3;
+    vector-effect: non-scaling-stroke;
+  }
+
   .meter-text {
     fill: #2f73d9;
     font-size: 18px;
     text-anchor: middle;
   }
 
+  .meter-text--compact {
+    font-size: 16px;
+  }
+
   .network-label {
     fill: #18212f;
     font-size: 23px;
     font-weight: 720;
+  }
+
+  .network-label--plain {
+    font-weight: 500;
+  }
+
+  .network-label--centered {
+    text-anchor: middle;
   }
 
   .network-muted {
@@ -541,6 +592,12 @@
     font-size: 27px;
     font-weight: 820;
     text-anchor: middle;
+  }
+
+  .physical-context-copy {
+    fill: #18212f;
+    font-size: 19px;
+    font-weight: 590;
   }
 
   .context-card,
