@@ -2,6 +2,9 @@
 import SystemScene from './scenes/SystemScene.astro';
 import PositionOneScene from './scenes/PositionOneScene.astro';
 import PositionTwoScene from './scenes/PositionTwoScene.astro';
+import { withBase } from '../../i18n/config';
+
+const formulaAsset = (filename: string) => withBase(`/architecture/formulas/${filename}.svg`);
 
 const scenes = {
   system: {
@@ -90,7 +93,7 @@ const scenes = {
         kind: 'Экспликация формулы',
         title: 'Нормировка min–max',
         formula: 'P̂ₜ = (Pₜ − Pₘᵢₙ) / (Pₘₐₓ − Pₘᵢₙ)',
-        formulaAsset: '/architecture/formulas/normalization.svg',
+        formulaAsset: formulaAsset('normalization'),
         text: 'Каждое значение временного ряда переводится в безразмерный диапазон от 0 до 1.',
         terms: [
           { symbol: 'P̂ₜ', description: 'нормированное значение мощности в момент времени t' },
@@ -110,7 +113,7 @@ const scenes = {
         kind: 'Экспликация формулы',
         title: 'Траекторная матрица',
         formula: 'A = [pᵢ₊ⱼ₋₁]L×k,   k = K − L + 1',
-        formulaAsset: '/architecture/formulas/trajectory.svg',
+        formulaAsset: formulaAsset('trajectory'),
         text: 'Элемент матрицы определяется отсчётом временного ряда с соответствующим лагом; равные побочные диагонали содержат одинаковые значения.',
         terms: [
           { symbol: 'A', description: 'ганкелева траекторная матрица' },
@@ -125,7 +128,7 @@ const scenes = {
         kind: 'Экспликация формулы',
         title: 'Сингулярное разложение',
         formula: 'A = UΣVᵀ',
-        formulaAsset: '/architecture/formulas/svd.svg',
+        formulaAsset: formulaAsset('svd'),
         text: 'Разложение представляет траекторную матрицу как сумму ортогональных компонент, упорядоченных по вкладу в исходный сигнал.',
         terms: [
           { symbol: 'A', description: 'траекторная матрица временного ряда' },
@@ -144,7 +147,7 @@ const scenes = {
         kind: 'Экспликация формулы',
         title: 'Элементарная матрица',
         formula: 'Aᵢ = √λᵢ UᵢVᵢᵀ',
-        formulaAsset: '/architecture/formulas/elementary.svg',
+        formulaAsset: formulaAsset('elementary'),
         text: 'Формула задаёт i-ю элементарную матрицу через собственное значение и пару соответствующих сингулярных векторов.',
         terms: [
           { symbol: 'Aᵢ', description: 'i-я элементарная матрица траекторной матрицы' },
@@ -164,7 +167,7 @@ const scenes = {
         kind: 'Экспликация формулы',
         title: 'Диагональное усреднение',
         formula: 'F̃ᵢ(j) = (1 / nⱼ) Σₘ₊ₙ₌ⱼ₊₁ (Aᵢ)ₘₙ',
-        formulaAsset: '/architecture/formulas/hankelization.svg',
+        formulaAsset: formulaAsset('hankelization'),
         text: 'Компонента временного ряда восстанавливается усреднением элементов элементарной матрицы по каждой побочной диагонали.',
         terms: [
           { symbol: 'F̃ᵢ(j)', description: 'j-й отсчёт восстановленной i-й компоненты' },
@@ -184,7 +187,7 @@ const scenes = {
         kind: 'Экспликация формулы',
         title: 'Коэффициент w-корреляции',
         formula: 'wᵢⱼ = |⟨F̃ᵢ,F̃ⱼ⟩w| / (‖F̃ᵢ‖w ‖F̃ⱼ‖w)',
-        formulaAsset: '/architecture/formulas/w-correlation.svg',
+        formulaAsset: formulaAsset('w-correlation'),
         text: 'Нормированное взвешенное скалярное произведение измеряет близость двух восстановленных компонент.',
         terms: [
           { symbol: 'wᵢⱼ', description: 'коэффициент w-корреляции компонент i и j' },
@@ -204,7 +207,7 @@ const scenes = {
         kind: 'Экспликация формул',
         title: 'Амплитуда и частота',
         formula: 'aᵢ = √[(1/N)ΣₜF̃ᵢ²(t)],   fᵢ = arg maxf>0 |FFT(F̃ᵢ)(f)|',
-        formulaAsset: '/architecture/formulas/features.svg',
+        formulaAsset: formulaAsset('features'),
         text: 'Компонента представляется точкой на амплитудно-частотной плоскости по RMS-амплитуде и доминирующей частоте.',
         terms: [
           { symbol: 'aᵢ', description: 'среднеквадратичная амплитуда i-й компоненты' },
@@ -225,7 +228,7 @@ const scenes = {
         kind: 'Экспликация формулы',
         title: 'Реконструкция паттерна',
         formula: 'Pᵈ⁽ᵐ⁾(t) = Σi∈Cₘ F̃ᵢ(t)',
-        formulaAsset: '/architecture/formulas/pattern.svg',
+        formulaAsset: formulaAsset('pattern'),
         text: 'Временной паттерн формируется суммированием всех восстановленных компонент, отнесённых алгоритмом k-means к одному кластеру.',
         terms: [
           { symbol: 'Pᵈ⁽ᵐ⁾(t)', description: 'm-й паттерн для окна или суток d' },
@@ -246,7 +249,7 @@ const scenes = {
         kind: 'Экспликация формул',
         title: 'Составляющие DR PI',
         formula: 'F₁,ᵈ = Eflex,d / Etot,d\nF₂,ᵈ = 1 − k50,d / N\nF₃,ᵈ = (Rᵈ − Rmin) / (Rmax − Rmin)',
-        formulaAsset: '/architecture/formulas/drpi-components.svg',
+        formulaAsset: formulaAsset('drpi-components'),
         text: 'Три нормированные составляющие описывают долю гибкой энергии, её концентрацию во времени и динамику изменения нагрузки.',
         terms: [
           { symbol: 'Eflex,d', description: 'гибкая энергия за сутки d: Σₜ max(0, Pᵈ,ₜ − bᵈ)Δt' },
@@ -262,7 +265,7 @@ const scenes = {
         kind: 'Экспликация формулы',
         title: 'Индекс потенциала DR PI',
         formula: 'DR PIᵈ = w₁F₁,ᵈ + w₂F₂,ᵈ + w₃F₃,ᵈ',
-        formulaAsset: '/architecture/formulas/drpi.svg',
+        formulaAsset: formulaAsset('drpi'),
         text: 'Индекс объединяет энергетическую, временную и динамическую составляющие потенциала управления спросом. В работе приняты веса 0,5; 0,3; 0,2.',
         terms: [
           { symbol: 'DR PIᵈ', description: 'интегральный индекс потенциала для суток d' },

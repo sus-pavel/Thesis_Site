@@ -1,4 +1,8 @@
 ---
+import { withBase } from '../../../i18n/config';
+
+const formulaAsset = (filename: string) => withBase(`/architecture/formulas/${filename}.svg`);
+
 const chartPointCount = 97;
 const makePath = (valueAt: (index: number) => number) =>
   Array.from({ length: chartPointCount }, (_, index) => {
@@ -83,7 +87,7 @@ const featureCentroids = [
       <strong>Нормализованные<br />данные потребления ЭЭ</strong>
     </button>
     <button class="formula-button" type="button" data-detail-id="formula-normalization" aria-label="Открыть экспликацию формулы нормировки min-max">
-      <img src="/architecture/formulas/normalization.svg" alt="" />
+      <img src={formulaAsset('normalization')} alt="" />
     </button>
   </article>
 
@@ -92,10 +96,10 @@ const featureCentroids = [
       <strong>Траекторная<br />матрица</strong>
     </button>
     <button class="formula-button" type="button" data-detail-id="formula-trajectory" aria-label="Открыть экспликацию формулы траекторной матрицы">
-      <img src="/architecture/formulas/trajectory.svg" alt="" />
+      <img src={formulaAsset('trajectory')} alt="" />
     </button>
     <button class="formula-button" type="button" data-detail-id="formula-svd" aria-label="Открыть экспликацию формулы A равно U сигма V транспонированное">
-      <img src="/architecture/formulas/svd.svg" alt="" />
+      <img src={formulaAsset('svd')} alt="" />
     </button>
   </article>
 
@@ -104,7 +108,7 @@ const featureCentroids = [
       <strong>Элементарная<br />матрица</strong>
     </button>
     <button class="formula-button formula-button--primary" type="button" data-detail-id="formula-elementary" aria-label="Открыть экспликацию формулы элементарной матрицы">
-      <img src="/architecture/formulas/elementary.svg" alt="" />
+      <img src={formulaAsset('elementary')} alt="" />
     </button>
   </article>
 
@@ -113,7 +117,7 @@ const featureCentroids = [
       <strong>Компоненты<br />сигнала</strong>
     </button>
     <button class="formula-button" type="button" data-detail-id="formula-hankelization" aria-label="Открыть экспликацию формулы диагонального усреднения">
-      <img src="/architecture/formulas/hankelization.svg" alt="" />
+      <img src={formulaAsset('hankelization')} alt="" />
     </button>
   </article>
 
@@ -122,7 +126,7 @@ const featureCentroids = [
       <strong>Матрица<br />w-корреляции</strong>
     </button>
     <button class="formula-button" type="button" data-detail-id="formula-w-correlation" aria-label="Открыть экспликацию формулы w-корреляции">
-      <img src="/architecture/formulas/w-correlation.svg" alt="" />
+      <img src={formulaAsset('w-correlation')} alt="" />
     </button>
   </article>
 
@@ -159,7 +163,7 @@ const featureCentroids = [
       </svg>
     </button>
     <button class="formula-button" type="button" data-detail-id="formula-features" aria-label="Открыть экспликацию формул амплитуды и частоты">
-      <img src="/architecture/formulas/features.svg" alt="" />
+      <img src={formulaAsset('features')} alt="" />
     </button>
   </article>
 
@@ -189,7 +193,7 @@ const featureCentroids = [
       </svg>
     </button>
     <button class="formula-button" type="button" data-detail-id="formula-pattern" aria-label="Открыть экспликацию формулы реконструкции паттерна">
-      <img src="/architecture/formulas/pattern.svg" alt="" />
+      <img src={formulaAsset('pattern')} alt="" />
     </button>
   </article>
 
@@ -208,10 +212,10 @@ const featureCentroids = [
       </span>
     </button>
     <button class="formula-button" type="button" data-detail-id="formula-drpi-components" aria-label="Открыть экспликацию составляющих индекса потенциала">
-      <img src="/architecture/formulas/drpi-components.svg" alt="" />
+      <img src={formulaAsset('drpi-components')} alt="" />
     </button>
     <button class="formula-button" type="button" data-detail-id="formula-drpi" aria-label="Открыть экспликацию формулы индекса потенциала управления спросом">
-      <img src="/architecture/formulas/drpi.svg" alt="" />
+      <img src={formulaAsset('drpi')} alt="" />
     </button>
   </article>
 </div>
