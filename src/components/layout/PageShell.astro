@@ -5,20 +5,32 @@ interface Props {
   description?: string;
 }
 const { eyebrow, title, description } = Astro.props;
+const hasHeroAside = Astro.slots.has('hero-aside');
 ---
 <section class="page-hero">
   <div class="container">
-    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-    <h1>{title}</h1>
-    {description && <p>{description}</p>}
+    <div class:list={['page-hero__layout', { 'page-hero__layout--with-aside': hasHeroAside }]}>
+      <div class="page-hero__copy">
+        {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+        <h1>{title}</h1>
+        {description && <p>{description}</p>}
+      </div>
+      {hasHeroAside && <div class="page-hero__aside"><slot name="hero-aside" /></div>}
+    </div>
   </div>
 </section>
 <main id="main-content" class="container page-content" tabindex="-1"><slot /></main>
 <style>
   .page-hero { padding: clamp(40px, 4vw, 58px) 0 clamp(30px, 3vw, 40px); border-bottom: 1px solid var(--line); }
+  .page-hero__layout--with-aside { display: grid; grid-template-columns: minmax(0, 920px) auto; align-items: center; justify-content: space-between; gap: 32px; }
   h1 { max-width: 920px; margin: 0; font-size: clamp(2.5rem, 4.8vw, 4.4rem); line-height: 1; letter-spacing: -.05em; }
   .page-hero p:not(.eyebrow) { max-width: 720px; margin: 16px 0 0; color: #4e5c6f; font-family: Georgia, serif; font-size: 1.14rem; }
   .page-content { padding-top: clamp(36px, 4vw, 48px); padding-bottom: 112px; outline: none; }
+
+  @media (max-width: 700px) {
+    .page-hero__layout--with-aside { display: block; }
+    .page-hero__aside { margin-top: 22px; }
+  }
 
   @media (max-width: 650px) {
     .page-hero { padding: 34px 0 30px; }

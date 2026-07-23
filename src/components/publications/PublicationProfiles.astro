@@ -1,0 +1,141 @@
+---
+import type { Language } from '../../i18n/config';
+
+interface Props {
+  lang?: Language;
+}
+
+const { lang = 'ru' } = Astro.props;
+const labels = lang === 'ru'
+  ? {
+      group: 'Научные профили автора',
+      scopus: 'Профиль автора в Scopus',
+      orcid: 'Профиль автора в ORCID',
+      researchGate: 'Профиль автора в ResearchGate',
+    }
+  : {
+      group: 'Author research profiles',
+      scopus: 'Author profile on Scopus',
+      orcid: 'Author profile on ORCID',
+      researchGate: 'Author profile on ResearchGate',
+    };
+---
+
+<nav class="publication-profiles" aria-label={labels.group}>
+  <a
+    class="publication-profile-link"
+    href="https://www.scopus.com/authid/detail.uri?authorId=57213355840"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={labels.scopus}
+    title={labels.scopus}
+  >
+    <svg class="profile-mark profile-mark--scopus" viewBox="0 0 24 24" aria-hidden="true">
+      <text x="5.1" y="18.3">S</text>
+    </svg>
+  </a>
+
+  <a
+    class="publication-profile-link"
+    href="https://orcid.org/0000-0002-0607-660X"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={labels.orcid}
+    title={labels.orcid}
+  >
+    <svg class="profile-mark profile-mark--orcid" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"></circle>
+      <circle class="profile-mark__cutout" cx="8.2" cy="7.5" r="1.15"></circle>
+      <path class="profile-mark__cutout" d="M7.15 10.1h2.1v6.55h-2.1zM11.15 10.1h3.05c2.3 0 3.8 1.25 3.8 3.25s-1.5 3.3-3.8 3.3h-3.05v-6.55Zm2.05 1.7v3.15h.85c1.15 0 1.82-.55 1.82-1.6 0-1-.67-1.55-1.82-1.55h-.85Z"></path>
+    </svg>
+  </a>
+
+  <a
+    class="publication-profile-link"
+    href="https://www.researchgate.net/profile/Pavel-Suslikov"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={labels.researchGate}
+    title={labels.researchGate}
+  >
+    <svg class="profile-mark profile-mark--research-gate" viewBox="0 0 24 24" aria-hidden="true">
+      <text x="2.4" y="18">R</text>
+      <text class="profile-mark__sup" x="13.2" y="11.1">G</text>
+    </svg>
+  </a>
+</nav>
+
+<style>
+  .publication-profiles {
+    display: grid;
+    grid-template-columns: 44px;
+    gap: 10px;
+  }
+
+  .publication-profile-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color: #4b4e6d;
+    background: rgba(255, 255, 255, .28);
+    text-decoration: none;
+    transition:
+      transform .18s ease,
+      background .18s ease,
+      border-color .18s ease,
+      color .18s ease;
+  }
+
+  .publication-profile-link:hover {
+    transform: translateY(-1px);
+    border-color: rgba(31, 95, 130, .3);
+    color: var(--blue);
+    background: rgba(255, 255, 255, .64);
+  }
+
+  .publication-profile-link:focus-visible {
+    outline-offset: 3px;
+  }
+
+  .profile-mark {
+    display: block;
+    width: 21px;
+    height: 21px;
+    overflow: visible;
+    fill: currentColor;
+  }
+
+  .profile-mark text {
+    fill: currentColor;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 800;
+  }
+
+  .profile-mark--orcid .profile-mark__cutout {
+    fill: var(--paper-strong);
+  }
+
+  .profile-mark--research-gate text {
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 750;
+  }
+
+  .profile-mark--research-gate .profile-mark__sup {
+    font-size: 8px;
+    font-weight: 800;
+  }
+
+  @media (max-width: 700px) {
+    .publication-profiles {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+</style>

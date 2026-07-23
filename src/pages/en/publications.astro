@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageShell from '../../components/layout/PageShell.astro';
+import PublicationProfiles from '../../components/publications/PublicationProfiles.astro';
 import PublicationsEn from '../../content/en/publications.mdx';
 import publications from '../../../public/data/publications/publications.json';
 
@@ -41,6 +42,7 @@ const getCitationDetails = (item: (typeof publications)[number]) => [
   description="Publications and software registrations supporting the dissertation research propositions."
 >
   <PageShell eyebrow="RESEARCH OUTPUTS" title="Publications and Software Registrations">
+    <PublicationProfiles slot="hero-aside" lang="en" />
     <div class="stats">
       <div><strong>{String(counts.scopus).padStart(2, '0')}</strong><span>Scopus</span></div>
       <div><strong>{String(counts.vak).padStart(2, '0')}</strong><span>Journals listed by the Higher Attestation Commission</span></div>

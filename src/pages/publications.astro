@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageShell from '../components/layout/PageShell.astro';
+import PublicationProfiles from '../components/publications/PublicationProfiles.astro';
 import PublicationsRu from '../content/ru/publications.mdx';
 import publications from '../../public/data/publications/publications.json';
 
@@ -28,6 +29,7 @@ const getCitationDetails = (item: (typeof publications)[number]) => [
 ---
 <BaseLayout title="Публикации" description="Публикации и программы для ЭВМ по теме диссертационного исследования.">
   <PageShell eyebrow="АПРОБАЦИЯ РЕЗУЛЬТАТОВ" title="Публикации и программы для ЭВМ">
+    <PublicationProfiles slot="hero-aside" lang="ru" />
     <div class="stats">
       <div><strong>{String(counts.scopus).padStart(2, '0')}</strong><span>Scopus</span></div>
       <div><strong>{String(counts.vak).padStart(2, '0')}</strong><span>Журналы ВАК</span></div>
