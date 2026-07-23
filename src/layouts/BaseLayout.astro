@@ -41,8 +41,30 @@ const alternateEn = new URL(localizedHref(canonicalPath, 'en'), Astro.site ?? As
     <title>{pageTitle}</title>
   </head>
   <body>
+    <div class="site-cursor" aria-hidden="true"></div>
     <Header lang={lang} />
     <slot />
     <Footer lang={lang} />
+    <script>
+      const finePointer = window.matchMedia('(pointer: fine)');
+      const cursor = document.querySelector<HTMLElement>('.site-cursor');
+
+      if (cursor && finePointer.matches) {
+        document.body.classList.add('has-custom-cursor');
+
+        window.addEventListener('pointermove', (event) => {
+          cursor.style.setProperty('--cursor-x', `${event.clientX}px`);
+          cursor.style.setProperty('--cursor-y', `${event.clientY}px`);
+          cursor.classList.add('is-visible');
+          const target = event.target as HTMLElement;
+          cursor.classList.toggle(
+            'is-active',
+            Boolean(target.closest('a, button, [role="button"], input, select, textarea, [data-hotspot]'))
+          );
+        });
+
+        document.documentElement.addEventListener('mouseleave', () => cursor.classList.remove('is-visible'));
+      }
+    </script>
   </body>
 </html>

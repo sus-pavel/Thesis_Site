@@ -1,0 +1,217 @@
+---
+const chartPointCount = 97;
+const makePath = (valueAt: (index: number) => number) =>
+  Array.from({ length: chartPointCount }, (_, index) => {
+    const x = 32 + (index * 326) / (chartPointCount - 1);
+    const y = valueAt(index);
+    return `${index === 0 ? 'M' : 'L'}${x.toFixed(1)} ${y.toFixed(1)}`;
+  }).join(' ');
+
+const patternSeries = {
+  original: makePath((index) => 60 + index * 0.17 + 7 * Math.sin(index * .29) + 9 * Math.sin(index * 1.34) + 4 * Math.sin(index * 2.41)),
+  cluster0: makePath((index) => 78 + 7 * Math.sin(index * .42) + 2.5 * Math.sin(index * .12)),
+  cluster1: makePath((index) => 35 + index * .34 - Math.max(0, index - 74) * .72 + 2.2 * Math.sin(index * .07)),
+  cluster2: makePath((index) => 80 + 2.4 * Math.sin(index * .19) - Math.max(0, index - 77) * 1.35),
+  cluster3: makePath((index) => 78 + 18 * Math.sin(index * .91) + 2.5 * Math.sin(index * .17)),
+  cluster4: makePath((index) => 78 + 4.5 * Math.sin(index * .61 + 1.2) + 1.5 * Math.sin(index * .16)),
+};
+
+const heatmapRows = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+const viridis = ['#440154', '#482475', '#414487', '#355f8d', '#2a788e', '#21918c', '#22a884', '#44bf70', '#7ad151', '#bddf26', '#fde725'];
+const heatBase = [64, 82, 78, 55, 30, 22, 46];
+const heatmapCells = heatmapRows.flatMap((_, row) =>
+  Array.from({ length: 48 }, (_, column) => {
+    const wave = 11 * Math.sin((column / 47) * Math.PI * 1.25 + row * .55);
+    const eveningPeak = row < 3 ? 13 * Math.exp(-Math.pow((column - 34) / 10, 2)) : 0;
+    const level = Math.max(0, Math.min(10, Math.round((heatBase[row] + wave + eveningPeak) / 10)));
+    return viridis[level];
+  })
+);
+
+const featurePoints = [
+  { x: 36, y: 91, cluster: 0 }, { x: 55, y: 94, cluster: 0 },
+  { x: 69, y: 93, cluster: 0 }, { x: 32, y: 88, cluster: 1 },
+  { x: 90, y: 94, cluster: 4 }, { x: 128, y: 93, cluster: 4 },
+  { x: 165, y: 92, cluster: 4 }, { x: 214, y: 91, cluster: 4 },
+  { x: 105, y: 84, cluster: 3 }, { x: 151, y: 82, cluster: 3 },
+  { x: 29, y: 13, cluster: 2 },
+];
+
+const featureCentroids = [
+  { x: 29, y: 13 }, { x: 35, y: 87 }, { x: 58, y: 92 },
+  { x: 116, y: 85 }, { x: 144, y: 92 },
+];
+---
+
+<div class="diagram-surface position-one-surface" data-scene-surface="position1" aria-label="Схема первого положения">
+  <svg class="connection-map" viewBox="0 0 1380 1330" aria-label="Связи между этапами расчёта">
+    <defs>
+      <marker id="p1-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#63aef8"></path>
+      </marker>
+    </defs>
+    <g class="route route--blue">
+      <path class="route-path" data-route-id="normalize" data-connects="raw-data normalized" tabindex="0" role="button" aria-label="Нормировка значений по методу min–max" d="M330 185 H555" marker-end="url(#p1-arrow)"></path>
+      <path class="route-path" data-route-id="embed" data-connects="normalized trajectory" tabindex="0" role="button" aria-label="Вложение нормализованного временного ряда" d="M825 185 H1050" marker-end="url(#p1-arrow)"></path>
+      <path class="route-path" data-route-id="svd" data-connects="trajectory elementary" tabindex="0" role="button" aria-label="Сингулярное разложение траекторной матрицы" d="M1185 270 V330 H195 V390" marker-end="url(#p1-arrow)"></path>
+      <path class="route-path" data-route-id="hankel" data-connects="elementary components" tabindex="0" role="button" aria-label="Диагональное усреднение элементарных матриц" d="M330 475 H555" marker-end="url(#p1-arrow)"></path>
+      <path class="route-path" data-route-id="wcorr" data-connects="components w-correlation" tabindex="0" role="button" aria-label="Матрица W-корреляции" d="M825 475 H1050" marker-end="url(#p1-arrow)"></path>
+      <path class="route-path" data-route-id="features" data-connects="components feature-space" tabindex="0" role="button" aria-label="Амплитуда и частота каждой компоненты" d="M690 560 V725 H1025" marker-end="url(#p1-arrow)"></path>
+      <path class="route-path" data-route-id="cluster" data-connects="feature-space patterns" tabindex="0" role="button" aria-label="Кластеризация компонент в амплитудно-частотном пространстве" d="M1025 850 H330 V1020" marker-end="url(#p1-arrow)"></path>
+      <path class="route-path" data-route-id="index" data-connects="patterns heatmap" tabindex="0" role="button" aria-label="Расчёт индекса потенциала управления спросом" d="M600 1153 H825" marker-end="url(#p1-arrow)"></path>
+    </g>
+  </svg>
+
+  <span class="route-label p1-label-normalize" data-route-for="normalize">Нормировка значений<br />по методу min–max</span>
+  <span class="route-label p1-label-embed" data-route-for="embed">Вложение нормализованного<br />временного ряда</span>
+  <span class="route-label p1-label-svd" data-route-for="svd">Сингулярное разложение траекторной матрицы</span>
+  <span class="route-label p1-label-hankel" data-route-for="hankel">Диагональное усреднение<br />элементарных матриц</span>
+  <span class="route-label p1-label-wcorr" data-route-for="wcorr">Матрица W-корреляции</span>
+  <span class="route-label p1-label-features" data-route-for="features">Амплитуда и частота<br />каждой компоненты</span>
+  <span class="route-label p1-label-cluster" data-route-for="cluster">Кластеризация компонент в<br />амплитудно-частотном пространстве</span>
+  <span class="route-label p1-label-index" data-route-for="index">Расчёт индекса потенциала<br />управления спросом</span>
+
+  <article class="diagram-node p1-node p1-raw" data-node-id="raw-data">
+    <button class="node-main" type="button" data-detail-id="raw-data">
+      <strong>Необработанные данные<br />потребления ЭЭ</strong>
+      <span class="math-inline">P(t)</span>
+    </button>
+  </article>
+
+  <article class="diagram-node p1-node p1-normalized" data-node-id="normalized">
+    <button class="node-main" type="button" data-detail-id="normalized">
+      <strong>Нормализованные<br />данные потребления ЭЭ</strong>
+    </button>
+    <button class="formula-button" type="button" data-detail-id="formula-normalization" aria-label="Открыть экспликацию формулы нормировки min-max">
+      <img src="/architecture/formulas/normalization.svg" alt="" />
+    </button>
+  </article>
+
+  <article class="diagram-node p1-node p1-trajectory" data-node-id="trajectory">
+    <button class="node-main" type="button" data-detail-id="trajectory">
+      <strong>Траекторная<br />матрица</strong>
+    </button>
+    <button class="formula-button" type="button" data-detail-id="formula-trajectory" aria-label="Открыть экспликацию формулы траекторной матрицы">
+      <img src="/architecture/formulas/trajectory.svg" alt="" />
+    </button>
+    <button class="formula-button" type="button" data-detail-id="formula-svd" aria-label="Открыть экспликацию формулы A равно U сигма V транспонированное">
+      <img src="/architecture/formulas/svd.svg" alt="" />
+    </button>
+  </article>
+
+  <article class="diagram-node p1-node p1-elementary" data-node-id="elementary">
+    <button class="node-main" type="button" data-detail-id="elementary">
+      <strong>Элементарная<br />матрица</strong>
+    </button>
+    <button class="formula-button formula-button--primary" type="button" data-detail-id="formula-elementary" aria-label="Открыть экспликацию формулы элементарной матрицы">
+      <img src="/architecture/formulas/elementary.svg" alt="" />
+    </button>
+  </article>
+
+  <article class="diagram-node p1-node p1-components" data-node-id="components">
+    <button class="node-main" type="button" data-detail-id="components">
+      <strong>Компоненты<br />сигнала</strong>
+    </button>
+    <button class="formula-button" type="button" data-detail-id="formula-hankelization" aria-label="Открыть экспликацию формулы диагонального усреднения">
+      <img src="/architecture/formulas/hankelization.svg" alt="" />
+    </button>
+  </article>
+
+  <article class="diagram-node p1-node p1-wcorr" data-node-id="w-correlation">
+    <button class="node-main" type="button" data-detail-id="w-correlation">
+      <strong>Матрица<br />w-корреляции</strong>
+    </button>
+    <button class="formula-button" type="button" data-detail-id="formula-w-correlation" aria-label="Открыть экспликацию формулы w-корреляции">
+      <img src="/architecture/formulas/w-correlation.svg" alt="" />
+    </button>
+  </article>
+
+  <article class="diagram-node p1-node p1-feature-space" data-node-id="feature-space">
+    <button class="node-main" type="button" data-detail-id="feature-space">
+      <strong>Амплитудно-частотная<br />плоскость</strong>
+      <svg class="feature-scatter" viewBox="0 0 260 125" role="img" aria-label="Распределение компонент по частоте и амплитуде с центроидами кластеров">
+        <defs>
+          <linearGradient id="feature-color-scale" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0" stop-color="#5b3a86"></stop>
+            <stop offset=".28" stop-color="#2878a7"></stop>
+            <stop offset=".58" stop-color="#33a979"></stop>
+            <stop offset=".8" stop-color="#9bd34f"></stop>
+            <stop offset="1" stop-color="#f6df3c"></stop>
+          </linearGradient>
+        </defs>
+        <path class="feature-grid" d="M28 12H224M28 32H224M28 52H224M28 72H224M28 94H224M28 12V94M77 12V94M126 12V94M175 12V94M224 12V94"></path>
+        <path class="feature-axis" d="M28 12V94H224"></path>
+        {featurePoints.map((point) => (
+          <circle class={`feature-point feature-point--${point.cluster}`} cx={point.x} cy={point.y} r="3.4"></circle>
+        ))}
+        {featureCentroids.map((point) => (
+          <g class="feature-centroid" transform={`translate(${point.x} ${point.y})`}>
+            <path d="M-4.5-4.5L4.5 4.5M4.5-4.5L-4.5 4.5"></path>
+          </g>
+        ))}
+        <rect class="feature-scale" x="235" y="12" width="7" height="82" rx="2"></rect>
+        <g class="feature-ticks">
+          <text x="25" y="105">0</text><text x="74" y="105">1</text><text x="123" y="105">2</text><text x="172" y="105">3</text>
+          <text x="221" y="105">4</text><text x="244" y="17">4</text><text x="244" y="96">0</text>
+        </g>
+        <text class="feature-axis-title feature-axis-title--x" x="126" y="120">Частота, циклы/сутки</text>
+        <text class="feature-axis-title feature-axis-title--y" transform="translate(10 57) rotate(-90)">Амплитуда, RMS</text>
+      </svg>
+    </button>
+    <button class="formula-button" type="button" data-detail-id="formula-features" aria-label="Открыть экспликацию формул амплитуды и частоты">
+      <img src="/architecture/formulas/features.svg" alt="" />
+    </button>
+  </article>
+
+  <article class="diagram-node p1-node p1-patterns" data-node-id="patterns">
+    <button class="node-main node-main--visual" type="button" data-detail-id="patterns">
+      <strong>Паттерны<br />временного ряда</strong>
+      <span class="chart-legend-list" aria-hidden="true">
+        <i class="legend-original">Исходный ряд</i>
+        <i class="legend-c0">Кластер 0</i>
+        <i class="legend-c1">Кластер 1</i>
+        <i class="legend-c2">Кластер 2</i>
+        <i class="legend-c3">Кластер 3</i>
+        <i class="legend-c4">Кластер 4</i>
+      </span>
+      <svg class="mini-line-chart" viewBox="0 0 370 130" aria-hidden="true">
+        <path class="chart-grid" d="M32 24H358M32 48H358M32 72H358M32 96H358M32 112H358M32 16V112M113 16V112M195 16V112M276 16V112M358 16V112"></path>
+        <path class="chart-axis" d="M32 16V112H358"></path>
+        <path class="chart-line chart-line--original" d={patternSeries.original}></path>
+        <path class="chart-line chart-line--cluster-0" d={patternSeries.cluster0}></path>
+        <path class="chart-line chart-line--cluster-1" d={patternSeries.cluster1}></path>
+        <path class="chart-line chart-line--cluster-2" d={patternSeries.cluster2}></path>
+        <path class="chart-line chart-line--cluster-3" d={patternSeries.cluster3}></path>
+        <path class="chart-line chart-line--cluster-4" d={patternSeries.cluster4}></path>
+        <g class="chart-ticks">
+          <text x="32" y="126">01.05</text><text x="183" y="126">15.05</text><text x="330" y="126">29.05</text>
+        </g>
+      </svg>
+    </button>
+    <button class="formula-button" type="button" data-detail-id="formula-pattern" aria-label="Открыть экспликацию формулы реконструкции паттерна">
+      <img src="/architecture/formulas/pattern.svg" alt="" />
+    </button>
+  </article>
+
+  <article class="diagram-node p1-node p1-heatmap" data-node-id="heatmap">
+    <button class="node-main node-main--visual" type="button" data-detail-id="heatmap">
+      <strong>Карта интенсивности<br />потенциала применения ТУС</strong>
+      <span class="heatmap-figure" aria-hidden="true">
+        <span class="heatmap-y-axis">
+          {heatmapRows.map((day) => <b>{day}</b>)}
+        </span>
+        <span class="mini-heatmap">
+          {heatmapCells.map((color) => <i style={`background:${color}`}></i>)}
+        </span>
+        <span class="heatmap-scale"></span>
+        <span class="heatmap-x-axis"><b>0</b><b>12</b><b>24</b><b>36</b><b>47</b></span>
+      </span>
+    </button>
+    <button class="formula-button" type="button" data-detail-id="formula-drpi-components" aria-label="Открыть экспликацию составляющих индекса потенциала">
+      <img src="/architecture/formulas/drpi-components.svg" alt="" />
+    </button>
+    <button class="formula-button" type="button" data-detail-id="formula-drpi" aria-label="Открыть экспликацию формулы индекса потенциала управления спросом">
+      <img src="/architecture/formulas/drpi.svg" alt="" />
+    </button>
+  </article>
+</div>

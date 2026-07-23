@@ -39,6 +39,43 @@ a:focus-visible, button:focus-visible { outline: 3px solid rgba(24, 86, 216, .35
 a { color: inherit; text-decoration: none; }
 img, svg { display: block; max-width: 100%; }
 button { font: inherit; }
+.site-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10000;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--blue);
+  border-radius: 50%;
+  background: rgba(24, 86, 216, .06);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(var(--cursor-x, -40px), var(--cursor-y, -40px), 0) translate(-50%, -50%);
+  transition:
+    border-color .16s ease,
+    background .16s ease,
+    box-shadow .16s ease,
+    opacity .12s ease;
+}
+.site-cursor.is-visible { opacity: 1; }
+.site-cursor.is-active {
+  border-color: #ff6a43;
+  background: rgba(255, 106, 67, .16);
+  box-shadow: 0 0 0 5px rgba(255, 106, 67, .08);
+}
+@media (pointer: fine) {
+  body.has-custom-cursor,
+  body.has-custom-cursor a,
+  body.has-custom-cursor button,
+  body.has-custom-cursor input,
+  body.has-custom-cursor select,
+  body.has-custom-cursor textarea,
+  body.has-custom-cursor [role="button"],
+  body.has-custom-cursor .architecture-viewport {
+    cursor: none !important;
+  }
+}
 .container { width: min(calc(100% - 40px), var(--max)); margin-inline: auto; }
 .eyebrow {
   margin: 0 0 14px;

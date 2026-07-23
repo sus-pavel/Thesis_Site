@@ -1,0 +1,163 @@
+<div class="diagram-surface position-two-surface" data-scene-surface="position2" aria-label="Схема второго положения">
+  <svg class="connection-map" viewBox="0 0 1600 900" aria-hidden="true">
+    <defs>
+      <marker id="p2-arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#63aef8"></path>
+      </marker>
+      <marker id="p2-arrow-coral" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#ff7558"></path>
+      </marker>
+    </defs>
+    <g class="route route--blue">
+      <path d="M350 205 H410" marker-end="url(#p2-arrow-blue)"></path>
+      <path d="M700 205 H760" marker-end="url(#p2-arrow-blue)"></path>
+      <path d="M1050 205 H1110" marker-end="url(#p2-arrow-blue)"></path>
+      <path d="M1260 330 V385 H320 V430" marker-end="url(#p2-arrow-blue)"></path>
+      <path d="M620 500 H760" marker-end="url(#p2-arrow-blue)"></path>
+      <path d="M420 735 H535" marker-end="url(#p2-arrow-blue)"></path>
+      <path d="M985 735 H1090" marker-end="url(#p2-arrow-blue)"></path>
+    </g>
+    <path class="route route--coral" d="M1390 205 C1510 205 1510 510 1360 510" marker-end="url(#p2-arrow-coral)"></path>
+  </svg>
+
+  <article class="diagram-node p2-node p2-classification">
+    <button class="node-main node-main--list" type="button" data-detail-id="classification">
+      <strong>Классификация нагрузок</strong>
+      <ul>
+        <li>Вариативная</li>
+        <li>Скользящая</li>
+        <li>Гибкая</li>
+        <li>Мигрирующая</li>
+        <li class="is-muted">Пассивная</li>
+      </ul>
+    </button>
+  </article>
+
+  <article class="diagram-node p2-node p2-actions">
+    <button class="node-main node-main--list" type="button" data-detail-id="actions">
+      <strong>Управляющие воздействия<br />и ограничения</strong>
+      <p>Пределы реакции, цикла, глубины управления и дальности переноса.</p>
+    </button>
+  </article>
+
+  <article class="diagram-node p2-node p2-models">
+    <button class="node-main node-main--math" type="button" data-detail-id="models">
+      <strong>Математические модели DSM</strong>
+      <span>Θ<sub>i</sub><sup>(var)</sup> = (γ<sub>i</sub><sup>max</sup>, ΔT<sub>i</sub>, N<sub>i</sub><sup>peak</sup>)</span>
+      <span>Θ<sub>j</sub><sup>(sl)</sup> = (ΔT<sub>j</sub>, α<sub>j</sub>)</span>
+      <span>Θ<sub>k</sub><sup>(flex)</sup> = (γ<sub>k</sub><sup>min</sup>, γ<sub>k</sub><sup>max</sup>, SoC<sub>k</sub><sup>min</sup>, SoC<sub>k</sub><sup>max</sup>, β<sub>k</sub>)</span>
+    </button>
+  </article>
+
+  <article class="diagram-node p2-node p2-optimization is-selected">
+    <button class="node-main node-main--math" type="button" data-detail-id="optimization">
+      <strong>Оптимизация параметров DSM</strong>
+      <p>Минимум интегральной целевой функции методом CC-PSO</p>
+      <span class="objective-formula">
+        J(Θ) = C<sub>op</sub>(Θ) + λ<sub>1</sub>C<sub>start</sub>(Θ) + λ<sub>2</sub>C<sub>low</sub>(Θ) + λ<sub>3</sub>C<sub>curt</sub>(Θ)
+      </span>
+    </button>
+  </article>
+
+  <section class="calculation-band" aria-label="Расчёт режима и эффектов">
+    <article class="diagram-node calculation-node">
+      <button class="node-main calculation-engine" type="button" data-detail-id="simulation">
+        <strong>Расчёт режима ЭТК</strong>
+        <span class="engine-stack">
+          <span class="software-mark software-mark--matlab">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <defs>
+                <linearGradient id="matlab-wave" x1="2" y1="28" x2="29" y2="5" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#1f6aa5"></stop><stop offset=".45" stop-color="#f07c2d"></stop><stop offset="1" stop-color="#c42f22"></stop>
+                </linearGradient>
+              </defs>
+              <path d="M2 22 9 8l6 8 6-12 9 23-12-5-8 5Z" fill="url(#matlab-wave)"></path>
+              <path d="m2 22 8-4 5-2" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width=".8"></path>
+            </svg>
+            <span>MATLAB</span>
+          </span>
+          <span class="software-mark software-mark--matpower">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <circle cx="16" cy="16" r="13" fill="#e9f3fb" stroke="#2b6ca8" stroke-width="1.5"></circle>
+              <path d="M5 18c4-8 7 5 11-2s7-2 11-5" fill="none" stroke="#2b6ca8" stroke-width="2.3" stroke-linecap="round"></path>
+              <path d="m18 7-4 8h4l-2 9 7-11h-4Z" fill="#e4a526"></path>
+            </svg>
+            <span>MATPOWER</span>
+          </span>
+          <span class="software-mark software-mark--pandapower">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <path d="m8 9-3-4 6 1M24 9l3-4-6 1" fill="#268868"></path>
+              <circle cx="16" cy="16" r="11" fill="#eaf7f2" stroke="#268868" stroke-width="1.5"></circle>
+              <ellipse cx="11.5" cy="14" rx="3.1" ry="3.8" fill="#268868" transform="rotate(25 11.5 14)"></ellipse>
+              <ellipse cx="20.5" cy="14" rx="3.1" ry="3.8" fill="#268868" transform="rotate(-25 20.5 14)"></ellipse>
+              <circle cx="12" cy="14" r="1" fill="#fff"></circle><circle cx="20" cy="14" r="1" fill="#fff"></circle>
+              <path d="M13 21h6l-3 3Z" fill="#268868"></path>
+            </svg>
+            <span>pandapower</span>
+          </span>
+          <span class="software-mark software-mark--python">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <path d="M16 3c-7 0-7 3-7 7v4h8v2H6c-3 0-4 2-4 6s2 7 6 7h4v-5c0-4 3-7 7-7h7v-7c0-4-3-7-10-7Z" fill="#3677a8"></path>
+              <path d="M16 29c7 0 7-3 7-7v-4h-8v-2h11c3 0 4-2 4-6s-2-7-6-7h-4v5c0 4-3 7-7 7H6v7c0 4 3 7 10 7Z" fill="#f2c84b" opacity=".98"></path>
+              <circle cx="13" cy="7.5" r="1.15" fill="#fff"></circle><circle cx="19" cy="24.5" r="1.15" fill="#fff"></circle>
+            </svg>
+            <span>Python</span>
+          </span>
+        </span>
+      </button>
+    </article>
+
+    <article class="diagram-node effects-node">
+      <button class="node-main node-main--list effects-list" type="button" data-detail-id="effects">
+        <strong>Расчёт эффектов</strong>
+        <ul>
+          <li>OPEX, тыс. руб.</li>
+          <li>КИУМ генерации</li>
+          <li>Scope 1, т CO₂</li>
+          <li>Пуски ДГУ</li>
+          <li>Срок окупаемости</li>
+        </ul>
+      </button>
+    </article>
+  </section>
+
+  <article class="diagram-node p2-node p2-source">
+    <button class="node-main node-main--visual" type="button" data-detail-id="source-data">
+      <strong>Исходные данные</strong>
+      <svg class="mini-network" viewBox="0 0 260 90" aria-hidden="true">
+        <path d="M12 45H70M70 15v60M70 25h45m-45 20h45M70 65h45m0-40h45m-45 20h45m-45 20h45m0-40h42m-42 20h42m-42 20h42"></path>
+        <circle cx="12" cy="45" r="8"></circle><circle cx="115" cy="25" r="6"></circle><circle cx="115" cy="45" r="6"></circle><circle cx="115" cy="65" r="6"></circle>
+        <rect x="202" y="18" width="38" height="14" rx="3"></rect><rect x="202" y="38" width="38" height="14" rx="3"></rect><rect x="202" y="58" width="38" height="14" rx="3"></rect>
+      </svg>
+    </button>
+  </article>
+
+  <article class="diagram-node p2-node p2-cycle">
+    <button class="node-main node-main--visual" type="button" data-detail-id="cycle">
+      <strong>Расчётный цикл</strong>
+      <svg class="mini-cycle" viewBox="0 0 310 100" aria-hidden="true">
+        <defs>
+          <marker id="cycle-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+            <path d="M0 0 10 5 0 10Z" fill="#63aef8"></path>
+          </marker>
+        </defs>
+        <path d="M80 75C15 32 90 0 150 26" marker-end="url(#cycle-arrow)"></path>
+        <path d="M230 25c65 42-10 76-70 49" marker-end="url(#cycle-arrow)"></path>
+        <text x="38" y="45">MATPOWER</text>
+        <text x="205" y="62">CC-PSO</text>
+      </svg>
+    </button>
+  </article>
+
+  <article class="diagram-node p2-node p2-results">
+    <button class="node-main node-main--visual" type="button" data-detail-id="results">
+      <strong>Результаты</strong>
+      <span class="results-visual" aria-hidden="true">
+        <span class="bar-chart">
+          <i style="--h:38%"></i><i style="--h:62%"></i><i style="--h:46%"></i><i style="--h:78%"></i><i style="--h:56%"></i><i style="--h:88%"></i><i style="--h:68%"></i><i style="--h:49%"></i>
+        </span>
+        <span class="donut-chart"></span>
+      </span>
+    </button>
+  </article>
+</div>

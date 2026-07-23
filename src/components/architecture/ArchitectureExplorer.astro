@@ -1,0 +1,1476 @@
+---
+import SystemScene from './scenes/SystemScene.astro';
+import PositionOneScene from './scenes/PositionOneScene.astro';
+import PositionTwoScene from './scenes/PositionTwoScene.astro';
+
+const scenes = {
+  system: {
+    title: 'Архитектура решения',
+    subtitle: 'Перемещайтесь по схеме, масштабируйте и открывайте узлы',
+    width: 1500,
+    height: 900,
+    defaultDetail: 'data-center',
+    details: {
+      monitoring: {
+        kind: 'Аудит · наблюдение',
+        title: 'Мониторинг классов нагрузок',
+        text: 'Контур получает данные по общему счётчику и отдельным нагрузкам, восстанавливает пропуски и определяет состояния оборудования.',
+        items: ['Разметка методом гистерезиса', 'Прогноз вероятности включения', 'Бинаризация и оценка моделей'],
+      },
+      'load-data': {
+        kind: 'Единая информационная модель',
+        title: 'Данные ЭЭ и техпроцесса',
+        text: 'Электротехнические параметры объединяются с производственными ограничениями, внешними условиями и временными рядами потребления.',
+        items: ['Потребление электроэнергии', 'Режимы оборудования', 'Погодные и технологические факторы'],
+      },
+      modeling: {
+        kind: 'Расчётный контур',
+        title: 'Моделирование ЭТК',
+        text: 'Модель автономного электротехнического комплекса рассчитывает режим и суточные OPEX для каждого варианта управления нагрузкой.',
+        items: ['Топология и генерация', 'Нагрузки и накопитель', 'Сценарии и ограничения'],
+      },
+      'data-center': {
+        kind: 'Связующий контур',
+        title: 'Центр обработки данных',
+        text: 'Единая точка обмена связывает наблюдение, прогнозирование, оценку потенциала, моделирование и оптимизацию DSM.',
+        items: ['Временные ряды', 'Параметры ЭТК', 'Технологические ограничения'],
+      },
+      control: {
+        kind: 'Выход системы',
+        title: 'Управление нагрузкой',
+        text: 'Оптимальные параметры преобразуются в адресные управляющие воздействия для конкретных классов электроприёмников.',
+        items: ['Ограничение мощности', 'Перенос цикла', 'Гибкое и мигрирующее управление'],
+      },
+      external: {
+        kind: 'Контекст модели',
+        title: 'Внешние условия и техпроцесс',
+        text: 'Производственный процесс, внешние факторы и графики обслуживания задают допустимую область управления спросом.',
+        items: ['Технологические ограничения', 'Погодные условия', 'Графики ремонта'],
+      },
+      forecast: {
+        kind: 'Прогнозный блок',
+        title: 'Прогноз временных рядов',
+        text: 'Блок формирует прогноз на сутки вперёд с минутной дискретностью для последующего расчёта режима.',
+        items: ['Потребление', 'Генерация ВИЭ', 'Состояния нагрузок'],
+      },
+      decomposition: {
+        kind: 'Положение 1',
+        title: 'Сингулярное разложение',
+        text: 'SSA-контур выделяет компоненты временного ряда, группирует их по амплитуде и частоте и формирует карту потенциала применения ТУС.',
+        items: ['Траекторная матрица', 'w-корреляция', 'Паттерны и DR PI'],
+      },
+      optimization: {
+        kind: 'Положение 2',
+        title: 'Оптимизация CC-PSO',
+        text: 'Итерационный контур подбирает параметры DSM, передаёт скорректированные графики в модель ЭТК и сравнивает результат.',
+        items: ['Группы параметров', 'Сигналы переноса нагрузки', 'Проверка сходимости'],
+      },
+    },
+  },
+  position1: {
+    title: 'Положение 1 · Аудит потенциала',
+    subtitle: 'От временного ряда к карте потенциала применения ТУС',
+    width: 1380,
+    height: 1330,
+    defaultDetail: 'components',
+    details: {
+      'raw-data': {
+        kind: 'Вход',
+        title: 'Данные потребления',
+        text: 'Необработанный временной ряд потребления электроэнергии P(t) поступает в единый контур предварительной обработки.',
+        items: ['Проверка пропусков', 'Согласование дискретности', 'Выбор анализируемого интервала'],
+      },
+      normalized: {
+        kind: 'Предварительная обработка',
+        title: 'Нормализованные данные',
+        text: 'Нормировка min–max приводит значения к единому масштабу, сохраняя относительную структуру временного ряда.',
+        items: ['Сопоставимость признаков', 'Сохранение формы сигнала', 'Подготовка к вложению'],
+      },
+      'formula-normalization': {
+        kind: 'Экспликация формулы',
+        title: 'Нормировка min–max',
+        formula: 'P̂ₜ = (Pₜ − Pₘᵢₙ) / (Pₘₐₓ − Pₘᵢₙ)',
+        formulaAsset: '/architecture/formulas/normalization.svg',
+        text: 'Каждое значение временного ряда переводится в безразмерный диапазон от 0 до 1.',
+        terms: [
+          { symbol: 'P̂ₜ', description: 'нормированное значение мощности в момент времени t' },
+          { symbol: 'Pₜ', description: 'исходное значение мощности в момент времени t' },
+          { symbol: 'Pₘᵢₙ', description: 'минимальное значение в нормируемом интервале' },
+          { symbol: 'Pₘₐₓ', description: 'максимальное значение в нормируемом интервале' },
+          { symbol: 't', description: 'индекс отсчёта временного ряда' },
+        ],
+      },
+      trajectory: {
+        kind: 'SSA · вложение',
+        title: 'Траекторная матрица',
+        text: 'Из лаговых копий нормализованного ряда строится ганкелева траекторная матрица, отражающая повторяющиеся состояния сигнала.',
+        items: ['Длина окна L', 'Лаговые векторы', 'Ганкелева структура'],
+      },
+      'formula-trajectory': {
+        kind: 'Экспликация формулы',
+        title: 'Траекторная матрица',
+        formula: 'A = [pᵢ₊ⱼ₋₁]L×k,   k = K − L + 1',
+        formulaAsset: '/architecture/formulas/trajectory.svg',
+        text: 'Элемент матрицы определяется отсчётом временного ряда с соответствующим лагом; равные побочные диагонали содержат одинаковые значения.',
+        terms: [
+          { symbol: 'A', description: 'ганкелева траекторная матрица' },
+          { symbol: 'pᵢ₊ⱼ₋₁', description: 'значение ряда на пересечении i-й строки и j-го столбца' },
+          { symbol: 'L', description: 'длина окна и число строк матрицы' },
+          { symbol: 'k', description: 'число столбцов, или число векторов вложения' },
+          { symbol: 'K', description: 'общее количество отсчётов исходного ряда' },
+          { symbol: 'i, j', description: 'индексы строки и столбца матрицы' },
+        ],
+      },
+      'formula-svd': {
+        kind: 'Экспликация формулы',
+        title: 'Сингулярное разложение',
+        formula: 'A = UΣVᵀ',
+        formulaAsset: '/architecture/formulas/svd.svg',
+        text: 'Разложение представляет траекторную матрицу как сумму ортогональных компонент, упорядоченных по вкладу в исходный сигнал.',
+        terms: [
+          { symbol: 'A', description: 'траекторная матрица временного ряда' },
+          { symbol: 'U', description: 'матрица левых сингулярных векторов' },
+          { symbol: 'Σ', description: 'диагональная матрица сингулярных значений' },
+          { symbol: 'Vᵀ', description: 'транспонированная матрица правых сингулярных векторов' },
+        ],
+      },
+      elementary: {
+        kind: 'SSA · декомпозиция',
+        title: 'Элементарная матрица',
+        text: 'Каждая элементарная матрица соответствует одной компоненте сингулярного разложения и её вкладу в траекторную матрицу.',
+        items: ['Ранг 1', 'Собственный вклад', 'Отдельный масштаб сигнала'],
+      },
+      'formula-elementary': {
+        kind: 'Экспликация формулы',
+        title: 'Элементарная матрица',
+        formula: 'Aᵢ = √λᵢ UᵢVᵢᵀ',
+        formulaAsset: '/architecture/formulas/elementary.svg',
+        text: 'Формула задаёт i-ю элементарную матрицу через собственное значение и пару соответствующих сингулярных векторов.',
+        terms: [
+          { symbol: 'Aᵢ', description: 'i-я элементарная матрица траекторной матрицы' },
+          { symbol: 'λᵢ', description: 'i-е собственное значение; характеризует вклад компоненты' },
+          { symbol: 'Uᵢ', description: 'i-й левый сингулярный вектор' },
+          { symbol: 'Vᵢ', description: 'i-й правый сингулярный вектор' },
+          { symbol: 'T', description: 'операция транспонирования' },
+        ],
+      },
+      components: {
+        kind: 'Сингулярное разложение',
+        title: 'Компоненты сигнала',
+        text: 'После диагонального усреднения элементарные матрицы возвращаются во временную область как набор компонент сигнала.',
+        items: ['Трендовая составляющая', 'Периодические компоненты', 'Высокочастотный остаток'],
+      },
+      'formula-hankelization': {
+        kind: 'Экспликация формулы',
+        title: 'Диагональное усреднение',
+        formula: 'F̃ᵢ(j) = (1 / nⱼ) Σₘ₊ₙ₌ⱼ₊₁ (Aᵢ)ₘₙ',
+        formulaAsset: '/architecture/formulas/hankelization.svg',
+        text: 'Компонента временного ряда восстанавливается усреднением элементов элементарной матрицы по каждой побочной диагонали.',
+        terms: [
+          { symbol: 'F̃ᵢ(j)', description: 'j-й отсчёт восстановленной i-й компоненты' },
+          { symbol: 'Aᵢ', description: 'i-я элементарная матрица' },
+          { symbol: '(Aᵢ)ₘₙ', description: 'элемент матрицы в строке m и столбце n' },
+          { symbol: 'nⱼ', description: 'число элементов на j-й побочной диагонали' },
+          { symbol: 'Σ', description: 'суммирование элементов при условии m + n = j + 1' },
+        ],
+      },
+      'w-correlation': {
+        kind: 'Проверка разделимости',
+        title: 'Матрица w-корреляции',
+        text: 'w-корреляция показывает степень связи реконструированных компонент и помогает проверить корректность их разделения.',
+        items: ['Близость компонент', 'Выбор группировки', 'Контроль интерпретируемости'],
+      },
+      'formula-w-correlation': {
+        kind: 'Экспликация формулы',
+        title: 'Коэффициент w-корреляции',
+        formula: 'wᵢⱼ = |⟨F̃ᵢ,F̃ⱼ⟩w| / (‖F̃ᵢ‖w ‖F̃ⱼ‖w)',
+        formulaAsset: '/architecture/formulas/w-correlation.svg',
+        text: 'Нормированное взвешенное скалярное произведение измеряет близость двух восстановленных компонент.',
+        terms: [
+          { symbol: 'wᵢⱼ', description: 'коэффициент w-корреляции компонент i и j' },
+          { symbol: 'F̃ᵢ, F̃ⱼ', description: 'сравниваемые восстановленные компоненты' },
+          { symbol: '⟨·,·⟩w', description: 'взвешенное скалярное произведение' },
+          { symbol: '‖·‖w', description: 'взвешенная норма компоненты' },
+          { symbol: 'i, j', description: 'индексы компонент сингулярного разложения' },
+        ],
+      },
+      'feature-space': {
+        kind: 'Признаковое пространство',
+        title: 'Амплитудно-частотная плоскость',
+        text: 'Для каждой компоненты рассчитываются RMS-амплитуда и доминирующая частота, после чего компоненты кластеризуются.',
+        items: ['RMS-амплитуда', 'Доминирующая частота', 'Кластеры компонент'],
+      },
+      'formula-features': {
+        kind: 'Экспликация формул',
+        title: 'Амплитуда и частота',
+        formula: 'aᵢ = √[(1/N)ΣₜF̃ᵢ²(t)],   fᵢ = arg maxf>0 |FFT(F̃ᵢ)(f)|',
+        formulaAsset: '/architecture/formulas/features.svg',
+        text: 'Компонента представляется точкой на амплитудно-частотной плоскости по RMS-амплитуде и доминирующей частоте.',
+        terms: [
+          { symbol: 'aᵢ', description: 'среднеквадратичная амплитуда i-й компоненты' },
+          { symbol: 'fᵢ', description: 'доминирующая частота i-й компоненты' },
+          { symbol: 'F̃ᵢ(t)', description: 'значение восстановленной компоненты в момент t' },
+          { symbol: 'N', description: 'количество отсчётов компоненты' },
+          { symbol: 'FFT', description: 'быстрое преобразование Фурье' },
+          { symbol: 'f', description: 'частота спектральной составляющей' },
+        ],
+      },
+      patterns: {
+        kind: 'Реконструкция',
+        title: 'Паттерны временного ряда',
+        text: 'Компоненты одного кластера суммируются и образуют интерпретируемые паттерны потребления с различным временным масштабом.',
+        items: ['Суточные режимы', 'Технологические циклы', 'Высокочастотные изменения'],
+      },
+      'formula-pattern': {
+        kind: 'Экспликация формулы',
+        title: 'Реконструкция паттерна',
+        formula: 'Pᵈ⁽ᵐ⁾(t) = Σi∈Cₘ F̃ᵢ(t)',
+        formulaAsset: '/architecture/formulas/pattern.svg',
+        text: 'Временной паттерн формируется суммированием всех восстановленных компонент, отнесённых алгоритмом k-means к одному кластеру.',
+        terms: [
+          { symbol: 'Pᵈ⁽ᵐ⁾(t)', description: 'm-й паттерн для окна или суток d' },
+          { symbol: 'Cₘ', description: 'множество компонент m-го кластера' },
+          { symbol: 'F̃ᵢ(t)', description: 'i-я восстановленная элементарная компонента' },
+          { symbol: 'm', description: 'номер кластера и соответствующего паттерна' },
+          { symbol: 'd', description: 'индекс анализируемого временного окна' },
+          { symbol: 't', description: 'временной индекс' },
+        ],
+      },
+      heatmap: {
+        kind: 'Результат положения 1',
+        title: 'Карта потенциала ТУС',
+        text: 'Интегральный индекс DR PI переводится в карту интенсивности, показывающую предпочтительные интервалы применения DSM.',
+        items: ['Интенсивность потенциала', 'Время суток', 'Тип дня'],
+      },
+      'formula-drpi-components': {
+        kind: 'Экспликация формул',
+        title: 'Составляющие DR PI',
+        formula: 'F₁,ᵈ = Eflex,d / Etot,d\nF₂,ᵈ = 1 − k50,d / N\nF₃,ᵈ = (Rᵈ − Rmin) / (Rmax − Rmin)',
+        formulaAsset: '/architecture/formulas/drpi-components.svg',
+        text: 'Три нормированные составляющие описывают долю гибкой энергии, её концентрацию во времени и динамику изменения нагрузки.',
+        terms: [
+          { symbol: 'Eflex,d', description: 'гибкая энергия за сутки d: Σₜ max(0, Pᵈ,ₜ − bᵈ)Δt' },
+          { symbol: 'Etot,d', description: 'полная энергия за сутки d' },
+          { symbol: 'bᵈ', description: 'базовый уровень: 20-й процентиль Q₀,₂ суточного профиля' },
+          { symbol: 'k50,d', description: 'минимальное число интервалов, содержащих 50 % гибкой энергии' },
+          { symbol: 'N', description: 'количество отсчётов за сутки' },
+          { symbol: 'Rᵈ', description: 'нормированная средняя амплитуда внутрисуточных изменений' },
+          { symbol: 'Rmin,Rmax', description: 'минимум и максимум R по выборке дней' },
+        ],
+      },
+      'formula-drpi': {
+        kind: 'Экспликация формулы',
+        title: 'Индекс потенциала DR PI',
+        formula: 'DR PIᵈ = w₁F₁,ᵈ + w₂F₂,ᵈ + w₃F₃,ᵈ',
+        formulaAsset: '/architecture/formulas/drpi.svg',
+        text: 'Индекс объединяет энергетическую, временную и динамическую составляющие потенциала управления спросом. В работе приняты веса 0,5; 0,3; 0,2.',
+        terms: [
+          { symbol: 'DR PIᵈ', description: 'интегральный индекс потенциала для суток d' },
+          { symbol: 'F₁,ᵈ', description: 'доля гибкой энергии: Eflex,d / Etot,d' },
+          { symbol: 'F₂,ᵈ', description: 'концентрация гибкой энергии: 1 − k50,d / N' },
+          { symbol: 'F₃,ᵈ', description: 'нормированная динамика внутрисуточных изменений' },
+          { symbol: 'w₁,w₂,w₃', description: 'весовые коэффициенты; их сумма равна 1' },
+          { symbol: 'd', description: 'индекс суток или скользящего суточного окна' },
+        ],
+      },
+    },
+  },
+  position2: {
+    title: 'Положение 2 · Адресное управление',
+    subtitle: 'От классификации нагрузки к измеримому эффекту',
+    width: 1600,
+    height: 900,
+    defaultDetail: 'optimization',
+    details: {
+      classification: {
+        kind: 'Вход в положение 2',
+        title: 'Классификация нагрузок',
+        text: 'Нагрузки разделяются по допустимому характеру управления: вариативные, скользящие, гибкие, мигрирующие и пассивные.',
+        items: ['Характер цикла', 'Глубина управления', 'Допустимость переноса'],
+      },
+      actions: {
+        kind: 'Формализация',
+        title: 'Воздействия и ограничения',
+        text: 'Для каждого класса задаются допустимые DR-воздействия и пределы по времени реакции, циклу, глубине управления и переносу.',
+        items: ['Время реакции', 'Время цикла', 'Дальность переноса'],
+      },
+      models: {
+        kind: 'Параметры управления',
+        title: 'Математические модели DSM',
+        text: 'Физика каждого класса переводится в собственный набор оптимизируемых параметров и ограничений.',
+        items: ['Вариативная нагрузка', 'Скользящая нагрузка', 'Гибкая и мигрирующая нагрузки'],
+      },
+      optimization: {
+        kind: 'Метод CC-PSO',
+        title: 'Оптимизация параметров DSM',
+        formula: 'J(Θ) = Cₒₚ(Θ) + λ₁Cₛₜₐᵣₜ(Θ) + λ₂Cₗₒw(Θ) + λ₃C꜀ᵤᵣₜ(Θ)',
+        text: 'Минимизируется интегральная целевая функция, учитывающая операционные затраты, пуски, работу на низкой мощности и ограничения ВИЭ.',
+        items: ['Cₒₚ — операционные затраты', 'Cₛₜₐᵣₜ — затраты на пуски', 'Cₗₒw и C꜀ᵤᵣₜ — штрафы режима'],
+      },
+      simulation: {
+        kind: 'Расчёт режима',
+        title: 'Моделирование ЭТК',
+        text: 'Скорректированные графики нагрузок передаются в Matpower/MOST и Python-контур для расчёта режима и затрат.',
+        items: ['Генерация и сеть', 'Графики нагрузок', 'Суточный расчёт'],
+      },
+      effects: {
+        kind: 'Сравнение сценариев',
+        title: 'Расчёт эффектов',
+        text: 'Результат оценивается по экономическим, технологическим и экологическим показателям.',
+        items: ['OPEX и срок окупаемости', 'КИУМ и пуски ДГУ', 'Scope 1 и экономия топлива'],
+      },
+      'source-data': {
+        kind: 'Расчётный пример',
+        title: 'Исходные данные',
+        text: 'Топология сети, генерация, профили нагрузок и технологические ограничения образуют единый набор входных данных.',
+        items: ['Схема ЭТК', 'Графики нагрузок и ВИЭ', 'Параметры оборудования'],
+      },
+      cycle: {
+        kind: 'Итерационный контур',
+        title: 'Расчётный цикл',
+        text: 'CC-PSO изменяет параметры DSM, модель пересчитывает режим, а целевая функция определяет следующее направление поиска.',
+        items: ['Параметры DSM', 'Моделирование ЭТК', 'Проверка сходимости'],
+      },
+      results: {
+        kind: 'Выход расчёта',
+        title: 'Результаты',
+        text: 'Сценарии сравниваются по структуре нагрузки, работе генерации, затратам, выбросам и сроку окупаемости.',
+        items: ['Профили мощности', 'Структура генерации', 'Экономический эффект'],
+      },
+    },
+  },
+};
+---
+
+<section class="architecture-explorer" data-architecture-explorer>
+  <nav class="scene-rail" aria-label="Сцены архитектуры">
+    <span class="scene-rail__label">Сцена</span>
+
+    <button type="button" data-scene="system" aria-pressed="true">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="5" cy="12" r="2.25"></circle>
+        <circle cx="18.5" cy="5" r="2.25"></circle>
+        <circle cx="18.5" cy="19" r="2.25"></circle>
+        <path d="M7.2 11 16.4 6.2M7.2 13l9.2 4.8"></path>
+      </svg>
+      <span>Система</span>
+    </button>
+
+    <button type="button" data-scene="position1" aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="5" cy="7" r="2"></circle>
+        <circle cx="12" cy="17" r="2"></circle>
+        <circle cx="19" cy="7" r="2"></circle>
+        <path d="M6.6 8.2 10.7 15M13.4 15.2 17.6 8.5M7 7h10"></path>
+      </svg>
+      <span>Положение 1</span>
+    </button>
+
+    <button type="button" data-scene="position2" aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 17c3.5 0 3.2-5 6.7-5s3.2 5 6.6 5S19.7 12 22 12M3 7h4m3 0h4m3 0h4"></path>
+        <circle cx="8.5" cy="7" r="1.5"></circle>
+        <circle cx="15.5" cy="7" r="1.5"></circle>
+      </svg>
+      <span>Положение 2</span>
+    </button>
+  </nav>
+
+  <div class="canvas-shell">
+    <header class="canvas-heading">
+      <h1 data-scene-title>Архитектура решения</h1>
+      <p data-scene-subtitle>Перемещайтесь по схеме, масштабируйте и открывайте узлы</p>
+    </header>
+
+    <div
+      class="architecture-viewport"
+      data-viewport
+      tabindex="0"
+      aria-label="Интерактивная схема. Используйте стрелки для перемещения, плюс и минус для масштаба."
+    >
+      <div class="technical-grid" aria-hidden="true"></div>
+      <div class="orbit orbit--one" aria-hidden="true"></div>
+      <div class="orbit orbit--two" aria-hidden="true"></div>
+
+      <div class="pan-layer" data-layer>
+        <SystemScene />
+        <PositionOneScene />
+        <PositionTwoScene />
+      </div>
+    </div>
+
+    <aside class="detail-panel" data-detail-panel aria-live="polite">
+      <button class="detail-panel__close" type="button" data-panel-close aria-label="Закрыть описание">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m6 6 12 12M18 6 6 18"></path>
+        </svg>
+      </button>
+
+      <p class="detail-panel__kind" data-detail-kind></p>
+      <h2 data-detail-title></h2>
+      <div class="detail-panel__formula" data-detail-formula hidden></div>
+      <p class="detail-panel__text" data-detail-text></p>
+      <ul data-detail-items></ul>
+      <dl class="detail-panel__terms" data-detail-terms hidden></dl>
+    </aside>
+
+    <p class="interaction-hint">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M8.5 11V6.8a1.7 1.7 0 0 1 3.4 0V10m0-3.7a1.7 1.7 0 0 1 3.4 0V10m0-2a1.7 1.7 0 0 1 3.4 0v5.4c0 5.1-2.7 7.6-7.4 7.6-2.2 0-3.8-.8-5.1-2.4L3.7 15a1.6 1.6 0 0 1 2.4-2.1l2.4 2.4V8.5a1.7 1.7 0 0 1 3.4 0"></path>
+      </svg>
+      <span>Перетаскивайте для перемещения</span>
+      <i>·</i>
+      <span>Колесо мыши для масштабирования</span>
+      <i>·</i>
+      <span>Нажмите на блок или формулу для пояснения</span>
+    </p>
+
+    <div class="zoom-controls" aria-label="Масштаб схемы">
+      <button type="button" data-zoom-out aria-label="Уменьшить масштаб">−</button>
+      <button type="button" data-zoom-in aria-label="Увеличить масштаб">+</button>
+      <button type="button" data-reset aria-label="Вернуть начальный вид">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 11a8 8 0 1 0 2.3-5.7L4 7.6M4 3v4.6h4.6"></path>
+        </svg>
+      </button>
+      <button type="button" data-fit aria-label="Показать всю схему">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M8 3H3v5m13-5h5v5M8 21H3v-5m13 5h5v-5"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <script is:inline id="architecture-scene-data" type="application/json" set:html={JSON.stringify(scenes)}></script>
+</section>
+
+<script is:inline>
+  (() => {
+    const dataNode = document.querySelector('#architecture-scene-data');
+    if (!dataNode) return;
+    const sceneData = JSON.parse(dataNode.textContent);
+
+    document.querySelectorAll('[data-architecture-explorer]').forEach((explorer) => {
+      const viewport = explorer.querySelector('[data-viewport]');
+      const layer = explorer.querySelector('[data-layer]');
+      const sceneTitle = explorer.querySelector('[data-scene-title]');
+      const sceneSubtitle = explorer.querySelector('[data-scene-subtitle]');
+      const panel = explorer.querySelector('[data-detail-panel]');
+      const panelKind = explorer.querySelector('[data-detail-kind]');
+      const panelTitle = explorer.querySelector('[data-detail-title]');
+      const panelFormula = explorer.querySelector('[data-detail-formula]');
+      const panelText = explorer.querySelector('[data-detail-text]');
+      const panelItems = explorer.querySelector('[data-detail-items]');
+      const panelTerms = explorer.querySelector('[data-detail-terms]');
+      const sceneButtons = [...explorer.querySelectorAll('[data-scene]')];
+      const surfaces = [...explorer.querySelectorAll('[data-scene-surface]')];
+
+      let activeSceneKey = 'system';
+      let scale = 1;
+      let panX = 0;
+      let panY = 0;
+      let dragging = false;
+      let pointerId = null;
+      let startX = 0;
+      let startY = 0;
+      let originX = 0;
+      let originY = 0;
+      let initialScale = 1;
+      let initialPanX = 0;
+      let initialPanY = 0;
+
+      const getMinScale = () => activeSceneKey === 'position1' ? .86 : .48;
+
+      const constrainPan = () => {
+        const scene = sceneData[activeSceneKey];
+        const scaledWidth = scene.width * scale;
+        const scaledHeight = scene.height * scale;
+        const minimumVisibleWidth = Math.min(scaledWidth, Math.max(220, viewport.clientWidth * .46));
+        const minimumVisibleHeight = Math.min(scaledHeight, Math.max(170, viewport.clientHeight * .42));
+        const maxPanX = Math.max(0, (viewport.clientWidth + scaledWidth) / 2 - minimumVisibleWidth);
+        const maxPanY = Math.max(0, (viewport.clientHeight + scaledHeight) / 2 - minimumVisibleHeight);
+        panX = Math.min(Math.max(panX, -maxPanX), maxPanX);
+        panY = Math.min(Math.max(panY, -maxPanY), maxPanY);
+      };
+
+      const applyTransform = () => {
+        constrainPan();
+        layer.style.setProperty('--scene-scale', scale);
+        layer.style.transform = `translate(-50%, -50%) translate(${panX}px, ${panY}px) scale(${scale})`;
+      };
+
+      const fitScene = (focus = false) => {
+        const scene = sceneData[activeSceneKey];
+        const compact = window.matchMedia('(max-width: 700px)').matches;
+        const gutter = compact ? 28 : 64;
+        const naturalFit = Math.min(
+          (viewport.clientWidth - gutter) / scene.width,
+          (viewport.clientHeight - gutter) / scene.height,
+          1
+        );
+
+        scale = Math.max(naturalFit, getMinScale());
+        panX = 0;
+        panY = 0;
+
+        if (focus) {
+          const scaledWidth = scene.width * scale;
+          const scaledHeight = scene.height * scale;
+
+          if (scaledWidth > viewport.clientWidth - 32) {
+            const desiredLeft = compact ? 20 : 32;
+            panX = desiredLeft + scaledWidth / 2 - viewport.clientWidth / 2;
+          }
+
+          if (activeSceneKey === 'position1') {
+            const desiredTop = compact ? 142 : 48;
+            panY = desiredTop + scaledHeight / 2 - viewport.clientHeight / 2;
+          } else {
+            panY = compact ? 54 : activeSceneKey === 'position2' ? 80 : 72;
+          }
+
+          initialScale = scale;
+          initialPanX = panX;
+          initialPanY = panY;
+        }
+
+        applyTransform();
+      };
+
+      const clearSelection = () => {
+        explorer.querySelectorAll('.diagram-node.is-selected, .diagram-node.is-related, .diagram-node.is-muted, .formula-button.is-selected, .route-path.is-selected, .route-path.is-emphasized, .route-path.is-muted, .route-label.is-selected, .route-label.is-emphasized').forEach((element) => {
+          element.classList.remove('is-selected', 'is-related', 'is-muted', 'is-emphasized');
+        });
+      };
+
+      const highlightNodeConnections = (nodeId) => {
+        const activeSurface = explorer.querySelector(`[data-scene-surface="${activeSceneKey}"]`);
+        const routes = [...activeSurface.querySelectorAll('.route-path')];
+        if (!routes.length || !nodeId) return;
+
+        const connectedRoutes = routes.filter((route) => route.dataset.connects?.split(' ').includes(nodeId));
+        if (!connectedRoutes.length) return;
+
+        const relatedNodeIds = new Set([nodeId]);
+        connectedRoutes.forEach((route) => {
+          route.classList.add('is-emphasized');
+          route.dataset.connects.split(' ').forEach((id) => relatedNodeIds.add(id));
+          activeSurface.querySelector(`[data-route-for="${route.dataset.routeId}"]`)?.classList.add('is-emphasized');
+        });
+        routes.filter((route) => !connectedRoutes.includes(route)).forEach((route) => route.classList.add('is-muted'));
+
+        activeSurface.querySelectorAll('[data-node-id]').forEach((node) => {
+          if (node.dataset.nodeId !== nodeId && relatedNodeIds.has(node.dataset.nodeId)) node.classList.add('is-related');
+          if (!relatedNodeIds.has(node.dataset.nodeId)) node.classList.add('is-muted');
+        });
+      };
+
+      const selectTrigger = (trigger) => {
+        clearSelection();
+        const node = trigger.closest('.diagram-node');
+        if (node) node.classList.add('is-selected');
+        if (trigger.classList.contains('formula-button')) trigger.classList.add('is-selected');
+        highlightNodeConnections(node?.dataset.nodeId ?? trigger.dataset.detailId);
+      };
+
+      const setPanel = (detailId, trigger) => {
+        const detail = sceneData[activeSceneKey].details[detailId];
+        if (!detail) return;
+
+        panel.classList.remove('is-hidden');
+        panelKind.textContent = detail.kind;
+        panelTitle.textContent = detail.title;
+        panelText.textContent = detail.text;
+
+        panelFormula.replaceChildren();
+        if (detail.formulaAsset) {
+          const formulaImage = document.createElement('img');
+          formulaImage.src = detail.formulaAsset;
+          formulaImage.alt = detail.formula ?? '';
+          panelFormula.append(formulaImage);
+          panelFormula.hidden = false;
+        } else if (detail.formula) {
+          panelFormula.textContent = detail.formula;
+          panelFormula.hidden = false;
+        } else {
+          panelFormula.hidden = true;
+        }
+
+        const items = detail.items ?? [];
+        panelItems.replaceChildren(...items.map((item) => {
+          const li = document.createElement('li');
+          li.textContent = item;
+          return li;
+        }));
+        panelItems.hidden = items.length === 0;
+
+        const terms = detail.terms ?? [];
+        const termNodes = [];
+        terms.forEach((term) => {
+          const dt = document.createElement('dt');
+          const dd = document.createElement('dd');
+          dt.textContent = term.symbol;
+          dd.textContent = term.description;
+          termNodes.push(dt, dd);
+        });
+        panelTerms.replaceChildren(...termNodes);
+        panelTerms.hidden = terms.length === 0;
+
+        if (trigger) selectTrigger(trigger);
+      };
+
+      const activateDefaultDetail = () => {
+        clearSelection();
+        panel.classList.add('is-hidden');
+      };
+
+      const setScene = (key, focus = false) => {
+        const scene = sceneData[key];
+        activeSceneKey = key;
+        sceneTitle.textContent = scene.title;
+        sceneSubtitle.textContent = scene.subtitle;
+        layer.style.width = `${scene.width}px`;
+        layer.style.height = `${scene.height}px`;
+        explorer.dataset.activeScene = key;
+
+        sceneButtons.forEach((button) => {
+          button.setAttribute('aria-pressed', String(button.dataset.scene === key));
+        });
+        surfaces.forEach((surface) => {
+          surface.classList.toggle('is-active', surface.dataset.sceneSurface === key);
+        });
+
+        activateDefaultDetail();
+        requestAnimationFrame(() => fitScene(focus));
+      };
+
+      const zoomTo = (nextScale, clientX, clientY) => {
+        const previousScale = scale;
+        scale = Math.min(Math.max(nextScale, getMinScale()), 2.4);
+
+        if (Number.isFinite(clientX) && Number.isFinite(clientY) && scale !== previousScale) {
+          const bounds = viewport.getBoundingClientRect();
+          const pointerX = clientX - bounds.left - bounds.width / 2;
+          const pointerY = clientY - bounds.top - bounds.height / 2;
+          const ratio = scale / previousScale;
+          panX = pointerX - (pointerX - panX) * ratio;
+          panY = pointerY - (pointerY - panY) * ratio;
+        }
+
+        applyTransform();
+      };
+
+      const zoomBy = (factor, clientX, clientY) => zoomTo(scale * factor, clientX, clientY);
+
+      const selectRoute = (route) => {
+        clearSelection();
+        const activeSurface = explorer.querySelector(`[data-scene-surface="${activeSceneKey}"]`);
+        const connectedIds = route.dataset.connects?.split(' ') ?? [];
+        route.classList.add('is-selected');
+        activeSurface.querySelector(`[data-route-for="${route.dataset.routeId}"]`)?.classList.add('is-selected');
+        activeSurface.querySelectorAll('.route-path').forEach((candidate) => {
+          if (candidate !== route) candidate.classList.add('is-muted');
+        });
+        activeSurface.querySelectorAll('[data-node-id]').forEach((node) => {
+          node.classList.toggle('is-related', connectedIds.includes(node.dataset.nodeId));
+          node.classList.toggle('is-muted', !connectedIds.includes(node.dataset.nodeId));
+        });
+      };
+
+      explorer.querySelectorAll('[data-detail-id]').forEach((trigger) => {
+        trigger.addEventListener('click', (event) => {
+          event.stopPropagation();
+          setPanel(trigger.dataset.detailId, trigger);
+        });
+      });
+
+      sceneButtons.forEach((button) => {
+        button.addEventListener('click', () => setScene(button.dataset.scene, true));
+      });
+
+      explorer.querySelector('[data-zoom-in]').addEventListener('click', () => zoomBy(1.16));
+      explorer.querySelector('[data-zoom-out]').addEventListener('click', () => zoomBy(.86));
+      explorer.querySelector('[data-reset]').addEventListener('click', () => {
+        scale = initialScale;
+        panX = initialPanX;
+        panY = initialPanY;
+        applyTransform();
+      });
+      explorer.querySelector('[data-fit]').addEventListener('click', () => fitScene(false));
+      explorer.querySelector('[data-panel-close]').addEventListener('click', () => panel.classList.add('is-hidden'));
+
+      viewport.addEventListener('wheel', (event) => {
+        event.preventDefault();
+        zoomBy(event.deltaY < 0 ? 1.09 : .91, event.clientX, event.clientY);
+      }, { passive: false });
+
+      explorer.querySelectorAll('.route-path').forEach((route) => {
+        const label = explorer.querySelector(`[data-route-for="${route.dataset.routeId}"]`);
+        const hitArea = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        hitArea.setAttribute('d', route.getAttribute('d'));
+        hitArea.classList.add('route-hit');
+        hitArea.dataset.routeHit = route.dataset.routeId;
+        route.before(hitArea);
+
+        [route, hitArea].forEach((target) => {
+          target.addEventListener('pointerenter', () => {
+            route.classList.add('is-emphasized');
+            label?.classList.add('is-emphasized');
+          });
+          target.addEventListener('pointerleave', () => {
+            if (!route.classList.contains('is-selected')) {
+              route.classList.remove('is-emphasized');
+              label?.classList.remove('is-emphasized');
+            }
+          });
+          target.addEventListener('click', (event) => {
+            event.stopPropagation();
+            selectRoute(route);
+          });
+        });
+        route.addEventListener('keydown', (event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          selectRoute(route);
+        });
+      });
+
+      viewport.addEventListener('pointerdown', (event) => {
+        if (event.target.closest('button')) return;
+        dragging = true;
+        pointerId = event.pointerId;
+        startX = event.clientX;
+        startY = event.clientY;
+        originX = panX;
+        originY = panY;
+        viewport.setPointerCapture(pointerId);
+        viewport.classList.add('is-dragging');
+      });
+
+      viewport.addEventListener('pointermove', (event) => {
+        if (!dragging || event.pointerId !== pointerId) return;
+        panX = originX + event.clientX - startX;
+        panY = originY + event.clientY - startY;
+        applyTransform();
+      });
+
+      const endDrag = (event) => {
+        if (!dragging || event.pointerId !== pointerId) return;
+        dragging = false;
+        viewport.classList.remove('is-dragging');
+        if (viewport.hasPointerCapture(pointerId)) viewport.releasePointerCapture(pointerId);
+        pointerId = null;
+      };
+
+      viewport.addEventListener('pointerup', endDrag);
+      viewport.addEventListener('pointercancel', endDrag);
+
+      viewport.addEventListener('keydown', (event) => {
+        const distance = event.shiftKey ? 80 : 34;
+        if (event.key === 'ArrowLeft') panX -= distance;
+        else if (event.key === 'ArrowRight') panX += distance;
+        else if (event.key === 'ArrowUp') panY -= distance;
+        else if (event.key === 'ArrowDown') panY += distance;
+        else if (event.key === '+' || event.key === '=') zoomBy(1.15);
+        else if (event.key === '-') zoomBy(.86);
+        else if (event.key === '0') fitScene(false);
+        else return;
+        event.preventDefault();
+        applyTransform();
+      });
+
+      window.addEventListener('resize', () => fitScene(true));
+      setScene('system', true);
+    });
+  })();
+</script>
+
+<style>
+  .architecture-explorer {
+    --canvas: #ffffff;
+    --canvas-deep: #f8fafd;
+    --canvas-line: rgba(47, 115, 217, .09);
+    --canvas-text: #0b1f3a;
+    display: grid;
+    grid-template-columns: 152px minmax(0, 1fr);
+    min-height: calc(100svh - 64px);
+    overflow: hidden;
+    background: #f7f9fc;
+  }
+
+  .scene-rail {
+    position: relative;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 38px 10px 18px;
+    border-right: 1px solid #d9e1e8;
+    background: #f7f9fc;
+  }
+
+  .scene-rail__label {
+    margin: 0 10px 8px;
+    color: #6c7889;
+    font-size: .68rem;
+    font-weight: 750;
+  }
+
+  .scene-rail button {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 52px;
+    padding: 8px 10px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: #526072;
+    background: transparent;
+    font-size: .72rem;
+    font-weight: 720;
+    line-height: 1.2;
+    text-align: left;
+    transition: color .2s ease, border-color .2s ease, background .2s ease;
+  }
+
+  .scene-rail button:hover {
+    color: var(--ink);
+    background: rgba(255, 255, 255, .72);
+  }
+
+  .scene-rail button[aria-pressed="true"] {
+    border-color: rgba(24, 86, 216, .48);
+    color: var(--blue);
+    background: rgba(255, 255, 255, .9);
+    box-shadow: 0 7px 24px rgba(41, 70, 103, .06);
+  }
+
+  .scene-rail svg {
+    width: 25px;
+    height: 25px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.25;
+  }
+
+  .canvas-shell {
+    position: relative;
+    min-width: 0;
+    min-height: calc(100svh - 64px);
+    overflow: hidden;
+    color: var(--canvas-text);
+    background: var(--canvas);
+  }
+
+  .canvas-heading {
+    position: absolute;
+    top: clamp(24px, 4vw, 42px);
+    left: clamp(22px, 3vw, 42px);
+    z-index: 5;
+    max-width: min(680px, calc(100% - 390px));
+    pointer-events: none;
+  }
+
+  .canvas-heading h1 {
+    margin: 0;
+    color: #0b1f3a;
+    font-size: clamp(1.65rem, 3vw, 2.65rem);
+    line-height: 1.05;
+    letter-spacing: -.04em;
+  }
+
+  [data-active-scene="position2"] .canvas-heading h1 {
+    color: #ff835f;
+  }
+
+  .canvas-heading p {
+    max-width: 620px;
+    margin: 10px 0 0;
+    color: #61758b;
+    font-size: clamp(.78rem, 1.1vw, .98rem);
+    line-height: 1.45;
+  }
+
+  .architecture-viewport {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    touch-action: none;
+    cursor: grab;
+  }
+
+  .architecture-viewport:focus-visible {
+    outline: 2px solid #67aef4;
+    outline-offset: -5px;
+  }
+
+  .architecture-viewport.is-dragging {
+    cursor: grabbing;
+  }
+
+  .technical-grid {
+    position: absolute;
+    inset: 0;
+    opacity: .36;
+    background-image:
+      linear-gradient(var(--canvas-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--canvas-line) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(circle at center, black 18%, transparent 82%);
+  }
+
+  .orbit {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border: 1px dashed rgba(47, 115, 217, .12);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+  }
+
+  .orbit--one { width: min(62vw, 820px); aspect-ratio: 1; opacity: .55; }
+  .orbit--two { width: min(91vw, 1240px); aspect-ratio: 1; opacity: .42; }
+
+  .pan-layer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: center;
+    will-change: transform;
+  }
+
+  .pan-layer::after {
+    content: "";
+    position: absolute;
+    inset: -2%;
+    z-index: -1;
+    border-radius: 24px;
+    box-shadow: 0 0 90px rgba(47, 115, 217, .035);
+    pointer-events: none;
+  }
+
+  .architecture-explorer :global(.diagram-surface) {
+    position: absolute;
+    inset: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+    color: #0b1f3a;
+  }
+
+  .architecture-explorer :global(.diagram-surface.is-active) { display: block; }
+
+  .architecture-explorer :global(.connection-map) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .architecture-explorer :global(.position-one-surface .connection-map) { pointer-events: auto; }
+
+  .architecture-explorer :global(.route) {
+    fill: none;
+    stroke: rgba(47, 115, 217, .7);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
+  }
+
+  .architecture-explorer :global(.route--blue) { stroke: #63aef8; }
+  .architecture-explorer :global(.route--coral) { stroke: #ff7558; }
+  .architecture-explorer :global(.route--neutral) { stroke: rgba(211, 230, 248, .66); stroke-dasharray: 5 7; }
+  .architecture-explorer :global(.route-path) {
+    pointer-events: stroke;
+    cursor: pointer;
+    transition: opacity .18s ease, stroke .18s ease, stroke-width .18s ease;
+  }
+  .architecture-explorer :global(.route-hit) {
+    fill: none;
+    stroke: transparent;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 16;
+    pointer-events: stroke;
+    cursor: pointer;
+  }
+  .architecture-explorer :global(.route-path:hover),
+  .architecture-explorer :global(.route-path:focus-visible),
+  .architecture-explorer :global(.route-path.is-emphasized) {
+    stroke: #2f73d9;
+    stroke-width: 3;
+    outline: none;
+  }
+  .architecture-explorer :global(.route-path.is-selected) {
+    stroke: #ff7558;
+    stroke-width: 3.4;
+  }
+  .architecture-explorer :global(.route-path.is-muted) { opacity: .18; }
+
+  .architecture-explorer :global(.diagram-node) {
+    position: absolute;
+    z-index: 2;
+    overflow: hidden;
+    border: 1px solid rgba(47, 115, 217, .68);
+    border-radius: 20px;
+    background: linear-gradient(180deg, #ffffff, #f4f8fd);
+    box-shadow: 0 10px 28px rgba(34, 72, 112, .08);
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease, transform .2s ease;
+  }
+
+  .architecture-explorer :global(.diagram-node:hover),
+  .architecture-explorer :global(.diagram-node:focus-within) {
+    border-color: #2f73d9;
+    background: #ffffff;
+    box-shadow: 0 0 0 5px rgba(47, 115, 217, .08), 0 16px 38px rgba(34, 72, 112, .12);
+  }
+
+  .architecture-explorer :global(.diagram-node.is-selected) {
+    border-color: #ff7558;
+    background: linear-gradient(180deg, #ffffff, #fff5f2);
+    box-shadow: 0 0 0 4px rgba(255, 117, 88, .07), 0 12px 30px rgba(214, 83, 54, .14);
+  }
+
+  .architecture-explorer :global(.diagram-node.is-related) {
+    border-color: #2f73d9;
+    box-shadow: 0 0 0 3px rgba(47, 115, 217, .07), 0 10px 24px rgba(34, 72, 112, .09);
+  }
+
+  .architecture-explorer :global(.diagram-node.is-muted) { opacity: .34; }
+
+  .architecture-explorer :global(.node-main) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+    padding: 18px;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    text-align: center;
+  }
+
+  .architecture-explorer :global(.node-main strong) {
+    color: #0b1f3a;
+    font-size: 1rem;
+    font-weight: 760;
+    line-height: 1.25;
+  }
+
+  .architecture-explorer :global(.node-main small) {
+    color: #68819a;
+    font-size: .7rem;
+    line-height: 1.3;
+  }
+
+  .architecture-explorer :global(.node-icon) {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    color: #63aef8;
+  }
+
+  .architecture-explorer :global(.node-icon--large) { width: 58px; height: 58px; }
+  .architecture-explorer :global(.node-icon svg) { width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.4; }
+
+  .architecture-explorer :global(.diagram-zone) {
+    position: absolute;
+    top: 175px;
+    width: 570px;
+    height: 520px;
+    border: 1px solid;
+    border-radius: 90px 22px 90px 22px;
+    background: rgba(234, 242, 251, .48);
+  }
+
+  .architecture-explorer :global(.diagram-zone--blue) { left: 55px; border-color: #4d9bea; }
+  .architecture-explorer :global(.diagram-zone--coral) { right: 55px; border-color: #ff7558; border-radius: 22px 90px 22px 90px; }
+  .architecture-explorer :global(.zone-title) { position: absolute; top: -42px; left: 30px; color: #5da9f4; font-size: 1.35rem; font-weight: 800; letter-spacing: -.02em; }
+  .architecture-explorer :global(.diagram-zone--coral .zone-title) { color: #ff7558; }
+
+  .architecture-explorer :global(.system-node) { width: 185px; height: 135px; }
+  .architecture-explorer :global(.node-monitoring) { left: 110px; top: 290px; }
+  .architecture-explorer :global(.node-data) { left: 320px; top: 405px; }
+  .architecture-explorer :global(.node-model) { left: 205px; top: 540px; }
+  .architecture-explorer :global(.node-datacenter) { left: 655px; top: 355px; width: 190px; height: 200px; border-radius: 50%; }
+  .architecture-explorer :global(.node-control) { left: 665px; top: 70px; width: 170px; height: 155px; border-color: rgba(224, 237, 250, .72); }
+  .architecture-explorer :global(.node-external) { left: 655px; top: 650px; width: 190px; height: 150px; border-color: rgba(224, 237, 250, .72); }
+  .architecture-explorer :global(.node-forecast) { left: 905px; top: 290px; }
+  .architecture-explorer :global(.node-decomposition) { left: 1120px; top: 405px; }
+  .architecture-explorer :global(.node-optimization) { left: 1005px; top: 540px; border-color: rgba(255, 117, 88, .8); }
+  .architecture-explorer :global(.node-optimization .node-icon),
+  .architecture-explorer :global(.node-forecast .node-icon),
+  .architecture-explorer :global(.node-decomposition .node-icon) { color: #ff7558; }
+
+  .architecture-explorer :global(.route-label) {
+    position: absolute;
+    z-index: 3;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    color: #36526e;
+    background: transparent;
+    box-shadow: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 650;
+    line-height: 1.28;
+    text-align: center;
+    pointer-events: none;
+    transition: opacity .18s ease, color .18s ease;
+  }
+
+  .architecture-explorer :global(.route-label.is-emphasized) {
+    color: #174f8d;
+  }
+
+  .architecture-explorer :global(.route-label.is-selected) {
+    color: #9d3b28;
+  }
+
+  .architecture-explorer :global(.p1-node) { width: 270px; height: 170px; min-height: 0; border-radius: 14px; }
+  .architecture-explorer :global(.p1-raw) { left: 60px; top: 100px; }
+  .architecture-explorer :global(.p1-normalized) { left: 555px; top: 100px; }
+  .architecture-explorer :global(.p1-trajectory) { left: 1050px; top: 100px; }
+  .architecture-explorer :global(.p1-elementary) { left: 60px; top: 390px; }
+  .architecture-explorer :global(.p1-components) { left: 555px; top: 390px; }
+  .architecture-explorer :global(.p1-wcorr) { left: 1050px; top: 390px; }
+  .architecture-explorer :global(.p1-feature-space) { left: 1025px; top: 660px; width: 320px; height: 260px; }
+  .architecture-explorer :global(.p1-patterns) { left: 60px; top: 1020px; width: 540px; height: 266px; }
+  .architecture-explorer :global(.p1-heatmap) { left: 825px; top: 1020px; width: 530px; height: 266px; }
+
+  .architecture-explorer :global(.p1-node .node-main) { height: 112px; min-height: 0; padding: 14px 18px 10px; }
+  .architecture-explorer :global(.p1-node .node-main strong) { font-size: 17px; line-height: 1.28; }
+  .architecture-explorer :global(.p1-raw .node-main) { height: 100%; }
+  .architecture-explorer :global(.p1-trajectory .node-main) { height: 55px; min-height: 0; padding: 8px 18px 4px; }
+  .architecture-explorer :global(.p1-feature-space .node-main) { height: 184px; min-height: 0; gap: 2px; padding: 8px 12px 2px; }
+  .architecture-explorer :global(.p1-patterns .node-main),
+  .architecture-explorer :global(.p1-heatmap .node-main) { min-height: 0; padding: 8px 14px; }
+  .architecture-explorer :global(.p1-patterns .node-main) { height: 219px; }
+  .architecture-explorer :global(.p1-heatmap .node-main) { height: 136px; }
+  .architecture-explorer :global(.math-inline) { color: #234f80; font-family: "Times New Roman", serif; font-size: 1rem; font-style: italic; }
+
+  .architecture-explorer :global(.formula-button) {
+    display: block;
+    width: calc(100% - 24px);
+    min-height: 40px;
+    margin: 0 12px 7px;
+    padding: 7px 10px;
+    border: 1px solid rgba(47, 115, 217, .25);
+    border-radius: 9px;
+    color: #234f80;
+    background: rgba(234, 242, 251, .82);
+    font-family: "Times New Roman", Georgia, serif;
+    font-size: .95rem;
+    line-height: 1.2;
+    transition: border-color .18s ease, color .18s ease, background .18s ease;
+  }
+
+  .architecture-explorer :global(.formula-button img) {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 30px;
+    margin: 0 auto;
+    object-fit: contain;
+  }
+
+  .architecture-explorer :global(.formula-button:hover),
+  .architecture-explorer :global(.formula-button:focus-visible),
+  .architecture-explorer :global(.formula-button.is-selected) {
+    border-color: #ff7558;
+    color: #bd442c;
+    background: rgba(255, 117, 88, .09);
+  }
+
+  .architecture-explorer :global(.formula-button--primary img),
+  .architecture-explorer :global(.p1-trajectory .formula-button:last-child img),
+  .architecture-explorer :global(.p1-heatmap .formula-button:last-child img) { height: 32px; }
+  .architecture-explorer :global(.p1-trajectory .formula-button:nth-of-type(2) img),
+  .architecture-explorer :global(.p1-feature-space .formula-button img) { height: 36px; }
+  .architecture-explorer :global(.p1-trajectory .formula-button) { min-height: 0; margin-bottom: 4px; padding: 4px 9px; }
+  .architecture-explorer :global(.p1-components .formula-button img) { height: 34px; }
+  .architecture-explorer :global(.p1-wcorr .node-main) { height: 90px; }
+  .architecture-explorer :global(.p1-wcorr .formula-button) { margin-bottom: 4px; padding: 4px 9px; }
+  .architecture-explorer :global(.p1-wcorr .formula-button img) { height: 58px; }
+  .architecture-explorer :global(.p1-feature-space .formula-button) { min-height: 68px; margin-bottom: 4px; padding: 3px 9px; }
+  .architecture-explorer :global(.p1-feature-space .formula-button img) { height: 62px; }
+
+  .architecture-explorer :global(.p1-label-normalize) { left: 345px; top: 124px; width: 195px; }
+  .architecture-explorer :global(.p1-label-embed) { left: 840px; top: 124px; width: 195px; }
+  .architecture-explorer :global(.p1-label-svd) { left: 450px; top: 292px; width: 480px; }
+  .architecture-explorer :global(.p1-label-hankel) { left: 345px; top: 418px; width: 195px; }
+  .architecture-explorer :global(.p1-label-wcorr) { left: 858px; top: 438px; width: 160px; }
+  .architecture-explorer :global(.p1-label-features) { left: 745px; top: 646px; width: 270px; }
+  .architecture-explorer :global(.p1-label-cluster) { left: 670px; top: 858px; width: 325px; }
+  .architecture-explorer :global(.p1-label-index) { left: 610px; top: 1090px; width: 205px; }
+
+  .architecture-explorer :global(.node-main--visual) { flex-direction: row; justify-content: space-between; text-align: left; }
+  .architecture-explorer :global(.p1-patterns .node-main) {
+    display: grid;
+    grid-template-columns: 105px 1fr;
+    grid-template-rows: auto 1fr;
+    column-gap: 12px;
+    align-items: center;
+  }
+  .architecture-explorer :global(.p1-patterns .node-main strong) { grid-row: 1 / 3; }
+  .architecture-explorer :global(.p1-heatmap) { display: block; }
+  .architecture-explorer :global(.p1-heatmap .node-main) { grid-column: 1 / -1; display: grid; grid-template-columns: 145px 1fr; column-gap: 10px; }
+  .architecture-explorer :global(.p1-heatmap .formula-button) { width: calc(100% - 24px); min-height: 40px; margin: 0 12px 7px; padding: 5px 9px; }
+  .architecture-explorer :global(.p1-heatmap .formula-button:nth-of-type(2)) { min-height: 76px; padding: 4px 9px; }
+  .architecture-explorer :global(.p1-heatmap .formula-button:nth-of-type(2) img) { height: 68px; }
+  .architecture-explorer :global(.mini-line-chart) { grid-column: 2; width: 390px; height: 145px; overflow: hidden; }
+  .architecture-explorer :global(.chart-legend-list) { grid-column: 2; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px 8px; width: 100%; }
+  .architecture-explorer :global(.chart-legend-list i) {
+    position: relative;
+    padding-left: 20px;
+    color: #40576e;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .architecture-explorer :global(.chart-legend-list i::before) { content: ""; position: absolute; left: 0; top: .55em; width: 14px; height: 2px; background: #c4cad1; }
+  .architecture-explorer :global(.chart-legend-list .legend-c0::before) { background: #2878d0; }
+  .architecture-explorer :global(.chart-legend-list .legend-c1::before) { background: #f28e2b; }
+  .architecture-explorer :global(.chart-legend-list .legend-c2::before) { background: #2ca02c; }
+  .architecture-explorer :global(.chart-legend-list .legend-c3::before) { background: #df3434; }
+  .architecture-explorer :global(.chart-legend-list .legend-c4::before) { background: #8a5cc2; }
+  .architecture-explorer :global(.chart-grid) { fill: none; stroke: rgba(35, 79, 128, .13); stroke-width: .8; }
+  .architecture-explorer :global(.chart-axis) { fill: none; stroke: rgba(11, 31, 58, .48); stroke-width: 1; }
+  .architecture-explorer :global(.chart-line) { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.45; vector-effect: non-scaling-stroke; }
+  .architecture-explorer :global(.chart-line--original) { stroke: #c4cad1; stroke-width: 1.1; }
+  .architecture-explorer :global(.chart-line--cluster-0) { stroke: #2878d0; }
+  .architecture-explorer :global(.chart-line--cluster-1) { stroke: #f28e2b; stroke-width: 1.8; }
+  .architecture-explorer :global(.chart-line--cluster-2) { stroke: #2ca02c; stroke-width: 1.7; }
+  .architecture-explorer :global(.chart-line--cluster-3) { stroke: #df3434; stroke-width: 1.65; }
+  .architecture-explorer :global(.chart-line--cluster-4) { stroke: #8a5cc2; }
+  .architecture-explorer :global(.chart-ticks) { fill: #50667c; font: 16px Arial, sans-serif; }
+  .architecture-explorer :global(.heatmap-figure) { position: relative; display: grid; grid-template-columns: 27px 1fr 9px; grid-template-rows: 98px 18px; gap: 4px 6px; width: 345px; height: 120px; padding: 1px 3px; }
+  .architecture-explorer :global(.heatmap-y-axis) { display: grid; grid-template-rows: repeat(7, 1fr); align-items: center; color: #405870; font-size: 14px; font-weight: 650; line-height: 1; text-align: right; }
+  .architecture-explorer :global(.mini-heatmap) { display: grid; grid-template-columns: repeat(48, 1fr); grid-template-rows: repeat(7, 1fr); gap: .6px; width: 100%; height: 98px; border: 1px solid rgba(11, 31, 58, .16); background: #fff; }
+  .architecture-explorer :global(.mini-heatmap i) { min-width: 0; }
+  .architecture-explorer :global(.heatmap-scale) { border-radius: 2px; background: linear-gradient(#fde725, #7ad151, #21918c, #355f8d, #440154); }
+  .architecture-explorer :global(.heatmap-x-axis) { grid-column: 2; display: flex; justify-content: space-between; color: #405870; font-size: 14px; font-weight: 650; }
+  .architecture-explorer :global(.feature-scatter) { width: 292px; height: 136px; overflow: visible; }
+  .architecture-explorer :global(.feature-grid) { fill: none; stroke: rgba(35, 79, 128, .16); stroke-width: .8; }
+  .architecture-explorer :global(.feature-axis) { fill: none; stroke: rgba(11, 31, 58, .56); stroke-width: 1.1; }
+  .architecture-explorer :global(.feature-point) { stroke: rgba(255, 255, 255, .84); stroke-width: 1; }
+  .architecture-explorer :global(.feature-point--0) { fill: #59387f; }
+  .architecture-explorer :global(.feature-point--1) { fill: #2878a7; }
+  .architecture-explorer :global(.feature-point--2) { fill: #3caf72; }
+  .architecture-explorer :global(.feature-point--3) { fill: #78c95a; }
+  .architecture-explorer :global(.feature-point--4) { fill: #f1d83d; }
+  .architecture-explorer :global(.feature-centroid path) { fill: none; stroke: #ef4b3f; stroke-linecap: round; stroke-width: 3.2; paint-order: stroke; }
+  .architecture-explorer :global(.feature-scale) { fill: url(#feature-color-scale); }
+  .architecture-explorer :global(.feature-ticks) { fill: #536b82; font: 8px Arial, sans-serif; }
+  .architecture-explorer :global(.feature-axis-title) { fill: #405870; font: 8px Arial, sans-serif; text-anchor: middle; }
+
+  .architecture-explorer :global(.p2-node) { width: 290px; height: 250px; border-radius: 16px; }
+  .architecture-explorer :global(.p2-classification) { left: 60px; top: 80px; }
+  .architecture-explorer :global(.p2-actions) { left: 410px; top: 80px; }
+  .architecture-explorer :global(.p2-models) { left: 760px; top: 80px; }
+  .architecture-explorer :global(.p2-optimization) { left: 1110px; top: 80px; width: 330px; border-color: rgba(255, 117, 88, .85); }
+
+  .architecture-explorer :global(.node-main--list) { align-items: stretch; justify-content: flex-start; text-align: left; }
+  .architecture-explorer :global(.node-main--list ul) { display: grid; gap: 7px; margin: 8px 0 0; padding-left: 20px; color: #536b82; font-size: .8rem; }
+  .architecture-explorer :global(.node-main--list li::marker) { color: #ff7558; }
+  .architecture-explorer :global(.node-main--list .is-muted) { opacity: .38; }
+  .architecture-explorer :global(.node-main p) { margin: 4px 0 0; color: #5d7388; font-size: .78rem; line-height: 1.5; }
+  .architecture-explorer :global(.node-main--math) { align-items: stretch; justify-content: flex-start; gap: 9px; text-align: left; }
+  .architecture-explorer :global(.node-main--math span) { color: #315a84; font-family: "Times New Roman", serif; font-size: .72rem; line-height: 1.35; }
+  .architecture-explorer :global(.node-main--math .objective-formula) { margin-top: 5px; padding-top: 12px; border-top: 1px solid rgba(255, 117, 88, .24); color: #8f3c2c; font-size: .82rem; }
+
+  .architecture-explorer :global(.calculation-band) {
+    position: absolute;
+    left: 80px;
+    top: 420px;
+    width: 1280px;
+    height: 180px;
+    border: 1px solid rgba(99, 174, 248, .62);
+    border-radius: 70px 18px 70px 18px;
+    background: rgba(234, 242, 251, .62);
+  }
+
+  .architecture-explorer :global(.calculation-band .diagram-node) { top: 22px; height: 135px; }
+  .architecture-explorer :global(.calculation-node) { left: 45px; width: 560px; }
+  .architecture-explorer :global(.effects-node) { left: 680px; width: 550px; }
+  .architecture-explorer :global(.calculation-engine) { flex-direction: row; justify-content: space-between; gap: 16px; text-align: left; }
+  .architecture-explorer :global(.calculation-engine > strong) { flex: 0 0 112px; }
+  .architecture-explorer :global(.engine-stack) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 380px; }
+  .architecture-explorer :global(.software-mark) {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    padding: 7px 9px;
+    border: 1px solid rgba(35, 79, 128, .16);
+    border-radius: 10px;
+    color: #274c72;
+    background: rgba(255, 255, 255, .9);
+    box-shadow: 0 4px 12px rgba(34, 72, 112, .06);
+    font-size: .69rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -.01em;
+    white-space: nowrap;
+  }
+  .architecture-explorer :global(.software-mark svg) { flex: 0 0 27px; width: 27px; height: 27px; overflow: visible; }
+  .architecture-explorer :global(.software-mark--matlab) { color: #b64b26; }
+  .architecture-explorer :global(.software-mark--matpower) { color: #275f8c; }
+  .architecture-explorer :global(.software-mark--pandapower) { color: #268868; }
+  .architecture-explorer :global(.software-mark--python) { color: #2e6796; }
+  .architecture-explorer :global(.effects-list) { display: grid; grid-template-columns: 1fr 1fr; column-gap: 22px; }
+  .architecture-explorer :global(.effects-list strong) { grid-column: 1 / -1; }
+  .architecture-explorer :global(.effects-list ul) { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; }
+
+  .architecture-explorer :global(.p2-source) { left: 60px; top: 655px; width: 360px; height: 170px; }
+  .architecture-explorer :global(.p2-cycle) { left: 535px; top: 655px; width: 450px; height: 170px; }
+  .architecture-explorer :global(.p2-results) { left: 1090px; top: 655px; width: 420px; height: 170px; }
+  .architecture-explorer :global(.mini-network) { width: 245px; height: 82px; fill: none; stroke: #8abce8; stroke-width: 1.2; }
+  .architecture-explorer :global(.mini-cycle) { width: 300px; height: 92px; }
+  .architecture-explorer :global(.mini-cycle path) { fill: none; stroke: #63aef8; stroke-width: 1.6; }
+  .architecture-explorer :global(.mini-cycle text) { fill: #24496f; font-size: 13px; font-weight: 750; }
+  .architecture-explorer :global(.results-visual) { display: flex; align-items: center; gap: 24px; width: 255px; height: 90px; }
+  .architecture-explorer :global(.bar-chart) { display: flex; align-items: end; gap: 5px; width: 160px; height: 75px; padding: 6px; border-left: 1px solid rgba(139, 177, 211, .35); border-bottom: 1px solid rgba(139, 177, 211, .35); }
+  .architecture-explorer :global(.bar-chart i) { width: 12px; height: var(--h); background: linear-gradient(#5ba7f4, #2d6ea8); }
+  .architecture-explorer :global(.bar-chart i:nth-child(3n + 2)) { background: linear-gradient(#ff8b6d, #b44936); }
+  .architecture-explorer :global(.donut-chart) { width: 72px; height: 72px; border-radius: 50%; background: radial-gradient(circle, #fff 0 43%, transparent 44%), conic-gradient(#4d9bea 0 62%, #ffb642 62% 75%, #70ae68 75% 90%, #5cc5d3 90%); }
+
+  .detail-panel {
+    position: absolute;
+    top: clamp(118px, 16vh, 168px);
+    right: clamp(16px, 2vw, 30px);
+    z-index: 6;
+    width: min(350px, calc(100% - 34px));
+    max-height: calc(100% - 190px);
+    overflow: auto;
+    padding: 24px;
+    border: 1px solid rgba(145, 180, 214, .38);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, .98);
+    box-shadow: 0 22px 72px rgba(34, 72, 112, .18);
+    transition: opacity .2s ease, transform .2s ease;
+  }
+
+  .detail-panel.is-hidden { opacity: 0; pointer-events: none; transform: translateX(18px); }
+
+  .detail-panel__close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    padding: 7px;
+    border: 0;
+    color: #24496f;
+    background: transparent;
+  }
+
+  .detail-panel__close svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-linecap: round; stroke-width: 1.4; }
+  .detail-panel__kind { margin: 0 38px 9px 0; color: #2f73d9; font-size: .67rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .detail-panel h2 { margin: 0 36px 18px 0; color: #0b1f3a; font-size: 1.22rem; line-height: 1.12; letter-spacing: -.025em; }
+  .detail-panel__formula { margin: -3px 0 18px; padding: 13px 14px; border: 1px solid rgba(255, 117, 88, .38); border-radius: 9px; color: #8f3c2c; background: #fff6f3; font-family: "Times New Roman", Georgia, serif; font-size: 1.05rem; line-height: 1.35; white-space: pre-line; }
+  .detail-panel__formula img { display: block; width: auto; max-width: 100%; max-height: 74px; margin: 0 auto; object-fit: contain; }
+  .detail-panel__text { margin: 0; color: #465f78; font-family: Georgia, "Times New Roman", serif; font-size: .92rem; line-height: 1.55; }
+  .detail-panel ul { display: grid; gap: 8px; margin: 19px 0 0; padding: 18px 0 0 18px; border-top: 1px solid rgba(47, 115, 217, .18); color: #3f5870; font-size: .78rem; line-height: 1.45; }
+  .detail-panel :global(li::marker) { color: #ff7558; }
+  .detail-panel__terms { display: grid; grid-template-columns: auto 1fr; gap: 10px 13px; margin: 18px 0 0; padding-top: 18px; border-top: 1px solid rgba(47, 115, 217, .18); }
+  .detail-panel__terms :global(dt) { min-width: 38px; margin: 0; color: #b74833; font-family: "Times New Roman", serif; font-size: 1rem; font-weight: 700; }
+  .detail-panel__terms :global(dd) { margin: 0; color: #486078; font-size: .78rem; line-height: 1.4; }
+  .detail-panel:has(.detail-panel__formula:not([hidden])) h2 { margin-bottom: 13px; }
+  .detail-panel:has(.detail-panel__formula:not([hidden])) .detail-panel__formula { margin-bottom: 13px; }
+  .detail-panel:has(.detail-panel__formula:not([hidden])) .detail-panel__text { line-height: 1.45; }
+  .detail-panel:has(.detail-panel__formula:not([hidden])) .detail-panel__terms { gap: 8px 13px; margin-top: 14px; padding-top: 14px; }
+
+  .interaction-hint {
+    position: absolute;
+    left: 26px;
+    top: 112px;
+    bottom: auto;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    max-width: calc(100% - 260px);
+    margin: 0;
+    color: #61758b;
+    font-size: .67rem;
+    font-weight: 620;
+    pointer-events: none;
+  }
+
+  .interaction-hint svg { flex: 0 0 auto; width: 21px; height: 21px; fill: none; stroke: #24496f; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.35; }
+  .interaction-hint i { color: #9aa9b8; font-style: normal; }
+
+  .zoom-controls {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    bottom: auto;
+    z-index: 7;
+    display: grid;
+    grid-template-columns: repeat(4, 48px);
+    overflow: hidden;
+    border: 1px solid rgba(145, 180, 214, .42);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, .96);
+  }
+
+  .zoom-controls button { display: grid; place-items: center; width: 48px; height: 46px; padding: 0; border: 0; border-right: 1px solid rgba(47, 115, 217, .2); color: #163e68; background: transparent; font-size: 1.35rem; transition: color .18s ease, background .18s ease; }
+  .zoom-controls button:last-child { border-right: 0; }
+  .zoom-controls button:hover { color: #c44c34; background: #f2f6fb; }
+  .zoom-controls svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5; }
+
+  @media (max-width: 980px) {
+    .architecture-explorer { grid-template-columns: 1fr; min-height: calc(100svh - 108px); }
+    .scene-rail { flex-direction: row; align-items: center; overflow-x: auto; padding: 9px 14px; border-right: 0; border-bottom: 1px solid #d9e1e8; scrollbar-width: none; }
+    .scene-rail::-webkit-scrollbar { display: none; }
+    .scene-rail__label { display: none; }
+    .scene-rail button { flex: 0 0 auto; grid-template-columns: 22px auto; min-height: 42px; width: auto; padding: 6px 11px; }
+    .scene-rail svg { width: 20px; height: 20px; }
+    .canvas-shell { min-height: calc(100svh - 168px); }
+    .canvas-heading { max-width: calc(100% - 44px); }
+    .detail-panel { top: auto; bottom: 24px; max-height: 58%; }
+  }
+
+  @media (max-width: 700px) {
+    .canvas-heading { top: 20px; left: 18px; }
+    .canvas-heading h1 { font-size: 1.48rem; }
+    .canvas-heading p { margin-top: 6px; font-size: .75rem; }
+    .detail-panel {
+      right: 12px;
+      bottom: 78px;
+      width: calc(100% - 24px);
+      max-height: 58%;
+      padding: 19px;
+      overscroll-behavior: contain;
+    }
+    .detail-panel h2 { margin-bottom: 11px; font-size: 1.05rem; }
+    .detail-panel__text { font-size: .82rem; }
+    .interaction-hint { left: 16px; top: 108px; bottom: auto; max-width: calc(100% - 190px); }
+    .interaction-hint span:not(:first-of-type), .interaction-hint i { display: none; }
+    .zoom-controls { top: 100px; right: 14px; bottom: auto; grid-template-columns: repeat(4, 43px); }
+    .zoom-controls button { width: 43px; height: 43px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pan-layer,
+    .detail-panel,
+    .architecture-explorer :global(.diagram-node) { transition: none; }
+  }
+</style>
