@@ -1,5 +1,6 @@
 ---
 import SystemScene from './scenes/SystemScene.astro';
+import SystemMobileScene from './scenes/SystemMobileScene.astro';
 import PositionOneScene from './scenes/PositionOneScene.astro';
 import PositionTwoScene from './scenes/PositionTwoScene.astro';
 import { architectureScenes } from './architectureScenes';
@@ -60,6 +61,8 @@ const scenes = architectureScenes;
         <PositionOneScene />
         <PositionTwoScene />
       </div>
+
+      <SystemMobileScene />
     </div>
 
     <aside
@@ -154,7 +157,10 @@ const scenes = architectureScenes;
       let initialPanY = 0;
       let lastDetailTrigger = null;
 
-      const getMinScale = () => activeSceneKey === 'position1' ? .86 : .48;
+      const getMinScale = () => {
+        if (activeSceneKey === 'system') return window.matchMedia('(max-width: 700px)').matches ? .2 : .24;
+        return activeSceneKey === 'position1' ? .86 : .48;
+      };
 
       const constrainPan = () => {
         const scene = sceneData[activeSceneKey];
@@ -177,16 +183,24 @@ const scenes = architectureScenes;
       const fitScene = (focus = false) => {
         const scene = sceneData[activeSceneKey];
         const compact = window.matchMedia('(max-width: 700px)').matches;
+        const narrow = window.matchMedia('(max-width: 980px)').matches;
+        const medium = window.matchMedia('(max-width: 1100px)').matches;
         const gutter = compact ? 28 : 64;
+        const safeTop = compact ? 228 : 136;
+        const safeBottom = compact ? 56 : 52;
         const naturalFit = Math.min(
           (viewport.clientWidth - gutter) / scene.width,
-          (viewport.clientHeight - gutter) / scene.height,
+          (viewport.clientHeight - safeTop - safeBottom) / scene.height,
           1
         );
 
-        scale = Math.max(naturalFit, getMinScale());
+        const initialSystemScale = compact ? .24 : narrow ? .42 : medium ? .5 : .58;
+        const minimumFitScale = activeSceneKey === 'system' && focus
+          ? initialSystemScale
+          : getMinScale();
+        scale = Math.max(naturalFit, minimumFitScale);
         panX = 0;
-        panY = 0;
+        panY = (safeTop - safeBottom) / 2;
 
         if (focus) {
           const scaledWidth = scene.width * scale;
@@ -197,7 +211,10 @@ const scenes = architectureScenes;
             panX = desiredLeft + scaledWidth / 2 - viewport.clientWidth / 2;
           }
 
-          if (activeSceneKey === 'position1') {
+          if (activeSceneKey === 'system') {
+            const desiredTop = compact ? 160 : 138;
+            panY = desiredTop + scaledHeight / 2 - viewport.clientHeight / 2;
+          } else if (activeSceneKey === 'position1') {
             const desiredTop = compact ? 150 : 148;
             panY = desiredTop + scaledHeight / 2 - viewport.clientHeight / 2;
           } else {
@@ -213,7 +230,7 @@ const scenes = architectureScenes;
       };
 
       const clearSelection = () => {
-        explorer.querySelectorAll('.diagram-node.is-selected, .diagram-node.is-related, .diagram-node.is-muted, .formula-button.is-selected, .route-path.is-selected, .route-path.is-emphasized, .route-path.is-muted, .route-label.is-selected, .route-label.is-emphasized').forEach((element) => {
+        explorer.querySelectorAll('.diagram-node.is-selected, .diagram-node.is-related, .diagram-node.is-muted, .formula-button.is-selected, .system-module.is-selected, .system-hotspot.is-selected, .decision-block.is-selected, .route-path.is-selected, .route-path.is-emphasized, .route-path.is-muted, .route-label.is-selected, .route-label.is-emphasized').forEach((element) => {
           element.classList.remove('is-selected', 'is-related', 'is-muted', 'is-emphasized');
         });
       };
@@ -245,6 +262,11 @@ const scenes = architectureScenes;
         const node = trigger.closest('.diagram-node');
         if (node) node.classList.add('is-selected');
         if (trigger.classList.contains('formula-button')) trigger.classList.add('is-selected');
+        if (
+          trigger.classList.contains('system-module')
+          || trigger.classList.contains('system-hotspot')
+          || trigger.classList.contains('decision-block')
+        ) trigger.classList.add('is-selected');
         highlightNodeConnections(node?.dataset.nodeId ?? trigger.dataset.detailId);
       };
 
@@ -366,8 +388,20 @@ const scenes = architectureScenes;
       explorer.querySelectorAll('[data-detail-id]').forEach((trigger) => {
         trigger.addEventListener('click', (event) => {
           event.stopPropagation();
+          if (!panel.hidden && lastDetailTrigger === trigger) {
+            activateDefaultDetail(true);
+            return;
+          }
           setPanel(trigger.dataset.detailId, trigger);
         });
+        if (!(trigger instanceof HTMLButtonElement)) {
+          trigger.addEventListener('keydown', (event) => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+            event.stopPropagation();
+            setPanel(trigger.dataset.detailId, trigger);
+          });
+        }
       });
 
       sceneButtons.forEach((button) => {
@@ -391,6 +425,7 @@ const scenes = architectureScenes;
       });
 
       viewport.addEventListener('wheel', (event) => {
+        if (activeSceneKey === 'system' && window.matchMedia('(max-width: 700px)').matches) return;
         event.preventDefault();
         zoomBy(event.deltaY < 0 ? 1.09 : .91, event.clientX, event.clientY);
       }, { passive: false });
@@ -427,6 +462,7 @@ const scenes = architectureScenes;
       });
 
       viewport.addEventListener('pointerdown', (event) => {
+        if (activeSceneKey === 'system' && window.matchMedia('(max-width: 700px)').matches) return;
         if (event.pointerType === 'mouse' && event.button !== 0) return;
         if (
           event.target instanceof Element
@@ -574,8 +610,19 @@ const scenes = architectureScenes;
     top: clamp(24px, 4vw, 42px);
     left: clamp(22px, 3vw, 42px);
     z-index: 5;
+    isolation: isolate;
     max-width: min(680px, calc(100% - 390px));
     pointer-events: none;
+  }
+
+  .canvas-heading::before {
+    content: "";
+    position: absolute;
+    inset: -16px -34px -14px -18px;
+    z-index: -1;
+    border-radius: 12px;
+    background: linear-gradient(90deg, rgba(244, 247, 249, .98) 0%, rgba(244, 247, 249, .94) 72%, rgba(244, 247, 249, 0) 100%);
+    backdrop-filter: blur(5px);
   }
 
   .canvas-heading h1 {
@@ -773,48 +820,6 @@ const scenes = architectureScenes;
     font-size: .7rem;
     line-height: 1.3;
   }
-
-  .architecture-explorer :global(.node-icon) {
-    display: grid;
-    place-items: center;
-    width: 44px;
-    height: 44px;
-    border: 1px solid currentColor;
-    border-radius: 50%;
-    color: #63aef8;
-  }
-
-  .architecture-explorer :global(.node-icon--large) { width: 58px; height: 58px; }
-  .architecture-explorer :global(.node-icon svg) { width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.4; }
-
-  .architecture-explorer :global(.diagram-zone) {
-    position: absolute;
-    top: 175px;
-    width: 570px;
-    height: 520px;
-    border: 1px solid;
-    border-radius: 90px 22px 90px 22px;
-    background: rgba(234, 242, 251, .48);
-  }
-
-  .architecture-explorer :global(.diagram-zone--blue) { left: 55px; border-color: #4d9bea; }
-  .architecture-explorer :global(.diagram-zone--coral) { right: 55px; border-color: #ff7558; border-radius: 22px 90px 22px 90px; }
-  .architecture-explorer :global(.zone-title) { position: absolute; top: -42px; left: 30px; color: #2f73d9; font-size: 1.35rem; font-weight: 800; letter-spacing: -.02em; }
-  .architecture-explorer :global(.diagram-zone--coral .zone-title) { color: #bd442c; }
-
-  .architecture-explorer :global(.system-node) { width: 185px; height: 135px; }
-  .architecture-explorer :global(.node-monitoring) { left: 110px; top: 290px; }
-  .architecture-explorer :global(.node-data) { left: 320px; top: 405px; }
-  .architecture-explorer :global(.node-model) { left: 205px; top: 540px; }
-  .architecture-explorer :global(.node-datacenter) { left: 655px; top: 355px; width: 190px; height: 200px; border-radius: 50%; }
-  .architecture-explorer :global(.node-control) { left: 665px; top: 70px; width: 170px; height: 155px; border-color: rgba(224, 237, 250, .72); }
-  .architecture-explorer :global(.node-external) { left: 655px; top: 650px; width: 190px; height: 150px; border-color: rgba(224, 237, 250, .72); }
-  .architecture-explorer :global(.node-forecast) { left: 905px; top: 290px; }
-  .architecture-explorer :global(.node-decomposition) { left: 1120px; top: 405px; }
-  .architecture-explorer :global(.node-optimization) { left: 1005px; top: 540px; border-color: rgba(255, 117, 88, .8); }
-  .architecture-explorer :global(.node-optimization .node-icon),
-  .architecture-explorer :global(.node-forecast .node-icon),
-  .architecture-explorer :global(.node-decomposition .node-icon) { color: #ff7558; }
 
   .architecture-explorer :global(.route-label) {
     position: absolute;
@@ -1057,7 +1062,7 @@ const scenes = architectureScenes;
     top: clamp(118px, 16vh, 168px);
     right: clamp(16px, 2vw, 30px);
     z-index: 6;
-    width: min(350px, calc(100% - 34px));
+    width: min(430px, calc(100% - 34px));
     max-height: calc(100% - 190px);
     overflow: auto;
     padding: 24px;
@@ -1184,6 +1189,21 @@ const scenes = architectureScenes;
     .interaction-hint span:not(:first-of-type), .interaction-hint i { display: none; }
     .zoom-controls { top: 100px; right: 14px; bottom: auto; grid-template-columns: repeat(4, 43px); }
     .zoom-controls button { width: 43px; height: 43px; }
+    [data-active-scene="system"] .architecture-viewport {
+      overflow-x: hidden;
+      overflow-y: auto;
+      touch-action: pan-y;
+      overscroll-behavior: contain;
+    }
+    [data-active-scene="system"] .pan-layer,
+    [data-active-scene="system"] .zoom-controls,
+    [data-active-scene="system"] .interaction-hint {
+      display: none;
+    }
+  }
+
+  [data-active-scene="system"] .interaction-hint {
+    display: none;
   }
 
   @media (max-width: 430px) {

@@ -1,0 +1,355 @@
+<div class="system-mobile-surface" aria-label="Архитектура системы DSM в последовательном представлении">
+  <section class="mobile-zone mobile-zone--physical" aria-labelledby="mobile-physical-title">
+    <p class="mobile-zone__eyebrow">Уровень 01</p>
+    <h2 id="mobile-physical-title">Физический уровень</h2>
+    <p class="mobile-zone__intro">Полная топология автономного электротехнического комплекса</p>
+
+    <div class="mobile-physical-flow">
+      <button type="button" data-detail-id="generator">
+        <small>Источник</small>
+        <strong>Генерация ЭЭ</strong>
+        <span>0,4 кВ · прибор учёта</span>
+      </button>
+      <i aria-hidden="true">↓</i>
+      <button type="button" data-detail-id="transformer">
+        <small>Автономный ЭТК</small>
+        <strong>Трансформатор T1</strong>
+        <span>Переход на шину 6 кВ</span>
+      </button>
+      <i aria-hidden="true">↓</i>
+      <button type="button" data-detail-id="bus">
+        <small>Распределение</small>
+        <strong>Шина 6 кВ</strong>
+        <span>T2 · T3 · Tn</span>
+      </button>
+      <i aria-hidden="true">↓</i>
+      <button type="button" data-detail-id="load">
+        <small>Потребление</small>
+        <strong>Нагрузка 0,4 кВ</strong>
+        <span>Приборы учёта и состояния</span>
+      </button>
+    </div>
+
+    <button class="mobile-context" type="button" data-detail-id="external">
+      <span>
+        <small>Контекст режима</small>
+        <strong>Техпроцесс, погода и обслуживание</strong>
+      </span>
+      <b>Подробнее →</b>
+    </button>
+  </section>
+
+  <div class="mobile-data-bus" aria-label="Потоки данных">
+    <strong>Потоки данных</strong>
+    <span>Телеметрия · параметры · контекст</span>
+  </div>
+
+  <section class="mobile-zone mobile-zone--data" aria-labelledby="mobile-data-title">
+    <p class="mobile-zone__eyebrow">Уровень 02</p>
+    <h2 id="mobile-data-title">Центр обработки данных</h2>
+    <p class="mobile-zone__intro">Выберите этап, чтобы открыть подробное описание</p>
+
+    <div class="mobile-timeline">
+      <button type="button" data-detail-id="monitoring">
+        <span class="mobile-step">01</span>
+        <span>
+          <small>Наблюдение</small>
+          <strong>Мониторинг классов нагрузок</strong>
+          <em>Классификация состояний и p(ON)(t)</em>
+        </span>
+      </button>
+
+      <button type="button" data-detail-id="load-data">
+        <span class="mobile-step">DB</span>
+        <span>
+          <small>Хранение</small>
+          <strong>Единая база данных</strong>
+          <em>Электротехнические и технологические параметры</em>
+        </span>
+      </button>
+
+      <button type="button" data-detail-id="forecast">
+        <span class="mobile-step mobile-step--coral">02</span>
+        <span>
+          <small>Прогноз</small>
+          <strong>Прогноз временных рядов</strong>
+          <em>24 часа · дискретность 1 минута</em>
+        </span>
+      </button>
+
+      <button type="button" data-detail-id="decomposition">
+        <span class="mobile-step mobile-step--coral">05</span>
+        <span>
+          <small>Анализ</small>
+          <strong>Сингулярное разложение</strong>
+          <em>Компоненты · паттерны · DR PI · DR FI</em>
+        </span>
+      </button>
+
+      <button type="button" data-detail-id="modeling">
+        <span class="mobile-step">04</span>
+        <span>
+          <small>Расчёт режима</small>
+          <strong>Моделирование ЭТК</strong>
+          <em>MOST · MPC · transmat · xgd · sd</em>
+        </span>
+      </button>
+
+      <button type="button" data-detail-id="optimization">
+        <span class="mobile-step mobile-step--coral">03</span>
+        <span>
+          <small>Оптимизация</small>
+          <strong>Параметры DSM методом CC-PSO</strong>
+          <em>Итерационный процесс · 6 этапов</em>
+        </span>
+      </button>
+
+      <button type="button" data-detail-id="criterion">
+        <span class="mobile-step mobile-step--decision">?</span>
+        <span>
+          <small>Решение</small>
+          <strong>Критерий применения DSM</strong>
+          <em>OPEX и среднесуточный DR FI</em>
+        </span>
+      </button>
+
+      <button type="button" data-detail-id="control">
+        <span class="mobile-step mobile-step--control">↺</span>
+        <span>
+          <small>Обратная связь</small>
+          <strong>Управление нагрузкой</strong>
+          <em>Сигналы DSM возвращаются на физический уровень</em>
+        </span>
+      </button>
+    </div>
+  </section>
+</div>
+
+<style>
+  .system-mobile-surface {
+    display: none;
+  }
+
+  @media (max-width: 700px) {
+    .system-mobile-surface {
+      position: relative;
+      display: block;
+      min-height: 100%;
+      padding: 142px 14px 72px;
+      color: #0b1f3a;
+    }
+
+    .mobile-zone {
+      padding: 20px 16px;
+      border: 1px solid rgba(47, 115, 217, .25);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .82);
+      box-shadow: 0 12px 34px rgba(34, 72, 112, .07);
+    }
+
+    .mobile-zone--physical {
+      border-color: rgba(222, 104, 79, .32);
+    }
+
+    .mobile-zone__eyebrow {
+      margin: 0 0 5px;
+      color: #2f73d9;
+      font-size: .68rem;
+      font-weight: 850;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .mobile-zone h2 {
+      margin: 0;
+      font-size: 1.22rem;
+      line-height: 1.15;
+      letter-spacing: -.025em;
+    }
+
+    .mobile-zone__intro {
+      margin: 7px 0 18px;
+      color: #52677b;
+      font-size: .78rem;
+      line-height: 1.45;
+    }
+
+    .mobile-physical-flow {
+      display: grid;
+      gap: 8px;
+    }
+
+    .mobile-physical-flow > i {
+      color: #2f73d9;
+      font-size: 1rem;
+      font-style: normal;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .mobile-physical-flow button,
+    .mobile-timeline button,
+    .mobile-context {
+      min-height: 52px;
+      border: 1px solid rgba(47, 115, 217, .2);
+      color: inherit;
+      background: #ffffff;
+      text-align: left;
+    }
+
+    .mobile-physical-flow button {
+      display: grid;
+      gap: 4px;
+      padding: 13px 14px;
+      border-radius: 12px;
+    }
+
+    .mobile-physical-flow small,
+    .mobile-timeline small,
+    .mobile-context small {
+      color: #2f73d9;
+      font-size: .65rem;
+      font-weight: 820;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .mobile-physical-flow strong,
+    .mobile-timeline strong,
+    .mobile-context strong {
+      font-size: .9rem;
+      line-height: 1.28;
+    }
+
+    .mobile-physical-flow span,
+    .mobile-context b {
+      color: #5a6e81;
+      font-size: .72rem;
+      font-weight: 620;
+      line-height: 1.35;
+    }
+
+    .mobile-context {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      margin-top: 16px;
+      padding: 14px;
+      border-color: rgba(222, 104, 79, .24);
+      border-radius: 12px;
+    }
+
+    .mobile-context > span {
+      display: grid;
+      gap: 4px;
+    }
+
+    .mobile-context b {
+      flex: 0 0 auto;
+      color: #2f73d9;
+    }
+
+    .mobile-data-bus {
+      display: grid;
+      gap: 3px;
+      margin: 14px 20px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      color: #ffffff;
+      background: #2f73d9;
+      text-align: center;
+    }
+
+    .mobile-data-bus strong {
+      font-size: .76rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .mobile-data-bus span {
+      font-size: .66rem;
+      opacity: .84;
+    }
+
+    .mobile-timeline {
+      position: relative;
+      display: grid;
+      gap: 12px;
+    }
+
+    .mobile-timeline::before {
+      content: "";
+      position: absolute;
+      top: 30px;
+      bottom: 30px;
+      left: 30px;
+      width: 1px;
+      background: rgba(47, 115, 217, .22);
+    }
+
+    .mobile-timeline button {
+      position: relative;
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 14px;
+      border-radius: 13px;
+      box-shadow: 0 7px 20px rgba(34, 72, 112, .05);
+    }
+
+    .mobile-timeline button > span:last-child {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .mobile-timeline em {
+      color: #5a6e81;
+      font-size: .72rem;
+      font-style: normal;
+      line-height: 1.4;
+    }
+
+    .mobile-step {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border: 1px solid rgba(47, 115, 217, .32);
+      border-radius: 50%;
+      color: #2f73d9;
+      background: #f2f7fd;
+      font-size: .68rem;
+      font-weight: 850;
+    }
+
+    .mobile-step--coral,
+    .mobile-step--decision {
+      border-color: rgba(222, 104, 79, .38);
+      color: #b44d38;
+      background: #fff6f3;
+    }
+
+    .mobile-step--control {
+      border-color: rgba(73, 61, 136, .36);
+      color: #493d88;
+      background: #f5f3fb;
+    }
+
+    .mobile-physical-flow button:hover,
+    .mobile-physical-flow button:focus-visible,
+    .mobile-context:hover,
+    .mobile-context:focus-visible,
+    .mobile-timeline button:hover,
+    .mobile-timeline button:focus-visible {
+      border-color: #2f73d9;
+      outline: 3px solid rgba(47, 115, 217, .12);
+      outline-offset: 1px;
+    }
+  }
+</style>

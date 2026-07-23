@@ -1,120 +1,739 @@
-<div class="diagram-surface system-surface is-active" data-scene-surface="system" aria-label="Общая архитектура системы DSM">
-  <svg class="connection-map" viewBox="0 0 1500 900" aria-hidden="true">
+<div
+  class="diagram-surface system-surface is-active"
+  data-scene-surface="system"
+  aria-label="Архитектура системы DSM с учётом классификации нагрузок"
+>
+  <svg class="system-map" viewBox="0 0 1680 2500" role="img" aria-labelledby="system-map-title system-map-description">
+    <title id="system-map-title">Архитектура системы DSM с учётом классификации нагрузок</title>
+    <desc id="system-map-description">
+      Физический уровень автономного электротехнического комплекса связан с центром обработки данных,
+      мониторингом, прогнозированием, моделированием, сингулярным разложением и оптимизацией CC-PSO.
+    </desc>
+
     <defs>
-      <marker id="system-arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-        <path d="M 0 0 L 10 5 L 0 10 z" fill="#63aef8"></path>
+      <marker id="system-arrow-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M0 0 10 5 0 10Z"></path>
       </marker>
-      <marker id="system-arrow-coral" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-        <path d="M 0 0 L 10 5 L 0 10 z" fill="#ff7558"></path>
+      <marker id="system-arrow-coral" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M0 0 10 5 0 10Z"></path>
       </marker>
+      <marker id="system-arrow-control" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M0 0 10 5 0 10Z"></path>
+      </marker>
+      <marker id="system-arrow-ink" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M0 0 10 5 0 10Z"></path>
+      </marker>
+      <linearGradient id="system-card-fill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffffff"></stop>
+        <stop offset="1" stop-color="#f4f8fc"></stop>
+      </linearGradient>
+      <linearGradient id="system-card-fill-coral" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffffff"></stop>
+        <stop offset="1" stop-color="#fff7f4"></stop>
+      </linearGradient>
     </defs>
 
-    <g class="route route--blue">
-      <path d="M295 357 C310 357 310 472 320 472" marker-end="url(#system-arrow-blue)"></path>
-      <path d="M412 540 C412 568 405 607 390 607" marker-end="url(#system-arrow-blue)"></path>
-      <path d="M390 607 C520 607 535 500 655 500" marker-end="url(#system-arrow-blue)"></path>
+    <g class="system-level system-level--physical">
+      <rect class="level-frame" x="40" y="120" width="1600" height="620" rx="42"></rect>
+      <rect class="level-title-backdrop" x="660" y="94" width="360" height="58" rx="29"></rect>
+      <text class="level-title" x="840" y="134">Физический уровень</text>
+
+      <g
+        class="physical-node physical-node--generation"
+        data-detail-id="generator"
+        data-node-id="generator"
+        tabindex="0"
+        role="button"
+        aria-label="Открыть описание генерации электроэнергии"
+      >
+        <rect class="physical-hit" x="72" y="198" width="306" height="472" rx="24"></rect>
+        <text class="network-label" x="60" y="315">Gen 1</text>
+        <circle class="network-line" cx="174" cy="306" r="42"></circle>
+        <path class="network-line" d="M151 307c8-18 16-18 24 0s16 18 24 0"></path>
+        <line class="network-line" x1="216" y1="306" x2="380" y2="306"></line>
+        <line class="network-line" x1="380" y1="220" x2="380" y2="642"></line>
+        <path class="meter-coil" d="M278 274c0 14 18 14 18 0m0 0c0 14 18 14 18 0m-36 56c0 14 18 14 18 0m0 0c0 14 18 14 18 0"></path>
+        <rect class="meter-box" x="285" y="365" width="44" height="54"></rect>
+        <text class="meter-text" x="307" y="400">Wh</text>
+        <text class="network-muted" x="292" y="245">0,4 kV</text>
+        <text class="network-ellipsis" x="168" y="514">…</text>
+        <text class="network-block-title" x="82" y="635">Генерация ЭЭ</text>
+      </g>
+
+      <g
+        class="physical-node physical-node--transformer"
+        data-detail-id="transformer"
+        data-node-id="transformer"
+        tabindex="0"
+        role="button"
+        aria-label="Открыть описание трансформаторов автономного ЭТК"
+      >
+        <rect class="physical-hit" x="400" y="198" width="320" height="472" rx="24"></rect>
+        <text class="network-zone-title" x="540" y="292">Автономный ЭТК</text>
+        <text class="network-label" x="478" y="450">T1</text>
+        <line class="network-line" x1="380" y1="520" x2="457" y2="520"></line>
+        <circle class="network-line" cx="500" cy="520" r="43"></circle>
+        <circle class="network-line" cx="544" cy="520" r="43"></circle>
+        <line class="network-line" x1="587" y1="520" x2="720" y2="520"></line>
+        <path class="network-arrow network-arrow--ink" d="M620 520h54" marker-end="url(#system-arrow-ink)"></path>
+        <path class="network-arrow network-arrow--ink" d="M710 520h-42" marker-end="url(#system-arrow-ink)"></path>
+        <text class="network-muted" x="620" y="483">6 kV</text>
+      </g>
+
+      <g
+        class="physical-node physical-node--bus"
+        data-detail-id="bus"
+        data-node-id="bus"
+        tabindex="0"
+        role="button"
+        aria-label="Открыть описание шины 6 киловольт"
+      >
+        <rect class="physical-hit" x="724" y="198" width="226" height="472" rx="24"></rect>
+        <line class="network-line" x1="720" y1="222" x2="720" y2="646"></line>
+        <text class="network-muted" x="748" y="206">Шина 6 кВ</text>
+        <path class="network-arrow network-arrow--ink" d="M720 278h198" marker-end="url(#system-arrow-ink)"></path>
+        <path class="network-arrow network-arrow--ink" d="M918 278h-60" marker-end="url(#system-arrow-ink)"></path>
+        <path class="network-arrow network-arrow--ink" d="M720 438h198" marker-end="url(#system-arrow-ink)"></path>
+        <path class="network-arrow network-arrow--ink" d="M918 438h-60" marker-end="url(#system-arrow-ink)"></path>
+        <path class="network-arrow network-arrow--ink" d="M720 598h198" marker-end="url(#system-arrow-ink)"></path>
+        <path class="network-arrow network-arrow--ink" d="M918 598h-60" marker-end="url(#system-arrow-ink)"></path>
+      </g>
+
+      <g
+        class="physical-node physical-node--distribution"
+        data-detail-id="transformer"
+        data-node-id="distribution"
+        tabindex="0"
+        role="button"
+        aria-label="Открыть описание трансформаторов T2, T3 и Tn"
+      >
+        <rect class="physical-hit" x="924" y="198" width="264" height="472" rx="24"></rect>
+        <line class="network-line" x1="926" y1="224" x2="926" y2="642"></line>
+        <circle class="network-line" cx="984" cy="278" r="42"></circle>
+        <circle class="network-line" cx="1028" cy="278" r="42"></circle>
+        <circle class="network-line" cx="984" cy="438" r="42"></circle>
+        <circle class="network-line" cx="1028" cy="438" r="42"></circle>
+        <circle class="network-line" cx="984" cy="598" r="42"></circle>
+        <circle class="network-line" cx="1028" cy="598" r="42"></circle>
+        <text class="network-label" x="982" y="210">T2</text>
+        <text class="network-label" x="982" y="370">T3</text>
+        <text class="network-label" x="982" y="530">Tₙ</text>
+        <line class="network-line" x1="1070" y1="278" x2="1180" y2="278"></line>
+        <line class="network-line" x1="1070" y1="438" x2="1180" y2="438"></line>
+        <line class="network-line" x1="1070" y1="598" x2="1180" y2="598"></line>
+        <path class="network-arrow network-arrow--ink" d="M1090 278h58" marker-end="url(#system-arrow-ink)"></path>
+        <path class="network-arrow network-arrow--ink" d="M1090 438h58" marker-end="url(#system-arrow-ink)"></path>
+        <path class="network-arrow network-arrow--ink" d="M1090 598h58" marker-end="url(#system-arrow-ink)"></path>
+        <text class="network-ellipsis" x="910" y="535">…</text>
+      </g>
+
+      <g
+        class="physical-node physical-node--load"
+        data-detail-id="load"
+        data-node-id="load"
+        tabindex="0"
+        role="button"
+        aria-label="Открыть описание нагрузки и приборов учёта"
+      >
+        <rect class="physical-hit" x="1190" y="198" width="170" height="472" rx="24"></rect>
+        <line class="network-line" x1="1180" y1="220" x2="1180" y2="642"></line>
+        <path class="meter-coil" d="M1210 244c0 14 18 14 18 0m0 0c0 14 18 14 18 0m-36 56c0 14 18 14 18 0m0 0c0 14 18 14 18 0"></path>
+        <circle class="network-line" cx="1296" cy="278" r="28"></circle>
+        <circle class="network-line" cx="1296" cy="278" r="17"></circle>
+        <rect class="meter-box" x="1268" y="365" width="48" height="54"></rect>
+        <rect class="meter-box" x="1268" y="451" width="48" height="54"></rect>
+        <rect class="meter-box" x="1268" y="537" width="48" height="54"></rect>
+        <text class="meter-text" x="1292" y="400">Wh</text>
+        <text class="meter-text" x="1292" y="486">Wh</text>
+        <text class="meter-text" x="1292" y="572">Wh</text>
+        <text class="network-muted" x="1198" y="635">0,4 kV</text>
+        <text class="network-block-title" x="1270" y="668">Нагрузка</text>
+      </g>
+
+      <g
+        class="system-hotspot context-panel"
+        data-detail-id="external"
+        data-node-id="external"
+        tabindex="0"
+        role="button"
+        aria-label="Открыть описание внешних условий и технологического процесса"
+      >
+        <rect class="context-card" x="1372" y="206" width="230" height="452" rx="24"></rect>
+        <text class="context-title" x="1400" y="254">Контекст режима</text>
+        <circle class="context-dot" cx="1403" cy="310" r="5"></circle>
+        <text class="context-copy" x="1422" y="316">
+          <tspan x="1422" dy="0">Технологический</tspan>
+          <tspan x="1422" dy="27">процесс</tspan>
+        </text>
+        <circle class="context-dot" cx="1403" cy="402" r="5"></circle>
+        <text class="context-copy" x="1422" y="408">
+          <tspan x="1422" dy="0">Погодные и внешние</tspan>
+          <tspan x="1422" dy="27">условия</tspan>
+        </text>
+        <circle class="context-dot" cx="1403" cy="494" r="5"></circle>
+        <text class="context-copy" x="1422" y="500">
+          <tspan x="1422" dy="0">Обслуживание</tspan>
+          <tspan x="1422" dy="27">и ремонт</tspan>
+        </text>
+        <text class="context-action" x="1400" y="610">Подробнее →</text>
+      </g>
     </g>
 
-    <g class="route route--coral">
-      <path d="M845 410 C880 410 875 357 905 357" marker-end="url(#system-arrow-coral)"></path>
-      <path d="M1090 357 C1110 357 1110 472 1120 472" marker-end="url(#system-arrow-coral)"></path>
-      <path d="M1305 472 C1360 472 1360 607 1190 607" marker-end="url(#system-arrow-coral)"></path>
-      <path d="M1005 607 C930 607 930 500 845 500" marker-end="url(#system-arrow-coral)"></path>
+    <g class="telemetry-bus" aria-hidden="true">
+      <rect x="100" y="792" width="1480" height="76" rx="38"></rect>
+      <text class="bus-title" x="840" y="825">ПОТОКИ ДАННЫХ</text>
+      <text class="bus-copy" x="840" y="852">телеметрия · технологические параметры · контекст режима</text>
+      <path class="data-drop" d="M300 868v104" marker-end="url(#system-arrow-blue)"></path>
+      <path class="data-drop" d="M840 868v90" marker-end="url(#system-arrow-blue)"></path>
+      <path class="data-drop" d="M1390 868v104" marker-end="url(#system-arrow-blue)"></path>
     </g>
 
-    <g class="route route--neutral">
-      <path d="M750 225 L750 355" marker-end="url(#system-arrow-blue)"></path>
-      <path d="M750 555 L750 650" marker-end="url(#system-arrow-blue)"></path>
+    <g class="system-level system-level--data-center">
+      <rect class="level-frame level-frame--data-center" x="40" y="910" width="1600" height="1510" rx="42"></rect>
+      <g
+        class="system-hotspot data-center-title"
+        data-detail-id="data-center"
+        tabindex="0"
+        role="button"
+        aria-label="Открыть описание центра обработки данных"
+      >
+        <rect class="level-title-backdrop" x="620" y="881" width="440" height="62" rx="31"></rect>
+        <text class="level-title" x="840" y="922">Центр обработки данных</text>
+      </g>
+
+      <g
+        class="system-module module-monitoring"
+        data-detail-id="monitoring"
+        data-node-id="monitoring"
+        tabindex="0"
+        role="button"
+        aria-label="Открыть описание блока мониторинга классов нагрузок"
+      >
+        <rect class="module-card" x="120" y="1010" width="360" height="280" rx="28"></rect>
+        <circle class="module-index" cx="164" cy="1054" r="22"></circle>
+        <text class="module-index-text" x="164" y="1062">01</text>
+        <text class="module-kicker" x="202" y="1060">НАБЛЮДЕНИЕ</text>
+        <text class="module-title" x="150" y="1117">
+          <tspan x="150" dy="0">Мониторинг классов</tspan>
+          <tspan x="150" dy="36">нагрузок</tspan>
+        </text>
+        <text class="module-copy" x="150" y="1202">
+          <tspan x="150" dy="0">Классификация состояний</tspan>
+          <tspan x="150" dy="28">и вероятность включения</tspan>
+        </text>
+        <text class="module-action" x="150" y="1260">Подробнее →</text>
+      </g>
+
+      <g
+        class="system-module module-database"
+        data-detail-id="load-data"
+        data-node-id="load-data"
+        tabindex="0"
+        role="button"
+        aria-label="Открыть описание единой базы данных"
+      >
+        <rect class="module-card module-card--primary" x="580" y="990" width="520" height="320" rx="28"></rect>
+        <circle class="database-icon" cx="628" cy="1041" r="25"></circle>
+        <ellipse class="database-icon-line" cx="628" cy="1032" rx="12" ry="5"></ellipse>
+        <path class="database-icon-line" d="M616 1032v18c0 6 24 6 24 0v-18m-24 9c0 6 24 6 24 0"></path>
+        <text class="module-kicker" x="668" y="1048">ЕДИНАЯ БАЗА ДАННЫХ</text>
+        <line class="table-line" x1="616" y1="1104" x2="1062" y2="1104"></line>
+        <line class="table-line" x1="616" y1="1161" x2="1062" y2="1161"></line>
+        <line class="table-line" x1="872" y1="1073" x2="872" y2="1192"></line>
+        <text class="table-head" x="616" y="1095">Time stamp</text>
+        <text class="table-head" x="906" y="1095">Data</text>
+        <text class="table-value" x="616" y="1144">2026-01-01 23:10:59</text>
+        <text class="table-value" x="906" y="1144">72,23</text>
+        <text class="module-copy" x="616" y="1222">
+          <tspan x="616" dy="0">Электротехнические, технологические</tspan>
+          <tspan x="616" dy="28">и внешние параметры</tspan>
+        </text>
+        <text class="module-action" x="616" y="1282">Подробнее →</text>
+      </g>
+
+      <g
+        class="system-module module-forecast"
+        data-detail-id="forecast"
+        data-node-id="forecast"
+        tabindex="0"
+        role="button"
+        aria-label="Открыть описание блока прогноза временных рядов"
+      >
+        <rect class="module-card" x="1220" y="1010" width="340" height="280" rx="28"></rect>
+        <circle class="module-index module-index--coral" cx="1264" cy="1054" r="22"></circle>
+        <text class="module-index-text" x="1264" y="1062">02</text>
+        <text class="module-kicker module-kicker--coral" x="1302" y="1060">ПРОГНОЗ</text>
+        <text class="module-title" x="1250" y="1117">
+          <tspan x="1250" dy="0">Прогноз временных</tspan>
+          <tspan x="1250" dy="36">рядов</tspan>
+        </text>
+        <text class="metric-value" x="1250" y="1211">24 часа</text>
+        <text class="metric-label" x="1250" y="1240">дискретность · 1 минута</text>
+        <text class="module-action" x="1250" y="1268">Подробнее →</text>
+      </g>
+
+      <g
+        class="system-module module-optimization"
+        data-detail-id="optimization"
+        data-node-id="optimization"
+        tabindex="0"
+        role="button"
+        aria-label="Открыть описание расчёта параметров DSM методом CC-PSO"
+      >
+        <rect class="module-card module-card--coral" x="120" y="1510" width="400" height="330" rx="28"></rect>
+        <circle class="module-index module-index--coral" cx="164" cy="1554" r="22"></circle>
+        <text class="module-index-text" x="164" y="1562">03</text>
+        <text class="module-kicker module-kicker--coral" x="202" y="1560">ОПТИМИЗАЦИЯ</text>
+        <text class="module-title" x="150" y="1618">
+          <tspan x="150" dy="0">Параметры DSM</tspan>
+          <tspan x="150" dy="36">методом CC-PSO</tspan>
+        </text>
+        <text class="module-copy" x="150" y="1702">
+          <tspan x="150" dy="0">Настройка DSM и формирование</tspan>
+          <tspan x="150" dy="28">сигналов управления нагрузкой</tspan>
+        </text>
+        <rect class="status-chip status-chip--coral" x="150" y="1760" width="244" height="42" rx="21"></rect>
+        <text class="status-chip-text status-chip-text--coral" x="272" y="1787">Итерационный процесс · 6 этапов</text>
+        <text class="module-action" x="150" y="1822">Подробнее →</text>
+      </g>
+
+      <g
+        class="system-module module-modeling"
+        data-detail-id="modeling"
+        data-node-id="modeling"
+        tabindex="0"
+        role="button"
+        aria-label="Открыть описание блока моделирования электротехнического комплекса"
+      >
+        <rect class="module-card" x="650" y="1535" width="380" height="280" rx="28"></rect>
+        <circle class="module-index" cx="694" cy="1579" r="22"></circle>
+        <text class="module-index-text" x="694" y="1587">04</text>
+        <text class="module-kicker" x="732" y="1585">РАСЧЁТ РЕЖИМА</text>
+        <text class="module-title" x="680" y="1643">
+          <tspan x="680" dy="0">Моделирование</tspan>
+          <tspan x="680" dy="36">автономного ЭТК</tspan>
+        </text>
+        <text class="module-copy" x="680" y="1725">MOST · MPC · transmat · xgd · sd</text>
+        <text class="module-action" x="680" y="1780">Подробнее →</text>
+      </g>
+
+      <g
+        class="system-module module-decomposition"
+        data-detail-id="decomposition"
+        data-node-id="decomposition"
+        tabindex="0"
+        role="button"
+        aria-label="Открыть описание блока сингулярного разложения"
+      >
+        <rect class="module-card" x="1220" y="1535" width="340" height="280" rx="28"></rect>
+        <circle class="module-index module-index--coral" cx="1264" cy="1579" r="22"></circle>
+        <text class="module-index-text" x="1264" y="1587">05</text>
+        <text class="module-kicker module-kicker--coral" x="1302" y="1585">АНАЛИЗ</text>
+        <text class="module-title" x="1250" y="1643">
+          <tspan x="1250" dy="0">Сингулярное</tspan>
+          <tspan x="1250" dy="36">разложение</tspan>
+        </text>
+        <text class="module-copy" x="1250" y="1725">Компоненты · паттерны · DR PI</text>
+        <rect class="status-chip" x="1250" y="1752" width="178" height="42" rx="21"></rect>
+        <text class="status-chip-text" x="1339" y="1779">Выход · DR FI</text>
+      </g>
+
+      <g
+        class="decision-block"
+        data-detail-id="criterion"
+        data-node-id="criterion"
+        tabindex="0"
+        role="button"
+        aria-label="Открыть описание критерия применения DSM"
+      >
+        <path class="decision-shape" d="M1040 1930 1370 2080 1040 2230 710 2080Z"></path>
+        <text class="decision-title" x="1040" y="2023">Критерий применения DSM</text>
+        <text class="decision-copy" x="1040" y="2074">OPEX &gt; OPEX(t − 1)</text>
+        <text class="decision-plus" x="1040" y="2120">+</text>
+        <text class="decision-copy" x="1040" y="2166">Среднесуточный DR FI &gt; 0,5</text>
+      </g>
+
+      <g class="system-output" aria-hidden="true">
+        <rect class="outcome-chip outcome-chip--no" x="1430" y="2023" width="162" height="42" rx="21"></rect>
+        <text class="outcome-label outcome-label--no" x="1511" y="2050">НЕТ · значение 0</text>
+        <text class="output-copy" x="1430" y="2112">
+          <tspan x="1430" dy="0">DSM не требуется</tspan>
+          <tspan x="1430" dy="31">Нет необходимости</tspan>
+          <tspan x="1430" dy="31">в управлении спросом</tspan>
+        </text>
+      </g>
+
+      <g class="system-routes" aria-label="Связи между блоками">
+        <path class="flow-line flow-line--data route-path" data-route-id="monitor-db" data-connects="monitoring load-data" tabindex="0" d="M480 1148H580" marker-end="url(#system-arrow-blue)"></path>
+        <path class="flow-line flow-line--analysis route-path" data-route-id="db-forecast" data-connects="load-data forecast" tabindex="0" d="M1100 1114H1220" marker-end="url(#system-arrow-coral)"></path>
+        <path class="flow-line flow-line--analysis route-path" data-route-id="forecast-db" data-connects="forecast load-data" tabindex="0" d="M1220 1206H1100" marker-end="url(#system-arrow-coral)"></path>
+        <path class="flow-line flow-line--data route-path" data-route-id="db-model" data-connects="load-data modeling" tabindex="0" d="M840 1310V1535" marker-end="url(#system-arrow-blue)"></path>
+        <path class="flow-line flow-line--analysis route-path" data-route-id="forecast-decomposition" data-connects="forecast decomposition" tabindex="0" d="M1390 1290V1535" marker-end="url(#system-arrow-coral)"></path>
+        <path class="flow-line flow-line--control route-path" data-route-id="optimization-monitor" data-connects="optimization monitoring" tabindex="0" d="M320 1510V1408H86V1184H120" marker-end="url(#system-arrow-control)"></path>
+        <path class="flow-line flow-line--data route-path" data-route-id="optimization-modeling" data-connects="optimization modeling" tabindex="0" d="M520 1628H650" marker-end="url(#system-arrow-blue)"></path>
+        <path class="flow-line flow-line--data route-path" data-route-id="modeling-optimization" data-connects="modeling optimization" tabindex="0" d="M650 1736H520" marker-end="url(#system-arrow-blue)"></path>
+        <path class="flow-line flow-line--data route-path" data-route-id="modeling-criterion" data-connects="modeling criterion" tabindex="0" d="M840 1815V1876H930V1980" marker-end="url(#system-arrow-blue)"></path>
+        <path class="flow-line flow-line--analysis route-path" data-route-id="decomposition-criterion" data-connects="decomposition criterion" tabindex="0" d="M1390 1815V1876H1150V1980" marker-end="url(#system-arrow-coral)"></path>
+        <path class="flow-line flow-line--analysis route-path" data-route-id="criterion-no" data-connects="criterion" tabindex="0" d="M1370 2080H1404" marker-end="url(#system-arrow-coral)"></path>
+        <path class="flow-line flow-line--control route-path" data-route-id="criterion-yes" data-connects="criterion optimization" tabindex="0" d="M1040 2230V2348H320V1840" marker-end="url(#system-arrow-control)"></path>
+        <path class="control-loop route-path" data-route-id="control-loop" data-connects="optimization load generator" tabindex="0" d="M120 1680H66V700H380V644" marker-end="url(#system-arrow-control)"></path>
+
+        <g class="flow-chip" data-route-for="optimization-monitor" transform="translate(96 1352)">
+          <rect width="270" height="42" rx="21"></rect>
+          <text x="135" y="27">Сигналы управления</text>
+        </g>
+        <g class="flow-chip" data-route-for="optimization-modeling" transform="translate(510 1450)">
+          <rect width="210" height="40" rx="20"></rect>
+          <text x="105" y="26">Графики нагрузки</text>
+        </g>
+        <g class="flow-chip" data-route-for="modeling-optimization" transform="translate(552 1858)">
+          <rect width="164" height="40" rx="20"></rect>
+          <text x="82" y="26">OPEX за сутки</text>
+        </g>
+        <g class="flow-chip flow-chip--coral" data-route-for="decomposition-criterion" transform="translate(1214 1854)">
+          <rect width="232" height="40" rx="20"></rect>
+          <text x="116" y="26">Индекс гибкости DR FI</text>
+        </g>
+        <g class="flow-chip flow-chip--control" data-route-for="criterion-yes" transform="translate(642 2306)">
+          <rect width="246" height="42" rx="21"></rect>
+          <text x="123" y="27">ДА · DSM применяется</text>
+        </g>
+        <g class="flow-chip flow-chip--control" data-route-for="control-loop" transform="translate(82 1444)">
+          <rect width="270" height="42" rx="21"></rect>
+          <text x="135" y="27">Управление нагрузкой</text>
+        </g>
+      </g>
     </g>
   </svg>
-
-  <div class="diagram-zone diagram-zone--blue">
-    <span class="zone-title">01 · Аудит потенциала</span>
-  </div>
-
-  <div class="diagram-zone diagram-zone--coral">
-    <span class="zone-title">02 · Адресное управление</span>
-  </div>
-
-  <article class="diagram-node system-node node-monitoring" data-node-id="monitoring">
-    <button class="node-main" type="button" data-detail-id="monitoring">
-      <span class="node-icon" aria-hidden="true">
-        <svg viewBox="0 0 28 28"><path d="M5 21V14m6 7V8m6 13v-9m6 9V5"></path></svg>
-      </span>
-      <strong>Мониторинг<br />классов нагрузок</strong>
-    </button>
-  </article>
-
-  <article class="diagram-node system-node node-data">
-    <button class="node-main" type="button" data-detail-id="load-data">
-      <span class="node-icon" aria-hidden="true">
-        <svg viewBox="0 0 28 28"><ellipse cx="14" cy="7" rx="8" ry="3.5"></ellipse><path d="M6 7v7c0 2 3.6 3.5 8 3.5s8-1.5 8-3.5V7m-16 7v7c0 2 3.6 3.5 8 3.5s8-1.5 8-3.5v-7"></path></svg>
-      </span>
-      <strong>Данные ЭЭ<br />и техпроцесса</strong>
-    </button>
-  </article>
-
-  <article class="diagram-node system-node node-model">
-    <button class="node-main" type="button" data-detail-id="modeling">
-      <span class="node-icon" aria-hidden="true">
-        <svg viewBox="0 0 28 28"><path d="M4 17c3-8 5 8 8 0s5-8 8 0 4 0 4 0"></path></svg>
-      </span>
-      <strong>Моделирование<br />ЭТК</strong>
-    </button>
-  </article>
-
-  <article class="diagram-node system-node node-datacenter is-selected">
-    <button class="node-main" type="button" data-detail-id="data-center">
-      <span class="node-icon node-icon--large" aria-hidden="true">
-        <svg viewBox="0 0 32 32"><rect x="6" y="5" width="20" height="6" rx="2"></rect><rect x="6" y="13" width="20" height="6" rx="2"></rect><rect x="6" y="21" width="20" height="6" rx="2"></rect><path d="M10 8h1m-1 8h1m-1 8h1"></path></svg>
-      </span>
-      <strong>ЦОД</strong>
-      <small>Центр обработки данных</small>
-    </button>
-  </article>
-
-  <article class="diagram-node system-node node-control">
-    <button class="node-main" type="button" data-detail-id="control">
-      <span class="node-icon" aria-hidden="true">
-        <svg viewBox="0 0 28 28"><path d="M5 8h18M5 14h18M5 20h18M10 5v6m8 0v6m-5 0v6"></path></svg>
-      </span>
-      <strong>Управление<br />нагрузкой</strong>
-    </button>
-  </article>
-
-  <article class="diagram-node system-node node-external">
-    <button class="node-main" type="button" data-detail-id="external">
-      <span class="node-icon" aria-hidden="true">
-        <svg viewBox="0 0 28 28"><path d="M7 19a5 5 0 0 1 2-9.6A7 7 0 0 1 22 12a4 4 0 0 1-1 7H7Z"></path></svg>
-      </span>
-      <strong>Внешние условия<br />и техпроцесс</strong>
-    </button>
-  </article>
-
-  <article class="diagram-node system-node node-forecast">
-    <button class="node-main" type="button" data-detail-id="forecast">
-      <span class="node-icon" aria-hidden="true">
-        <svg viewBox="0 0 28 28"><path d="M4 22 10 14l4 4 8-12m-4 0h4v4"></path></svg>
-      </span>
-      <strong>Прогноз<br />временных рядов</strong>
-    </button>
-  </article>
-
-  <article class="diagram-node system-node node-decomposition">
-    <button class="node-main" type="button" data-detail-id="decomposition">
-      <span class="node-icon" aria-hidden="true">
-        <svg viewBox="0 0 28 28"><rect x="5" y="5" width="18" height="18" rx="2"></rect><path d="M5 11h18M11 5v18m6-18v18"></path></svg>
-      </span>
-      <strong>Сингулярное<br />разложение</strong>
-    </button>
-  </article>
-
-  <article class="diagram-node system-node node-optimization">
-    <button class="node-main" type="button" data-detail-id="optimization">
-      <span class="node-icon" aria-hidden="true">
-        <svg viewBox="0 0 28 28"><path d="m15 3-8 13h6l-1 9 9-14h-6Z"></path></svg>
-      </span>
-      <strong>Оптимизация<br />CC-PSO</strong>
-    </button>
-  </article>
 </div>
+
+<style>
+  .system-map {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    color: #0b1f3a;
+  }
+
+  .system-map text {
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .level-frame {
+    fill: rgba(255, 255, 255, .22);
+    stroke: rgba(222, 104, 79, .46);
+    stroke-width: 1.4;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .level-frame--data-center {
+    fill: rgba(244, 248, 252, .28);
+  }
+
+  .level-title-backdrop {
+    fill: #f4f7f9;
+  }
+
+  .level-title {
+    fill: #0b1f3a;
+    font-size: 32px;
+    font-weight: 820;
+    letter-spacing: -.035em;
+    text-anchor: middle;
+  }
+
+  .physical-hit {
+    fill: transparent;
+    stroke: transparent;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .physical-node,
+  .system-module,
+  .system-hotspot,
+  .decision-block {
+    cursor: pointer;
+  }
+
+  .physical-node:hover .physical-hit,
+  .physical-node:focus-visible .physical-hit,
+  .physical-node.is-selected .physical-hit {
+    fill: rgba(47, 115, 217, .035);
+    stroke: rgba(47, 115, 217, .62);
+    outline: none;
+  }
+
+  .network-line,
+  .database-icon-line,
+  .table-line {
+    fill: none;
+    stroke: #24496f;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .network-arrow {
+    fill: none;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .network-arrow--ink { stroke: #24496f; }
+  #system-arrow-ink path { fill: #24496f; }
+  #system-arrow-blue path { fill: #2f73d9; }
+  #system-arrow-coral path { fill: #e96f56; }
+  #system-arrow-control path { fill: #493d88; }
+
+  .meter-coil {
+    fill: none;
+    stroke: #2f73d9;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .meter-box {
+    fill: #ffffff;
+    stroke: #2f73d9;
+    stroke-dasharray: 5 4;
+    stroke-width: 1.3;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .meter-text {
+    fill: #2f73d9;
+    font-size: 18px;
+    text-anchor: middle;
+  }
+
+  .network-label {
+    fill: #18212f;
+    font-size: 23px;
+    font-weight: 720;
+  }
+
+  .network-muted {
+    fill: #66788a;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .network-ellipsis {
+    fill: #18212f;
+    font-size: 34px;
+    font-weight: 700;
+  }
+
+  .network-block-title {
+    fill: #0b1f3a;
+    font-size: 25px;
+    font-weight: 800;
+  }
+
+  .network-zone-title {
+    fill: #2f318c;
+    font-size: 27px;
+    font-weight: 820;
+    text-anchor: middle;
+  }
+
+  .context-card,
+  .module-card {
+    fill: url(#system-card-fill);
+    stroke: rgba(47, 115, 217, .62);
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+    filter: drop-shadow(0 10px 16px rgba(34, 72, 112, .06));
+  }
+
+  .module-card--coral {
+    fill: url(#system-card-fill-coral);
+    stroke: rgba(226, 101, 74, .64);
+  }
+
+  .module-card--primary {
+    stroke: rgba(35, 79, 128, .84);
+  }
+
+  .system-module:hover .module-card,
+  .system-module:focus-visible .module-card,
+  .system-module.is-selected .module-card,
+  .system-hotspot:hover .context-card,
+  .system-hotspot:focus-visible .context-card,
+  .system-hotspot.is-selected .context-card {
+    fill: #ffffff;
+    stroke: #2f73d9;
+    stroke-width: 2.4;
+    outline: none;
+  }
+
+  .context-title {
+    fill: #0b1f3a;
+    font-size: 22px;
+    font-weight: 820;
+  }
+
+  .context-dot { fill: #e96f56; }
+  .context-copy { fill: #334d67; font-size: 17px; font-weight: 620; }
+  .context-action,
+  .module-action { fill: #2f73d9; font-size: 17px; font-weight: 780; }
+
+  .telemetry-bus rect {
+    fill: rgba(226, 237, 249, .78);
+    stroke: rgba(47, 115, 217, .28);
+    vector-effect: non-scaling-stroke;
+  }
+
+  .bus-title {
+    fill: #2f73d9;
+    font-size: 21px;
+    font-weight: 860;
+    letter-spacing: .12em;
+    text-anchor: middle;
+  }
+
+  .bus-copy {
+    fill: #4e657c;
+    font-size: 16px;
+    font-weight: 650;
+    text-anchor: middle;
+  }
+
+  .data-drop {
+    fill: none;
+    stroke: #2f73d9;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .module-index {
+    fill: rgba(47, 115, 217, .08);
+    stroke: rgba(47, 115, 217, .32);
+    vector-effect: non-scaling-stroke;
+  }
+
+  .module-index--coral {
+    fill: rgba(233, 111, 86, .09);
+    stroke: rgba(233, 111, 86, .42);
+  }
+
+  .module-index-text {
+    fill: #24496f;
+    font-size: 14px;
+    font-weight: 850;
+    text-anchor: middle;
+  }
+
+  .module-kicker {
+    fill: #2f73d9;
+    font-size: 15px;
+    font-weight: 850;
+    letter-spacing: .12em;
+  }
+
+  .module-kicker--coral { fill: #b84d37; }
+  .module-title { fill: #0b1f3a; font-size: 25px; font-weight: 820; letter-spacing: -.025em; }
+  .module-copy { fill: #405b73; font-size: 18px; font-weight: 610; }
+  .metric-value { fill: #0b1f3a; font-size: 31px; font-weight: 850; }
+  .metric-label { fill: #526b82; font-size: 17px; font-weight: 650; }
+
+  .database-icon {
+    fill: rgba(47, 115, 217, .07);
+    stroke: rgba(47, 115, 217, .32);
+    vector-effect: non-scaling-stroke;
+  }
+
+  .table-line { stroke: rgba(36, 73, 111, .28); }
+  .table-head { fill: #0b1f3a; font-size: 17px; font-weight: 800; }
+  .table-value { fill: #435e77; font-size: 17px; font-weight: 600; }
+
+  .status-chip {
+    fill: rgba(47, 115, 217, .08);
+    stroke: rgba(47, 115, 217, .25);
+    vector-effect: non-scaling-stroke;
+  }
+
+  .status-chip--coral {
+    fill: rgba(233, 111, 86, .08);
+    stroke: rgba(233, 111, 86, .28);
+  }
+
+  .status-chip-text {
+    fill: #285e99;
+    font-size: 15px;
+    font-weight: 780;
+    text-anchor: middle;
+  }
+
+  .status-chip-text--coral { fill: #a94a37; }
+
+  .decision-shape {
+    fill: #ffffff;
+    stroke: rgba(233, 111, 86, .78);
+    stroke-width: 1.8;
+    vector-effect: non-scaling-stroke;
+    filter: drop-shadow(0 12px 18px rgba(100, 65, 58, .06));
+  }
+
+  .decision-block:hover .decision-shape,
+  .decision-block:focus-visible .decision-shape,
+  .decision-block.is-selected .decision-shape {
+    fill: #fff8f5;
+    stroke: #e96f56;
+    stroke-width: 2.8;
+    outline: none;
+  }
+
+  .decision-title { fill: #0b1f3a; font-size: 26px; font-weight: 850; text-anchor: middle; }
+  .decision-copy { fill: #263f58; font-size: 22px; font-weight: 690; text-anchor: middle; }
+  .decision-plus { fill: #b84d37; font-size: 26px; font-weight: 850; text-anchor: middle; }
+
+  .outcome-chip { fill: rgba(233, 111, 86, .08); stroke: rgba(233, 111, 86, .35); vector-effect: non-scaling-stroke; }
+  .outcome-label { fill: #a74935; font-size: 15px; font-weight: 820; text-anchor: middle; }
+  .output-copy { fill: #445d75; font-size: 18px; font-weight: 650; }
+
+  .flow-line,
+  .control-loop {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2.25;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .flow-line--data { stroke: #2f73d9; }
+  .flow-line--analysis { stroke: #e96f56; stroke-dasharray: 9 6; }
+  .flow-line--control,
+  .control-loop { stroke: #493d88; stroke-dasharray: 14 7 3 7; }
+
+  .flow-chip rect {
+    fill: rgba(255, 255, 255, .97);
+    stroke: rgba(47, 115, 217, .28);
+    vector-effect: non-scaling-stroke;
+  }
+
+  .flow-chip text {
+    fill: #315b85;
+    font-size: 15px;
+    font-weight: 760;
+    text-anchor: middle;
+  }
+
+  .flow-chip--coral rect { stroke: rgba(233, 111, 86, .34); }
+  .flow-chip--coral text { fill: #a64a36; }
+  .flow-chip--control rect { stroke: rgba(73, 61, 136, .34); }
+  .flow-chip--control text { fill: #493d88; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .system-module,
+    .system-hotspot,
+    .physical-node,
+    .decision-block { transition: none; }
+  }
+</style>

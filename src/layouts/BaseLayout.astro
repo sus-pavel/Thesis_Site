@@ -111,6 +111,8 @@ const structuredData = {
         const cursor = document.querySelector('[data-site-cursor]');
         if (!cursor || window.matchMedia('(pointer: coarse)').matches) return;
 
+        document.body.classList.add('has-custom-cursor');
+
         let pointerX = -100;
         let pointerY = -100;
         let animationFrame = 0;

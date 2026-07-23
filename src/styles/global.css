@@ -66,6 +66,12 @@ button { font: inherit; }
   background: rgba(255, 106, 67, .16);
   box-shadow: 0 0 0 5px rgba(255, 106, 67, .08);
 }
+@media (pointer: fine) {
+  body.has-custom-cursor,
+  body.has-custom-cursor * {
+    cursor: none !important;
+  }
+}
 .skip-link {
   position: fixed;
   top: 12px;
