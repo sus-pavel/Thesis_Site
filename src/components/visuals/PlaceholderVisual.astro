@@ -4,12 +4,15 @@
  * Не создавать отдельный компонент под каждый график, пока проект небольшой.
  */
 import type { VisualDefinition } from '../../data/visuals';
+import LoadProfileVisual from './LoadProfileVisual.astro';
 interface Props { visual: VisualDefinition; index?: number; }
 const { visual, index = 0 } = Astro.props;
 const seed = index + 1;
 ---
 <article class="visual-card">
-  {visual.isReady ? (
+  {visual.id === 'load-profile' ? (
+    <LoadProfileVisual />
+  ) : visual.isReady ? (
     <figure class={`visual-stage visual-figure kind-${visual.kind}`}>
       <img
         src={visual.figureFile}
