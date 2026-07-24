@@ -1,13 +1,26 @@
+---
+import type { Language } from '../../../i18n/config';
+
+interface Props {
+  lang?: Language;
+}
+
+const { lang = 'ru' } = Astro.props;
+const tr = (ru: string, en: string) => lang === 'en' ? en : ru;
+---
+
 <div
   class="diagram-surface system-surface is-active"
   data-scene-surface="system"
-  aria-label="Архитектура системы DSM с учётом классификации нагрузок"
+  aria-label={tr('Архитектура системы DSM с учётом классификации нагрузок', 'DSM system architecture with load classification')}
 >
   <svg class="system-map" viewBox="0 0 1680 2500" role="img" aria-labelledby="system-map-title system-map-description">
-    <title id="system-map-title">Архитектура системы DSM с учётом классификации нагрузок</title>
+    <title id="system-map-title">{tr('Архитектура системы DSM с учётом классификации нагрузок', 'DSM system architecture with load classification')}</title>
     <desc id="system-map-description">
-      Физический уровень автономного электротехнического комплекса связан с центром обработки данных,
-      мониторингом, прогнозированием, моделированием, сингулярным разложением и оптимизацией CC-PSO.
+      {tr(
+        'Физический уровень автономного электротехнического комплекса связан с центром обработки данных, мониторингом, прогнозированием, моделированием, сингулярным разложением и оптимизацией CC-PSO.',
+        'The physical layer of the isolated power system is connected to the data centre, monitoring, forecasting, modelling, singular spectrum analysis, and CC-PSO optimisation.',
+      )}
     </desc>
 
     <defs>
@@ -36,7 +49,7 @@
     <g class="system-level system-level--physical">
       <rect class="level-frame" x="40" y="120" width="1600" height="366" rx="40"></rect>
       <rect class="level-title-backdrop" x="660" y="94" width="360" height="58" rx="29"></rect>
-      <text class="level-title" x="840" y="134">Физический уровень</text>
+      <text class="level-title" x="840" y="134">{tr('Физический уровень', 'Physical Layer')}</text>
 
       <g
         class="physical-node physical-node--generation"
@@ -44,7 +57,7 @@
         data-node-id="generator"
         tabindex="0"
         role="button"
-        aria-label="Открыть описание генерации электроэнергии"
+        aria-label={tr('Открыть описание генерации электроэнергии', 'Open electricity-generation details')}
       >
         <rect class="physical-hit" x="68" y="150" width="315" height="318" rx="20"></rect>
         <text class="network-label network-label--plain" x="88" y="217">Gen 1</text>
@@ -62,9 +75,9 @@
         <rect class="meter-box meter-box--solid" x="283" y="258" width="38" height="50"></rect>
         <line class="meter-divider" x1="283" y1="274" x2="321" y2="274"></line>
         <text class="meter-text" x="302" y="297">Wh</text>
-        <text class="network-muted" x="367" y="185">0,4 kV</text>
+        <text class="network-muted" x="367" y="185">{tr('0,4 kV', '0.4 kV')}</text>
         <text class="network-ellipsis" x="184" y="376">…</text>
-        <text class="network-block-title" x="100" y="453">Генерация ЭЭ</text>
+        <text class="network-block-title" x="100" y="453">{tr('Генерация ЭЭ', 'Generation')}</text>
       </g>
 
       <g
@@ -73,10 +86,10 @@
         data-node-id="transformer"
         tabindex="0"
         role="button"
-        aria-label="Открыть описание трансформаторов автономного ЭТК"
+        aria-label={tr('Открыть описание трансформаторов автономного ЭТК', 'Open isolated power-system transformer details')}
       >
         <rect class="physical-hit" x="376" y="150" width="298" height="318" rx="20"></rect>
-        <text class="network-zone-title" x="500" y="265">Автономный ЭТК</text>
+        <text class="network-zone-title" x="500" y="265">{tr('Автономный ЭТК', 'Isolated Power System')}</text>
         <text class="network-label network-label--plain" x="446" y="330">T1</text>
         <line class="network-line" x1="355" y1="381" x2="403" y2="381"></line>
         <circle class="network-line" cx="438" cy="381" r="35"></circle>
@@ -93,7 +106,7 @@
         data-node-id="bus"
         tabindex="0"
         role="button"
-        aria-label="Открыть описание шины 6 киловольт"
+        aria-label={tr('Открыть описание шины 6 киловольт', 'Open 6 kV bus details')}
       >
         <rect class="physical-hit" x="670" y="150" width="240" height="318" rx="20"></rect>
         <text class="network-muted" x="616" y="187">6 kV</text>
@@ -116,7 +129,7 @@
         data-node-id="distribution"
         tabindex="0"
         role="button"
-        aria-label="Открыть описание трансформаторов T2, T3 и Tn"
+        aria-label={tr('Открыть описание трансформаторов T2, T3 и Tn', 'Open T2, T3, and Tn transformer details')}
       >
         <rect class="physical-hit" x="906" y="150" width="176" height="318" rx="20"></rect>
         <line class="network-line" x1="907" y1="164" x2="907" y2="234"></line>
@@ -145,7 +158,7 @@
         data-node-id="load"
         tabindex="0"
         role="button"
-        aria-label="Открыть описание нагрузки и приборов учёта"
+        aria-label={tr('Открыть описание нагрузки и приборов учёта', 'Open load and electricity-meter details')}
       >
         <rect class="physical-hit" x="1078" y="150" width="224" height="318" rx="20"></rect>
         <line class="network-line" x1="1080" y1="149" x2="1080" y2="252"></line>
@@ -174,8 +187,8 @@
         <text class="meter-text meter-text--compact" x="1257" y="324">Wh</text>
         <text class="meter-text meter-text--compact" x="1257" y="390">Wh</text>
         <text class="network-ellipsis" x="1160" y="376">…</text>
-        <text class="network-muted" x="1093" y="450">0,4 кВ</text>
-        <text class="network-block-title" x="1180" y="453">Нагрузка</text>
+        <text class="network-muted" x="1093" y="450">{tr('0,4 кВ', '0.4 kV')}</text>
+        <text class="network-block-title" x="1180" y="453">{tr('Нагрузка', 'Load')}</text>
       </g>
 
       <g
@@ -184,30 +197,30 @@
         data-node-id="external"
         tabindex="0"
         role="button"
-        aria-label="Открыть описание внешних условий и технологического процесса"
+        aria-label={tr('Открыть описание внешних условий и технологического процесса', 'Open external-condition and production-process details')}
       >
         <rect class="physical-hit" x="1308" y="150" width="304" height="318" rx="20"></rect>
         <text class="physical-context-copy" x="1326" y="187">
-          <tspan x="1326" dy="0">• Технологический процесс</tspan>
-          <tspan x="1326" dy="30">  производства</tspan>
+          <tspan x="1326" dy="0">{tr('• Технологический процесс', '• Production process')}</tspan>
+          <tspan x="1326" dy="30">{tr('  производства', '  requirements')}</tspan>
         </text>
         <text class="physical-context-copy" x="1326" y="278">
-          <tspan x="1326" dy="0">• Погодные условия /</tspan>
-          <tspan x="1326" dy="30">  внешние условия,</tspan>
-          <tspan x="1326" dy="30">  влияющие на</tspan>
-          <tspan x="1326" dy="30">  техпроцесс</tspan>
+          <tspan x="1326" dy="0">{tr('• Погодные условия /', '• Weather and external')}</tspan>
+          <tspan x="1326" dy="30">{tr('  внешние условия,', '  conditions affecting')}</tspan>
+          <tspan x="1326" dy="30">{tr('  влияющие на', '  the production')}</tspan>
+          <tspan x="1326" dy="30">{tr('  техпроцесс', '  process')}</tspan>
         </text>
         <text class="physical-context-copy" x="1326" y="423">
-          <tspan x="1326" dy="0">• Графики технического</tspan>
-          <tspan x="1326" dy="30">  обслуживания и ремонта</tspan>
+          <tspan x="1326" dy="0">{tr('• Графики технического', '• Maintenance and repair')}</tspan>
+          <tspan x="1326" dy="30">{tr('  обслуживания и ремонта', '  schedules')}</tspan>
         </text>
       </g>
     </g>
 
     <g class="telemetry-bus" aria-hidden="true">
       <rect x="100" y="792" width="1480" height="76" rx="38"></rect>
-      <text class="bus-title" x="840" y="825">ПОТОКИ ДАННЫХ</text>
-      <text class="bus-copy" x="840" y="852">телеметрия · технологические параметры · контекст режима</text>
+      <text class="bus-title" x="840" y="825">{tr('ПОТОКИ ДАННЫХ', 'DATA FLOWS')}</text>
+      <text class="bus-copy" x="840" y="852">{tr('телеметрия · технологические параметры · контекст режима', 'telemetry · process parameters · operating context')}</text>
       <path class="data-drop" d="M300 868v104" marker-end="url(#system-arrow-blue)"></path>
       <path class="data-drop" d="M840 868v90" marker-end="url(#system-arrow-blue)"></path>
       <path class="data-drop" d="M1390 868v104" marker-end="url(#system-arrow-blue)"></path>
@@ -220,10 +233,10 @@
         data-detail-id="data-center"
         tabindex="0"
         role="button"
-        aria-label="Открыть описание центра обработки данных"
+        aria-label={tr('Открыть описание центра обработки данных', 'Open data-centre details')}
       >
         <rect class="level-title-backdrop" x="620" y="881" width="440" height="62" rx="31"></rect>
-        <text class="level-title" x="840" y="922">Центр обработки данных</text>
+        <text class="level-title" x="840" y="922">{tr('Центр обработки данных', 'Data Centre')}</text>
       </g>
 
       <g
@@ -232,21 +245,21 @@
         data-node-id="monitoring"
         tabindex="0"
         role="button"
-        aria-label="Открыть описание блока мониторинга классов нагрузок"
+        aria-label={tr('Открыть описание блока мониторинга классов нагрузок', 'Open load-class monitoring details')}
       >
         <rect class="module-card" x="120" y="1010" width="360" height="280" rx="28"></rect>
         <circle class="module-index" cx="164" cy="1054" r="22"></circle>
         <text class="module-index-text" x="164" y="1062">01</text>
-        <text class="module-kicker" x="202" y="1060">НАБЛЮДЕНИЕ</text>
+        <text class="module-kicker" x="202" y="1060">{tr('НАБЛЮДЕНИЕ', 'MONITORING')}</text>
         <text class="module-title" x="150" y="1117">
-          <tspan x="150" dy="0">Мониторинг классов</tspan>
-          <tspan x="150" dy="36">нагрузок</tspan>
+          <tspan x="150" dy="0">{tr('Мониторинг классов', 'Load-class')}</tspan>
+          <tspan x="150" dy="36">{tr('нагрузок', 'monitoring')}</tspan>
         </text>
         <text class="module-copy" x="150" y="1202">
-          <tspan x="150" dy="0">Классификация состояний</tspan>
-          <tspan x="150" dy="28">и вероятность включения</tspan>
+          <tspan x="150" dy="0">{tr('Классификация состояний', 'State classification')}</tspan>
+          <tspan x="150" dy="28">{tr('и вероятность включения', 'and ON probability')}</tspan>
         </text>
-        <text class="module-action" x="150" y="1260">Подробнее →</text>
+        <text class="module-action" x="150" y="1260">{tr('Подробнее →', 'Details →')}</text>
       </g>
 
       <g
@@ -255,25 +268,25 @@
         data-node-id="load-data"
         tabindex="0"
         role="button"
-        aria-label="Открыть описание единой базы данных"
+        aria-label={tr('Открыть описание единой базы данных', 'Open unified database details')}
       >
         <rect class="module-card module-card--primary" x="580" y="990" width="520" height="320" rx="28"></rect>
         <circle class="database-icon" cx="628" cy="1041" r="25"></circle>
         <ellipse class="database-icon-line" cx="628" cy="1032" rx="12" ry="5"></ellipse>
         <path class="database-icon-line" d="M616 1032v18c0 6 24 6 24 0v-18m-24 9c0 6 24 6 24 0"></path>
-        <text class="module-kicker" x="668" y="1048">ЕДИНАЯ БАЗА ДАННЫХ</text>
+        <text class="module-kicker" x="668" y="1048">{tr('ЕДИНАЯ БАЗА ДАННЫХ', 'UNIFIED DATABASE')}</text>
         <line class="table-line" x1="616" y1="1104" x2="1062" y2="1104"></line>
         <line class="table-line" x1="616" y1="1161" x2="1062" y2="1161"></line>
         <line class="table-line" x1="872" y1="1073" x2="872" y2="1192"></line>
         <text class="table-head" x="616" y="1095">Time stamp</text>
         <text class="table-head" x="906" y="1095">Data</text>
         <text class="table-value" x="616" y="1144">2026-01-01 23:10:59</text>
-        <text class="table-value" x="906" y="1144">72,23</text>
+        <text class="table-value" x="906" y="1144">{tr('72,23', '72.23')}</text>
         <text class="module-copy" x="616" y="1222">
-          <tspan x="616" dy="0">Электротехнические, технологические</tspan>
-          <tspan x="616" dy="28">и внешние параметры</tspan>
+          <tspan x="616" dy="0">{tr('Электротехнические, технологические', 'Electrical, process, and')}</tspan>
+          <tspan x="616" dy="28">{tr('и внешние параметры', 'external parameters')}</tspan>
         </text>
-        <text class="module-action" x="616" y="1282">Подробнее →</text>
+        <text class="module-action" x="616" y="1282">{tr('Подробнее →', 'Details →')}</text>
       </g>
 
       <g
@@ -282,19 +295,19 @@
         data-node-id="forecast"
         tabindex="0"
         role="button"
-        aria-label="Открыть описание блока прогноза временных рядов"
+        aria-label={tr('Открыть описание блока прогноза временных рядов', 'Open time-series forecasting details')}
       >
         <rect class="module-card" x="1220" y="1010" width="340" height="280" rx="28"></rect>
         <circle class="module-index module-index--coral" cx="1264" cy="1054" r="22"></circle>
         <text class="module-index-text" x="1264" y="1062">02</text>
-        <text class="module-kicker module-kicker--coral" x="1302" y="1060">ПРОГНОЗ</text>
+        <text class="module-kicker module-kicker--coral" x="1302" y="1060">{tr('ПРОГНОЗ', 'FORECAST')}</text>
         <text class="module-title" x="1250" y="1117">
-          <tspan x="1250" dy="0">Прогноз временных</tspan>
-          <tspan x="1250" dy="36">рядов</tspan>
+          <tspan x="1250" dy="0">{tr('Прогноз временных', 'Time-series')}</tspan>
+          <tspan x="1250" dy="36">{tr('рядов', 'forecasting')}</tspan>
         </text>
-        <text class="metric-value" x="1250" y="1211">24 часа</text>
-        <text class="metric-label" x="1250" y="1240">дискретность · 1 минута</text>
-        <text class="module-action" x="1250" y="1268">Подробнее →</text>
+        <text class="metric-value" x="1250" y="1211">{tr('24 часа', '24 hours')}</text>
+        <text class="metric-label" x="1250" y="1240">{tr('дискретность · 1 минута', 'resolution · 1 minute')}</text>
+        <text class="module-action" x="1250" y="1268">{tr('Подробнее →', 'Details →')}</text>
       </g>
 
       <g
@@ -303,23 +316,23 @@
         data-node-id="optimization"
         tabindex="0"
         role="button"
-        aria-label="Открыть описание расчёта параметров DSM методом CC-PSO"
+        aria-label={tr('Открыть описание расчёта параметров DSM методом CC-PSO', 'Open CC-PSO DSM parameter optimisation details')}
       >
         <rect class="module-card module-card--coral" x="120" y="1510" width="400" height="330" rx="28"></rect>
         <circle class="module-index module-index--coral" cx="164" cy="1554" r="22"></circle>
         <text class="module-index-text" x="164" y="1562">03</text>
-        <text class="module-kicker module-kicker--coral" x="202" y="1560">ОПТИМИЗАЦИЯ</text>
+        <text class="module-kicker module-kicker--coral" x="202" y="1560">{tr('ОПТИМИЗАЦИЯ', 'OPTIMISATION')}</text>
         <text class="module-title" x="150" y="1618">
-          <tspan x="150" dy="0">Параметры DSM</tspan>
-          <tspan x="150" dy="36">методом CC-PSO</tspan>
+          <tspan x="150" dy="0">{tr('Параметры DSM', 'DSM parameters')}</tspan>
+          <tspan x="150" dy="36">{tr('методом CC-PSO', 'using CC-PSO')}</tspan>
         </text>
         <text class="module-copy" x="150" y="1702">
-          <tspan x="150" dy="0">Настройка DSM и формирование</tspan>
-          <tspan x="150" dy="28">сигналов управления нагрузкой</tspan>
+          <tspan x="150" dy="0">{tr('Настройка DSM и формирование', 'DSM tuning and generation')}</tspan>
+          <tspan x="150" dy="28">{tr('сигналов управления нагрузкой', 'of load-control signals')}</tspan>
         </text>
         <rect class="status-chip status-chip--coral" x="150" y="1760" width="244" height="42" rx="21"></rect>
-        <text class="status-chip-text status-chip-text--coral" x="272" y="1787">Итерационный процесс · 6 этапов</text>
-        <text class="module-action" x="150" y="1822">Подробнее →</text>
+        <text class="status-chip-text status-chip-text--coral" x="272" y="1787">{tr('Итерационный процесс · 6 этапов', 'Iterative process · 6 stages')}</text>
+        <text class="module-action" x="150" y="1822">{tr('Подробнее →', 'Details →')}</text>
       </g>
 
       <g
@@ -328,18 +341,18 @@
         data-node-id="modeling"
         tabindex="0"
         role="button"
-        aria-label="Открыть описание блока моделирования электротехнического комплекса"
+        aria-label={tr('Открыть описание блока моделирования электротехнического комплекса', 'Open power-system modelling details')}
       >
         <rect class="module-card" x="650" y="1535" width="380" height="280" rx="28"></rect>
         <circle class="module-index" cx="694" cy="1579" r="22"></circle>
         <text class="module-index-text" x="694" y="1587">04</text>
-        <text class="module-kicker" x="732" y="1585">РАСЧЁТ РЕЖИМА</text>
+        <text class="module-kicker" x="732" y="1585">{tr('РАСЧЁТ РЕЖИМА', 'SYSTEM CALCULATION')}</text>
         <text class="module-title" x="680" y="1643">
-          <tspan x="680" dy="0">Моделирование</tspan>
-          <tspan x="680" dy="36">автономного ЭТК</tspan>
+          <tspan x="680" dy="0">{tr('Моделирование', 'Isolated power-system')}</tspan>
+          <tspan x="680" dy="36">{tr('автономного ЭТК', 'modelling')}</tspan>
         </text>
         <text class="module-copy" x="680" y="1725">MOST · MPC · transmat · xgd · sd</text>
-        <text class="module-action" x="680" y="1780">Подробнее →</text>
+        <text class="module-action" x="680" y="1780">{tr('Подробнее →', 'Details →')}</text>
       </g>
 
       <g
@@ -348,19 +361,19 @@
         data-node-id="decomposition"
         tabindex="0"
         role="button"
-        aria-label="Открыть описание блока сингулярного разложения"
+        aria-label={tr('Открыть описание блока сингулярного разложения', 'Open singular spectrum analysis details')}
       >
         <rect class="module-card" x="1220" y="1535" width="340" height="280" rx="28"></rect>
         <circle class="module-index module-index--coral" cx="1264" cy="1579" r="22"></circle>
         <text class="module-index-text" x="1264" y="1587">05</text>
-        <text class="module-kicker module-kicker--coral" x="1302" y="1585">АНАЛИЗ</text>
+        <text class="module-kicker module-kicker--coral" x="1302" y="1585">{tr('АНАЛИЗ', 'ANALYSIS')}</text>
         <text class="module-title" x="1250" y="1643">
-          <tspan x="1250" dy="0">Сингулярное</tspan>
-          <tspan x="1250" dy="36">разложение</tspan>
+          <tspan x="1250" dy="0">{tr('Сингулярное', 'Singular spectrum')}</tspan>
+          <tspan x="1250" dy="36">{tr('разложение', 'analysis')}</tspan>
         </text>
-        <text class="module-copy" x="1250" y="1725">Компоненты · паттерны · DR PI</text>
+        <text class="module-copy" x="1250" y="1725">{tr('Компоненты · паттерны · DR PI', 'Components · patterns · DR PI')}</text>
         <rect class="status-chip" x="1250" y="1752" width="178" height="42" rx="21"></rect>
-        <text class="status-chip-text" x="1339" y="1779">Выход · DR FI</text>
+        <text class="status-chip-text" x="1339" y="1779">{tr('Выход · DR FI', 'Output · DR FI')}</text>
       </g>
 
       <g
@@ -369,26 +382,26 @@
         data-node-id="criterion"
         tabindex="0"
         role="button"
-        aria-label="Открыть описание критерия применения DSM"
+        aria-label={tr('Открыть описание критерия применения DSM', 'Open DSM application criterion details')}
       >
         <path class="decision-shape" d="M1040 1930 1370 2080 1040 2230 710 2080Z"></path>
-        <text class="decision-title" x="1040" y="2023">Критерий применения DSM</text>
+        <text class="decision-title" x="1040" y="2023">{tr('Критерий применения DSM', 'DSM Application Criterion')}</text>
         <text class="decision-copy" x="1040" y="2074">OPEX &gt; OPEX(t − 1)</text>
         <text class="decision-plus" x="1040" y="2120">+</text>
-        <text class="decision-copy" x="1040" y="2166">Среднесуточный DR FI &gt; 0,5</text>
+        <text class="decision-copy" x="1040" y="2166">{tr('Среднесуточный DR FI > 0,5', 'Mean daily DR FI > 0.5')}</text>
       </g>
 
       <g class="system-output" aria-hidden="true">
         <rect class="outcome-chip outcome-chip--no" x="1430" y="2023" width="162" height="42" rx="21"></rect>
-        <text class="outcome-label outcome-label--no" x="1511" y="2050">НЕТ · значение 0</text>
+        <text class="outcome-label outcome-label--no" x="1511" y="2050">{tr('НЕТ · значение 0', 'NO · value 0')}</text>
         <text class="output-copy" x="1430" y="2112">
-          <tspan x="1430" dy="0">DSM не требуется</tspan>
-          <tspan x="1430" dy="31">Нет необходимости</tspan>
-          <tspan x="1430" dy="31">в управлении спросом</tspan>
+          <tspan x="1430" dy="0">{tr('DSM не требуется', 'DSM is not required')}</tspan>
+          <tspan x="1430" dy="31">{tr('Нет необходимости', 'No demand-side')}</tspan>
+          <tspan x="1430" dy="31">{tr('в управлении спросом', 'management is needed')}</tspan>
         </text>
       </g>
 
-      <g class="system-routes" aria-label="Связи между блоками">
+      <g class="system-routes" aria-label={tr('Связи между блоками', 'Connections between modules')}>
         <path class="flow-line flow-line--data route-path" data-route-id="monitor-db" data-connects="monitoring load-data" tabindex="0" d="M480 1148H580" marker-end="url(#system-arrow-blue)"></path>
         <path class="flow-line flow-line--analysis route-path" data-route-id="db-forecast" data-connects="load-data forecast" tabindex="0" d="M1100 1114H1220" marker-end="url(#system-arrow-coral)"></path>
         <path class="flow-line flow-line--analysis route-path" data-route-id="forecast-db" data-connects="forecast load-data" tabindex="0" d="M1220 1206H1100" marker-end="url(#system-arrow-coral)"></path>
@@ -405,27 +418,27 @@
 
         <g class="flow-chip" data-route-for="optimization-monitor" transform="translate(96 1352)">
           <rect width="270" height="42" rx="21"></rect>
-          <text x="135" y="27">Сигналы управления</text>
+          <text x="135" y="27">{tr('Сигналы управления', 'Control signals')}</text>
         </g>
         <g class="flow-chip" data-route-for="optimization-modeling" transform="translate(510 1450)">
           <rect width="210" height="40" rx="20"></rect>
-          <text x="105" y="26">Графики нагрузки</text>
+          <text x="105" y="26">{tr('Графики нагрузки', 'Load profiles')}</text>
         </g>
         <g class="flow-chip" data-route-for="modeling-optimization" transform="translate(552 1858)">
           <rect width="164" height="40" rx="20"></rect>
-          <text x="82" y="26">OPEX за сутки</text>
+          <text x="82" y="26">{tr('OPEX за сутки', 'Daily OPEX')}</text>
         </g>
         <g class="flow-chip flow-chip--coral" data-route-for="decomposition-criterion" transform="translate(1214 1854)">
           <rect width="232" height="40" rx="20"></rect>
-          <text x="116" y="26">Индекс гибкости DR FI</text>
+          <text x="116" y="26">{tr('Индекс гибкости DR FI', 'DR FI flexibility index')}</text>
         </g>
         <g class="flow-chip flow-chip--control" data-route-for="criterion-yes" transform="translate(642 2306)">
           <rect width="246" height="42" rx="21"></rect>
-          <text x="123" y="27">ДА · DSM применяется</text>
+          <text x="123" y="27">{tr('ДА · DSM применяется', 'YES · DSM is applied')}</text>
         </g>
         <g class="flow-chip flow-chip--control" data-route-for="control-loop" transform="translate(82 1444)">
           <rect width="270" height="42" rx="21"></rect>
-          <text x="135" y="27">Управление нагрузкой</text>
+          <text x="135" y="27">{tr('Управление нагрузкой', 'Load control')}</text>
         </g>
       </g>
     </g>

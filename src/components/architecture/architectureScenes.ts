@@ -1,11 +1,11 @@
 import { withBase } from '../../i18n/config';
 
-type DetailTerm = {
+export type DetailTerm = {
   symbol: string;
   description: string;
 };
 
-type SceneDetail = {
+export type SceneDetail = {
   kind: string;
   title: string;
   text: string;
@@ -15,7 +15,7 @@ type SceneDetail = {
   terms?: DetailTerm[];
 };
 
-type ArchitectureScene = {
+export type ArchitectureScene = {
   title: string;
   subtitle: string;
   width: number;

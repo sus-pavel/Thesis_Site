@@ -17,7 +17,7 @@ const defence = {
 };
 
 const sections = [
-  { number: '01', href: localizedHref('/architecture', 'ru'), title: 'Solution Architecture (Russian)', text: 'Two interactive schemes: from potential assessment to targeted load control.' },
+  { number: '01', href: localizedHref('/architecture', 'en'), title: 'Solution Architecture', text: 'Three interactive views: the DSM system and the workflows for both research propositions.' },
   { number: '02', href: localizedHref('/publications', 'en'), title: 'Publications', text: 'Scopus, journals listed by the Higher Attestation Commission, conferences, and a software registration.' },
   { number: '03', href: localizedHref('/downloads', 'en'), title: 'Downloads', text: 'Dissertation, dissertation abstract, presentation, and data.' },
 ];
@@ -79,9 +79,9 @@ const kpis = [
                 <span class="desktop-label">Download dissertation abstract (RU)</span>
                 <span class="mobile-label">Abstract · PDF (RU)</span>
               </a>
-              <a class="button" href={localizedHref('/architecture', 'ru')} hreflang="ru">
-                <span class="desktop-label">Explore architecture · Russian</span>
-                <span class="mobile-label">Architecture · RU</span>
+              <a class="button" href={localizedHref('/architecture', 'en')}>
+                <span class="desktop-label">Explore architecture</span>
+                <span class="mobile-label">Architecture</span>
                 <span aria-hidden="true">↗</span>
               </a>
               <a class="text-link" href={withBase('/downloads/dissertation.pdf')} download>

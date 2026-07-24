@@ -1,96 +1,107 @@
-<div class="system-mobile-surface" aria-label="Архитектура системы DSM в последовательном представлении">
+---
+import type { Language } from '../../../i18n/config';
+
+interface Props {
+  lang?: Language;
+}
+
+const { lang = 'ru' } = Astro.props;
+const tr = (ru: string, en: string) => lang === 'en' ? en : ru;
+---
+
+<div class="system-mobile-surface" aria-label={tr('Архитектура системы DSM в последовательном представлении', 'DSM system architecture in a sequential view')}>
   <section class="mobile-zone mobile-zone--physical" aria-labelledby="mobile-physical-title">
-    <p class="mobile-zone__eyebrow">Уровень 01</p>
-    <h2 id="mobile-physical-title">Физический уровень</h2>
-    <p class="mobile-zone__intro">Полная топология автономного электротехнического комплекса</p>
+    <p class="mobile-zone__eyebrow">{tr('Уровень 01', 'Level 01')}</p>
+    <h2 id="mobile-physical-title">{tr('Физический уровень', 'Physical Layer')}</h2>
+    <p class="mobile-zone__intro">{tr('Полная топология автономного электротехнического комплекса', 'Complete topology of the isolated power system')}</p>
 
     <div class="mobile-physical-flow">
       <button type="button" data-detail-id="generator">
-        <small>Источник</small>
-        <strong>Генерация ЭЭ</strong>
-        <span>0,4 кВ · прибор учёта</span>
+        <small>{tr('Источник', 'Source')}</small>
+        <strong>{tr('Генерация ЭЭ', 'Electricity Generation')}</strong>
+        <span>{tr('0,4 кВ · прибор учёта', '0.4 kV · electricity meter')}</span>
       </button>
       <i aria-hidden="true">↓</i>
       <button type="button" data-detail-id="transformer">
-        <small>Автономный ЭТК</small>
-        <strong>Трансформатор T1</strong>
-        <span>Переход на шину 6 кВ</span>
+        <small>{tr('Автономный ЭТК', 'Isolated Power System')}</small>
+        <strong>{tr('Трансформатор T1', 'Transformer T1')}</strong>
+        <span>{tr('Переход на шину 6 кВ', 'Connection to the 6 kV bus')}</span>
       </button>
       <i aria-hidden="true">↓</i>
       <button type="button" data-detail-id="bus">
-        <small>Распределение</small>
-        <strong>Шина 6 кВ</strong>
+        <small>{tr('Распределение', 'Distribution')}</small>
+        <strong>{tr('Шина 6 кВ', '6 kV Bus')}</strong>
         <span>T2 · T3 · Tn</span>
       </button>
       <i aria-hidden="true">↓</i>
       <button type="button" data-detail-id="load">
-        <small>Потребление</small>
-        <strong>Нагрузка 0,4 кВ</strong>
-        <span>Приборы учёта и состояния</span>
+        <small>{tr('Потребление', 'Consumption')}</small>
+        <strong>{tr('Нагрузка 0,4 кВ', '0.4 kV Loads')}</strong>
+        <span>{tr('Приборы учёта и состояния', 'Electricity meters and states')}</span>
       </button>
     </div>
 
     <button class="mobile-context" type="button" data-detail-id="external">
       <span>
-        <small>Контекст режима</small>
-        <strong>Техпроцесс, погода и обслуживание</strong>
+        <small>{tr('Контекст режима', 'Operating Context')}</small>
+        <strong>{tr('Техпроцесс, погода и обслуживание', 'Process, weather, and maintenance')}</strong>
       </span>
-      <b>Подробнее →</b>
+      <b>{tr('Подробнее →', 'Details →')}</b>
     </button>
   </section>
 
-  <div class="mobile-data-bus" aria-label="Потоки данных">
-    <strong>Потоки данных</strong>
-    <span>Телеметрия · параметры · контекст</span>
+  <div class="mobile-data-bus" aria-label={tr('Потоки данных', 'Data Flows')}>
+    <strong>{tr('Потоки данных', 'Data Flows')}</strong>
+    <span>{tr('Телеметрия · параметры · контекст', 'Telemetry · parameters · context')}</span>
   </div>
 
   <section class="mobile-zone mobile-zone--data" aria-labelledby="mobile-data-title">
-    <p class="mobile-zone__eyebrow">Уровень 02</p>
-    <h2 id="mobile-data-title">Центр обработки данных</h2>
-    <p class="mobile-zone__intro">Выберите этап, чтобы открыть подробное описание</p>
+    <p class="mobile-zone__eyebrow">{tr('Уровень 02', 'Level 02')}</p>
+    <h2 id="mobile-data-title">{tr('Центр обработки данных', 'Data Centre')}</h2>
+    <p class="mobile-zone__intro">{tr('Выберите этап, чтобы открыть подробное описание', 'Select a stage to open its detailed description')}</p>
 
     <div class="mobile-timeline">
       <button type="button" data-detail-id="monitoring">
         <span class="mobile-step">01</span>
         <span>
-          <small>Наблюдение</small>
-          <strong>Мониторинг классов нагрузок</strong>
-          <em>Классификация состояний и p(ON)(t)</em>
+          <small>{tr('Наблюдение', 'Monitoring')}</small>
+          <strong>{tr('Мониторинг классов нагрузок', 'Load-Class Monitoring')}</strong>
+          <em>{tr('Классификация состояний и p(ON)(t)', 'State classification and p(ON)(t)')}</em>
         </span>
       </button>
 
       <button type="button" data-detail-id="load-data">
         <span class="mobile-step">DB</span>
         <span>
-          <small>Хранение</small>
-          <strong>Единая база данных</strong>
-          <em>Электротехнические и технологические параметры</em>
+          <small>{tr('Хранение', 'Storage')}</small>
+          <strong>{tr('Единая база данных', 'Unified Database')}</strong>
+          <em>{tr('Электротехнические и технологические параметры', 'Electrical and process parameters')}</em>
         </span>
       </button>
 
       <button type="button" data-detail-id="forecast">
         <span class="mobile-step mobile-step--coral">02</span>
         <span>
-          <small>Прогноз</small>
-          <strong>Прогноз временных рядов</strong>
-          <em>24 часа · дискретность 1 минута</em>
+          <small>{tr('Прогноз', 'Forecast')}</small>
+          <strong>{tr('Прогноз временных рядов', 'Time-Series Forecasting')}</strong>
+          <em>{tr('24 часа · дискретность 1 минута', '24 hours · 1-minute resolution')}</em>
         </span>
       </button>
 
       <button type="button" data-detail-id="decomposition">
         <span class="mobile-step mobile-step--coral">05</span>
         <span>
-          <small>Анализ</small>
-          <strong>Сингулярное разложение</strong>
-          <em>Компоненты · паттерны · DR PI · DR FI</em>
+          <small>{tr('Анализ', 'Analysis')}</small>
+          <strong>{tr('Сингулярное разложение', 'Singular Spectrum Analysis')}</strong>
+          <em>{tr('Компоненты · паттерны · DR PI · DR FI', 'Components · patterns · DR PI · DR FI')}</em>
         </span>
       </button>
 
       <button type="button" data-detail-id="modeling">
         <span class="mobile-step">04</span>
         <span>
-          <small>Расчёт режима</small>
-          <strong>Моделирование ЭТК</strong>
+          <small>{tr('Расчёт режима', 'System Calculation')}</small>
+          <strong>{tr('Моделирование ЭТК', 'Power-System Modelling')}</strong>
           <em>MOST · MPC · transmat · xgd · sd</em>
         </span>
       </button>
@@ -98,27 +109,27 @@
       <button type="button" data-detail-id="optimization">
         <span class="mobile-step mobile-step--coral">03</span>
         <span>
-          <small>Оптимизация</small>
-          <strong>Параметры DSM методом CC-PSO</strong>
-          <em>Итерационный процесс · 6 этапов</em>
+          <small>{tr('Оптимизация', 'Optimisation')}</small>
+          <strong>{tr('Параметры DSM методом CC-PSO', 'DSM Parameters using CC-PSO')}</strong>
+          <em>{tr('Итерационный процесс · 6 этапов', 'Iterative process · 6 stages')}</em>
         </span>
       </button>
 
       <button type="button" data-detail-id="criterion">
         <span class="mobile-step mobile-step--decision">?</span>
         <span>
-          <small>Решение</small>
-          <strong>Критерий применения DSM</strong>
-          <em>OPEX и среднесуточный DR FI</em>
+          <small>{tr('Решение', 'Decision')}</small>
+          <strong>{tr('Критерий применения DSM', 'DSM Application Criterion')}</strong>
+          <em>{tr('OPEX и среднесуточный DR FI', 'OPEX and mean daily DR FI')}</em>
         </span>
       </button>
 
       <button type="button" data-detail-id="control">
         <span class="mobile-step mobile-step--control">↺</span>
         <span>
-          <small>Обратная связь</small>
-          <strong>Управление нагрузкой</strong>
-          <em>Сигналы DSM возвращаются на физический уровень</em>
+          <small>{tr('Обратная связь', 'Feedback')}</small>
+          <strong>{tr('Управление нагрузкой', 'Load Control')}</strong>
+          <em>{tr('Сигналы DSM возвращаются на физический уровень', 'DSM signals return to the physical layer')}</em>
         </span>
       </button>
     </div>

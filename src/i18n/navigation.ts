@@ -10,7 +10,7 @@ type NavigationItem = {
 
 export const navigation: NavigationItem[] = [
   { href: '/', label: { ru: 'Главная', en: 'Home' } },
-  { href: '/architecture', label: { ru: 'Архитектура', en: 'Solution architecture (RU)' }, localized: { en: false }, visible: { en: false } },
+  { href: '/architecture', label: { ru: 'Архитектура', en: 'Architecture' } },
   { href: '/publications', label: { ru: 'Публикации', en: 'Publications' } },
   { href: '/downloads', label: { ru: 'Материалы', en: 'Downloads' } },
 ];

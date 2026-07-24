@@ -1,4 +1,15 @@
-<div class="diagram-surface position-two-surface" data-scene-surface="position2" aria-label="Схема второго положения">
+---
+import type { Language } from '../../../i18n/config';
+
+interface Props {
+  lang?: Language;
+}
+
+const { lang = 'ru' } = Astro.props;
+const tr = (ru: string, en: string) => lang === 'en' ? en : ru;
+---
+
+<div class="diagram-surface position-two-surface" data-scene-surface="position2" aria-label={tr('Схема второго положения', 'Research Proposition 2 diagram')}>
   <svg class="connection-map" viewBox="0 0 1600 900" aria-hidden="true">
     <defs>
       <marker id="p2-arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -22,27 +33,27 @@
 
   <article class="diagram-node p2-node p2-classification">
     <button class="node-main node-main--list" type="button" data-detail-id="classification">
-      <strong>Классификация нагрузок</strong>
+      <strong>{tr('Классификация нагрузок', 'Load Classification')}</strong>
       <ul>
-        <li>Вариативная</li>
-        <li>Скользящая</li>
-        <li>Гибкая</li>
-        <li>Мигрирующая</li>
-        <li class="is-muted">Пассивная</li>
+        <li>{tr('Вариативная', 'Variable')}</li>
+        <li>{tr('Скользящая', 'Shiftable')}</li>
+        <li>{tr('Гибкая', 'Flexible')}</li>
+        <li>{tr('Мигрирующая', 'Migratory')}</li>
+        <li class="is-muted">{tr('Пассивная', 'Passive')}</li>
       </ul>
     </button>
   </article>
 
   <article class="diagram-node p2-node p2-actions">
     <button class="node-main node-main--list" type="button" data-detail-id="actions">
-      <strong>Управляющие воздействия<br />и ограничения</strong>
-      <p>Пределы реакции, цикла, глубины управления и дальности переноса.</p>
+      <strong>{tr('Управляющие воздействия', 'Control Actions')}<br />{tr('и ограничения', 'and Constraints')}</strong>
+      <p>{tr('Пределы реакции, цикла, глубины управления и дальности переноса.', 'Limits on response, cycle duration, control depth, and shifting range.')}</p>
     </button>
   </article>
 
   <article class="diagram-node p2-node p2-models">
     <button class="node-main node-main--math" type="button" data-detail-id="models">
-      <strong>Математические модели DSM</strong>
+      <strong>{tr('Математические модели DSM', 'DSM Mathematical Models')}</strong>
       <span>Θ<sub>i</sub><sup>(var)</sup> = (γ<sub>i</sub><sup>max</sup>, ΔT<sub>i</sub>, N<sub>i</sub><sup>peak</sup>)</span>
       <span>Θ<sub>j</sub><sup>(sl)</sup> = (ΔT<sub>j</sub>, α<sub>j</sub>)</span>
       <span>Θ<sub>k</sub><sup>(flex)</sup> = (γ<sub>k</sub><sup>min</sup>, γ<sub>k</sub><sup>max</sup>, SoC<sub>k</sub><sup>min</sup>, SoC<sub>k</sub><sup>max</sup>, β<sub>k</sub>)</span>
@@ -51,18 +62,18 @@
 
   <article class="diagram-node p2-node p2-optimization is-selected">
     <button class="node-main node-main--math" type="button" data-detail-id="optimization">
-      <strong>Оптимизация параметров DSM</strong>
-      <p>Минимум интегральной целевой функции методом CC-PSO</p>
+      <strong>{tr('Оптимизация параметров DSM', 'DSM Parameter Optimisation')}</strong>
+      <p>{tr('Минимум интегральной целевой функции методом CC-PSO', 'Integral objective-function minimisation using CC-PSO')}</p>
       <span class="objective-formula">
         J(Θ) = C<sub>op</sub>(Θ) + λ<sub>1</sub>C<sub>start</sub>(Θ) + λ<sub>2</sub>C<sub>low</sub>(Θ) + λ<sub>3</sub>C<sub>curt</sub>(Θ)
       </span>
     </button>
   </article>
 
-  <section class="calculation-band" aria-label="Расчёт режима и эффектов">
+  <section class="calculation-band" aria-label={tr('Расчёт режима и эффектов', 'Operating-condition and effect calculations')}>
     <article class="diagram-node calculation-node">
       <button class="node-main calculation-engine" type="button" data-detail-id="simulation">
-        <strong>Расчёт режима ЭТК</strong>
+        <strong>{tr('Расчёт режима ЭТК', 'Power-System Calculation')}</strong>
         <span class="engine-stack">
           <span class="software-mark software-mark--matlab">
             <svg viewBox="0 0 32 32" aria-hidden="true">
@@ -109,13 +120,13 @@
 
     <article class="diagram-node effects-node">
       <button class="node-main node-main--list effects-list" type="button" data-detail-id="effects">
-        <strong>Расчёт эффектов</strong>
+        <strong>{tr('Расчёт эффектов', 'Effect Assessment')}</strong>
         <ul>
-          <li>OPEX, тыс. руб.</li>
-          <li>КИУМ генерации</li>
-          <li>Scope 1, т CO₂</li>
-          <li>Пуски ДГУ</li>
-          <li>Срок окупаемости</li>
+          <li>{tr('OPEX, тыс. руб.', 'OPEX, RUB thousand')}</li>
+          <li>{tr('КИУМ генерации', 'Generation capacity factor')}</li>
+          <li>{tr('Scope 1, т CO₂', 'Scope 1, tCO₂')}</li>
+          <li>{tr('Пуски ДГУ', 'Diesel-generator starts')}</li>
+          <li>{tr('Срок окупаемости', 'Payback period')}</li>
         </ul>
       </button>
     </article>
@@ -123,7 +134,7 @@
 
   <article class="diagram-node p2-node p2-source">
     <button class="node-main node-main--visual" type="button" data-detail-id="source-data">
-      <strong>Исходные данные</strong>
+      <strong>{tr('Исходные данные', 'Input Data')}</strong>
       <svg class="mini-network" viewBox="0 0 260 90" aria-hidden="true">
         <path d="M12 45H70M70 15v60M70 25h45m-45 20h45M70 65h45m0-40h45m-45 20h45m-45 20h45m0-40h42m-42 20h42m-42 20h42"></path>
         <circle cx="12" cy="45" r="8"></circle><circle cx="115" cy="25" r="6"></circle><circle cx="115" cy="45" r="6"></circle><circle cx="115" cy="65" r="6"></circle>
@@ -134,7 +145,7 @@
 
   <article class="diagram-node p2-node p2-cycle">
     <button class="node-main node-main--visual" type="button" data-detail-id="cycle">
-      <strong>Расчётный цикл</strong>
+      <strong>{tr('Расчётный цикл', 'Calculation Cycle')}</strong>
       <svg class="mini-cycle" viewBox="0 0 310 100" aria-hidden="true">
         <defs>
           <marker id="cycle-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
@@ -151,7 +162,7 @@
 
   <article class="diagram-node p2-node p2-results">
     <button class="node-main node-main--visual" type="button" data-detail-id="results">
-      <strong>Результаты</strong>
+      <strong>{tr('Результаты', 'Results')}</strong>
       <span class="results-visual" aria-hidden="true">
         <span class="bar-chart">
           <i style="--h:38%"></i><i style="--h:62%"></i><i style="--h:46%"></i><i style="--h:78%"></i><i style="--h:56%"></i><i style="--h:88%"></i><i style="--h:68%"></i><i style="--h:49%"></i>

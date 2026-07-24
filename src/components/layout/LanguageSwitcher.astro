@@ -8,8 +8,7 @@ interface Props {
 const { routePathOverride } = Astro.props;
 const routePath = routePathOverride ?? getRoutePath(Astro.url.pathname, 'ru');
 const ruHref = localizedHref(routePath, 'ru');
-// The architecture explorer has no English route, so EN leads to the English homepage.
-const enHref = localizedHref(routePath === '/architecture/' ? '/' : routePath, 'en');
+const enHref = localizedHref(routePath, 'en');
 const isEnglish = Astro.url.pathname.replace(import.meta.env.BASE_URL, '/').startsWith('/en/');
 ---
 

@@ -9,6 +9,7 @@ const routes = [
   '/publications/',
   '/downloads/',
   '/en/',
+  '/en/architecture/',
   '/en/publications/',
   '/en/downloads/',
 ];
