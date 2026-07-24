@@ -133,10 +133,14 @@
   @media (max-width: 700px) {
     .system-mobile-surface {
       position: relative;
-      display: block;
+      display: none;
       min-height: 100%;
       padding: 142px 14px 72px;
       color: #0b1f3a;
+    }
+
+    :global([data-active-scene="system"]) .system-mobile-surface {
+      display: block;
     }
 
     .mobile-zone {
