@@ -2,7 +2,12 @@
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import '../styles/global.css';
-import { defaultLanguage, localizedHref, withBase, type Language } from '../i18n/config';
+import {
+  defaultLanguage,
+  localizedHref,
+  withBase,
+  type Language,
+} from '../i18n/config';
 import { siteLocales } from '../i18n/site';
 
 interface Props {
@@ -23,16 +28,43 @@ const {
   noIndex = false,
   languagePath,
 } = Astro.props;
+
 const siteConfig = siteLocales[lang];
-const description = Astro.props.description ?? siteConfig.description;
-const pageTitle = title ? `${title} — ${siteConfig.author}` : `${siteConfig.title} — ${siteConfig.author}`;
-const canonical = new URL(localizedHref(canonicalPath, lang), Astro.site ?? Astro.url.origin);
-const alternateRu = new URL(localizedHref(canonicalPath, 'ru'), Astro.site ?? Astro.url.origin);
-const alternateEn = new URL(localizedHref(canonicalPath, 'en'), Astro.site ?? Astro.url.origin);
-const homeUrl = new URL(localizedHref('/', lang), Astro.site ?? Astro.url.origin);
-const socialImage = new URL(withBase('/social-preview.png'), Astro.site ?? Astro.url.origin);
+const description =
+  Astro.props.description ?? siteConfig.description;
+
+const pageTitle = title
+  ? `${title} — ${siteConfig.author}`
+  : `${siteConfig.title} — ${siteConfig.author}`;
+
+const canonical = new URL(
+  localizedHref(canonicalPath, lang),
+  Astro.site ?? Astro.url.origin
+);
+
+const alternateRu = new URL(
+  localizedHref(canonicalPath, 'ru'),
+  Astro.site ?? Astro.url.origin
+);
+
+const alternateEn = new URL(
+  localizedHref(canonicalPath, 'en'),
+  Astro.site ?? Astro.url.origin
+);
+
+const homeUrl = new URL(
+  localizedHref('/', lang),
+  Astro.site ?? Astro.url.origin
+);
+
+const socialImage = new URL(
+  withBase('/social-preview.png'),
+  Astro.site ?? Astro.url.origin
+);
+
 const authorId = `${homeUrl.href}#author`;
 const workId = `${homeUrl.href}#dissertation`;
+
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -52,7 +84,9 @@ const structuredData = {
       name: siteConfig.title,
       url: homeUrl.href,
       inLanguage: lang,
-      author: { '@id': authorId },
+      author: {
+        '@id': authorId,
+      },
       about: [
         'Demand-side management',
         'Electricity consumption patterns',
@@ -63,53 +97,178 @@ const structuredData = {
   ],
 };
 ---
+
 <!doctype html>
 <html lang={lang} data-lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
+
+    <!-- Yandex.Metrika counter -->
+    <script is:inline>
+      (function (m, e, t, r, i, k, a) {
+        m[i] =
+          m[i] ||
+          function () {
+            (m[i].a = m[i].a || []).push(arguments);
+          };
+
+        m[i].l = 1 * new Date();
+
+        for (var j = 0; j < document.scripts.length; j++) {
+          if (document.scripts[j].src === r) {
+            return;
+          }
+        }
+
+        k = e.createElement(t);
+        a = e.getElementsByTagName(t)[0];
+        k.async = 1;
+        k.src = r;
+        a.parentNode.insertBefore(k, a);
+      })(
+        window,
+        document,
+        'script',
+        'https://mc.yandex.ru/metrika/tag.js?id=111064893',
+        'ym'
+      );
+
+      ym(111064893, 'init', {
+        ssr: true,
+        webvisor: false,
+        clickmap: true,
+        accurateTrackBounce: true,
+        trackLinks: true
+      });
+    </script>
+    <!-- /Yandex.Metrika counter -->
+
     <meta name="description" content={description} />
     <meta name="theme-color" content="#f4f7f9" />
+
     {noIndex && <meta name="robots" content="noindex, nofollow" />}
+
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="ru" href={alternateRu} />
-    {hasEnglishAlternate && <link rel="alternate" hreflang="en" href={alternateEn} />}
-    <link rel="alternate" hreflang="x-default" href={alternateRu} />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%231856d8%22/><path d=%22M17 3 8 18h7l-1 11 10-16h-7z%22 fill=%22white%22/></svg>" />
+
+    {
+      hasEnglishAlternate && (
+        <link rel="alternate" hreflang="en" href={alternateEn} />
+      )
+    }
+
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={alternateRu}
+    />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%231856d8%22/><path d=%22M17 3 8 18h7l-1 11 10-16h-7z%22 fill=%22white%22/></svg>"
+    />
+
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content={lang === 'ru' ? 'ru_RU' : 'en_US'} />
+
+    <meta
+      property="og:locale"
+      content={lang === 'ru' ? 'ru_RU' : 'en_US'}
+    />
+
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={socialImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+
     <meta
       property="og:image:alt"
-      content={lang === 'ru'
-        ? 'Диссертационное исследование Павла Сусликова об управлении спросом на электроэнергию'
-        : 'Pavel Suslikov’s dissertation research on demand-side management'}
+      content={
+        lang === 'ru'
+          ? 'Диссертационное исследование Павла Сусликова об управлении спросом на электроэнергию'
+          : 'Pavel Suslikov’s dissertation research on demand-side management'
+      }
     />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={pageTitle} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={socialImage} />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
+
+    <meta
+      name="twitter:card"
+      content="summary_large_image"
+    />
+
+    <meta
+      name="twitter:title"
+      content={pageTitle}
+    />
+
+    <meta
+      name="twitter:description"
+      content={description}
+    />
+
+    <meta
+      name="twitter:image"
+      content={socialImage}
+    />
+
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    ></script>
+
     <title>{pageTitle}</title>
   </head>
+
   <body>
+    <!-- Yandex.Metrika counter -->
+    <noscript>
+      <div>
+        <img
+          src="https://mc.yandex.ru/watch/111064893"
+          style="position: absolute; left: -9999px;"
+          alt=""
+        />
+      </div>
+    </noscript>
+    <!-- /Yandex.Metrika counter -->
+
     <a class="skip-link" href="#main-content">
-      {lang === 'ru' ? 'Перейти к основному содержанию' : 'Skip to main content'}
+      {
+        lang === 'ru'
+          ? 'Перейти к основному содержанию'
+          : 'Skip to main content'
+      }
     </a>
-    <div class="site-cursor" data-site-cursor aria-hidden="true"></div>
-    <Header lang={lang} languagePath={languagePath} />
+
+    <div
+      class="site-cursor"
+      data-site-cursor
+      aria-hidden="true"
+    ></div>
+
+    <Header
+      lang={lang}
+      languagePath={languagePath}
+    />
+
     <slot />
+
     <Footer lang={lang} />
 
     <script is:inline>
       (() => {
-        const cursor = document.querySelector('[data-site-cursor]');
-        if (!cursor || window.matchMedia('(pointer: coarse)').matches) return;
+        const cursor = document.querySelector(
+          '[data-site-cursor]'
+        );
+
+        if (
+          !cursor ||
+          window.matchMedia('(pointer: coarse)').matches
+        ) {
+          return;
+        }
 
         document.body.classList.add('has-custom-cursor');
 
@@ -118,31 +277,68 @@ const structuredData = {
         let animationFrame = 0;
 
         const draw = () => {
-          cursor.style.transform = `translate3d(${pointerX}px, ${pointerY}px, 0) translate(-50%, -50%)`;
+          cursor.style.transform =
+            `translate3d(${pointerX}px, ${pointerY}px, 0) ` +
+            'translate(-50%, -50%)';
+
           animationFrame = 0;
         };
 
-        document.addEventListener('pointermove', (event) => {
-          if (event.pointerType && event.pointerType !== 'mouse') return;
-          pointerX = event.clientX;
-          pointerY = event.clientY;
-          cursor.classList.add('is-visible');
-          if (!animationFrame) animationFrame = window.requestAnimationFrame(draw);
-        }, { passive: true });
+        document.addEventListener(
+          'pointermove',
+          (event) => {
+            if (
+              event.pointerType &&
+              event.pointerType !== 'mouse'
+            ) {
+              return;
+            }
 
-        document.addEventListener('pointerover', (event) => {
-          const target = event.target;
-          cursor.classList.toggle(
-            'is-active',
-            target instanceof Element
-              && Boolean(target.closest('a, button, [role="button"], input, select, textarea, [data-hotspot]'))
-          );
-        }, { passive: true });
+            pointerX = event.clientX;
+            pointerY = event.clientY;
 
-        document.documentElement.addEventListener('mouseleave', () => {
+            cursor.classList.add('is-visible');
+
+            if (!animationFrame) {
+              animationFrame =
+                window.requestAnimationFrame(draw);
+            }
+          },
+          {
+            passive: true,
+          }
+        );
+
+        document.addEventListener(
+          'pointerover',
+          (event) => {
+            const target = event.target;
+
+            cursor.classList.toggle(
+              'is-active',
+              target instanceof Element &&
+                Boolean(
+                  target.closest(
+                    'a, button, [role="button"], input, select, textarea, [data-hotspot]'
+                  )
+                )
+            );
+          },
+          {
+            passive: true,
+          }
+        );
+
+        document.documentElement.addEventListener(
+          'mouseleave',
+          () => {
+            cursor.classList.remove('is-visible');
+          }
+        );
+
+        window.addEventListener('blur', () => {
           cursor.classList.remove('is-visible');
         });
-        window.addEventListener('blur', () => cursor.classList.remove('is-visible'));
       })();
     </script>
   </body>
